@@ -3,783 +3,216 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>VEYA Admin</title>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 <style>
-
-*{
-  box-sizing:border-box;
-}
-
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f5f5f2;
-  color:#171717;
-}
-
-header{
-  background:#171717;
-  color:white;
-  padding:22px 6%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.logo{
-  font-size:24px;
-  font-weight:bold;
-  letter-spacing:6px;
-}
-
-header a{
-  color:white;
-  text-decoration:none;
-}
-
-.container{
-  max-width:900px;
-  margin:40px auto;
-  padding:0 20px;
-}
-
-.card{
-  background:white;
-  padding:30px;
-  border-radius:12px;
-  margin-bottom:25px;
-  box-shadow:0 3px 15px rgba(0,0,0,.06);
-}
-
-h1{
-  margin-top:0;
-}
-
-label{
-  display:block;
-  font-weight:bold;
-  margin-top:18px;
-  margin-bottom:7px;
-}
-
-input,
-textarea{
-  width:100%;
-  padding:13px;
-  border:1px solid #ccc;
-  border-radius:6px;
-  font-size:15px;
-}
-
-textarea{
-  min-height:100px;
-  resize:vertical;
-}
-
-input[type="file"]{
-  padding:10px;
-  background:#f7f7f7;
-}
-
-.preview{
-  display:none;
-  width:200px;
-  height:200px;
-  object-fit:cover;
-  margin-top:15px;
-  border-radius:8px;
-  border:1px solid #ddd;
-}
-
-button{
-  border:0;
-  border-radius:6px;
-  padding:13px 20px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.publish{
-  background:#171717;
-  color:white;
-  width:100%;
-  margin-top:22px;
-}
-
-.publish:disabled{
-  opacity:.5;
-  cursor:not-allowed;
-}
-
-.status{
-  margin-top:15px;
-  line-height:1.5;
-}
-
-.product{
-  border:1px solid #ddd;
-  padding:18px;
-  margin-top:15px;
-  border-radius:8px;
-  display:flex;
-  align-items:center;
-  gap:15px;
-}
-
-.product-image{
-  width:90px;
-  height:90px;
-  object-fit:cover;
-  border-radius:8px;
-  background:#eee;
-  flex-shrink:0;
-}
-
-.product-info{
-  flex:1;
-}
-
-.product h3{
-  margin:0 0 7px;
-}
-
-.product p{
-  margin:5px 0;
-  color:#777;
-}
-
-.delete{
-  background:#eee;
-}
-
-@media(max-width:600px){
-
-  .product{
-    align-items:flex-start;
-    flex-wrap:wrap;
-  }
-
-}
-
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f5f2;color:#171717}
+header{background:#171717;color:white;padding:22px 6%;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:24px;font-weight:bold;letter-spacing:6px}
+header a{color:white}
+.container{max-width:900px;margin:40px auto;padding:0 20px}
+.card{background:white;padding:30px;border-radius:12px;margin-bottom:25px;box-shadow:0 3px 15px #0000000f}
+h1{margin-top:0}
+label{display:block;font-weight:bold;margin-top:18px;margin-bottom:7px}
+input,textarea,select{width:100%;padding:13px;border:1px solid #ccc;border-radius:6px;font-size:15px}
+textarea{min-height:100px;resize:vertical}
+button{border:0;border-radius:6px;padding:13px 20px;cursor:pointer;font-weight:bold}
+.publish{background:#171717;color:white;width:100%;margin-top:22px}
+.product{border:1px solid #ddd;padding:15px;margin-top:15px;border-radius:8px;display:flex;justify-content:space-between;gap:15px}
+.product img{width:80px;height:80px;object-fit:cover;border-radius:6px}
+.product-info{flex:1}.product h3{margin:0 0 7px}.product p{margin:5px 0;color:#777}
+.delete{background:#eee}.status{margin-top:15px;color:#666}
 </style>
-
 </head>
 
 <body>
 
 <header>
-
-  <div class="logo">
-    VEYA
-  </div>
-
-  <a href="/">
-    View Store →
-  </a>
-
+<div class="logo">VEYA</div>
+<a href="index.html">View Store →</a>
 </header>
-
 
 <div class="container">
 
+<div class="card">
+<h1>Add Product</h1>
 
-  <!-- ADD PRODUCT -->
+<label>Product Name</label>
+<input id="name" placeholder="Example: Classic Shoulder Bag">
 
-  <div class="card">
+<label>Category</label>
+<select id="category">
+<option>Clothing</option>
+<option>Purses</option>
+<option>Glasses</option>
+<option>Watches</option>
+<option>Jewellery</option>
+</select>
 
-    <h1>
-      Add Product
-    </h1>
+<label>Price (PKR)</label>
+<input id="price" type="number" placeholder="1499">
 
+<label>Description</label>
+<textarea id="description" placeholder="Describe your product..."></textarea>
 
-    <label>
-      Product Name
-    </label>
+<label>Product Image URL</label>
+<input id="image" type="url" placeholder="https://...">
 
-    <input
-      id="name"
-      type="text"
-      placeholder="Example: Mini Humidifier"
-    >
+<p style="font-size:13px;color:#777">
+For now, use an image URL. You can upload your product image to an image-hosting service and paste its direct image URL here.
+</p>
 
+<button class="publish" onclick="addProduct()">PUBLISH PRODUCT</button>
 
-    <label>
-      Price (PKR)
-    </label>
+<div class="status" id="status"></div>
+</div>
 
-    <input
-      id="price"
-      type="number"
-      placeholder="1499"
-    >
-
-
-    <label>
-      Description
-    </label>
-
-    <textarea
-      id="description"
-      placeholder="Describe your product..."
-    ></textarea>
-
-
-    <label>
-      Product Image
-    </label>
-
-    <input
-      id="imageFile"
-      type="file"
-      accept="image/jpeg,image/png,image/webp"
-    >
-
-
-    <img
-      id="preview"
-      class="preview"
-      alt="Product preview"
-    >
-
-
-    <button
-      id="publishButton"
-      class="publish"
-      onclick="addProduct()"
-    >
-      PUBLISH PRODUCT
-    </button>
-
-
-    <div
-      id="status"
-      class="status"
-    ></div>
-
-  </div>
-
-
-  <!-- PRODUCTS -->
-
-  <div class="card">
-
-    <h1>
-      Your Products
-    </h1>
-
-    <div id="products">
-      Loading...
-    </div>
-
-  </div>
-
+<div class="card">
+<h1>Your Products</h1>
+<div id="products">Loading...</div>
+</div>
 
 </div>
 
-
 <script>
-
-
-/* ELEMENTS */
-
-const imageFile =
-  document.getElementById("imageFile");
-
-const preview =
-  document.getElementById("preview");
-
-const status =
-  document.getElementById("status");
-
-const publishButton =
-  document.getElementById("publishButton");
-
-
-/* IMAGE PREVIEW */
-
-imageFile.addEventListener(
-  "change",
-  function(){
-
-    const file =
-      imageFile.files[0];
-
-    if(!file){
-
-      preview.style.display =
-        "none";
-
-      return;
-
-    }
-
-
-    if(!file.type.startsWith("image/")){
-
-      alert(
-        "Please choose an image file."
-      );
-
-      imageFile.value = "";
-
-      return;
-
-    }
-
-
-    if(
-      file.size >
-      5 * 1024 * 1024
-    ){
-
-      alert(
-        "Image must be smaller than 5 MB."
-      );
-
-      imageFile.value = "";
-
-      return;
-
-    }
-
-
-    preview.src =
-      URL.createObjectURL(file);
-
-    preview.style.display =
-      "block";
-
-  }
+const db=supabase.createClient(
+window.SUPABASE_URL,
+window.SUPABASE_KEY
 );
-
-
-/* LOAD PRODUCTS */
 
 async function loadProducts(){
 
-  const box =
-    document.getElementById("products");
+const box=document.getElementById("products");
 
+const {data,error}=await db
+.from("products")
+.select("*")
+.order("created_at",{ascending:false});
 
-  try{
+if(error){
+box.innerHTML="<p>Could not load products: "+error.message+"</p>";
+return;
+}
 
-    const response =
-      await fetch(
-        "/.netlify/functions/products"
-      );
+if(!data.length){
+box.innerHTML="<p>No products yet.</p>";
+return;
+}
 
+box.innerHTML=data.map(p=>`
 
-    if(!response.ok){
+<div class="product">
 
-      throw new Error(
-        "Products request failed"
-      );
+${p.image_url?
+`<img src="${escapeHTML(p.image_url)}">`
+:""}
 
-    }
+<div class="product-info">
 
+<h3>${escapeHTML(p.name)}</h3>
 
-    const products =
-      await response.json();
+<p>
+${escapeHTML(p.category)}
+</p>
 
+<p>
+PKR ${Number(p.price).toLocaleString()}
+</p>
 
-    if(
-      !Array.isArray(products) ||
-      products.length === 0
-    ){
+<p>
+${escapeHTML(p.description||"")}
+</p>
 
-      box.innerHTML =
-        "<p>No products yet.</p>";
+</div>
 
-      return;
+<button class="delete"
+onclick="deleteProduct(${p.id})">
+Delete
+</button>
 
-    }
+</div>
 
-
-    box.innerHTML =
-      products.map(
-        function(product){
-
-          const image =
-            product.image
-              ?
-              `<img
-                class="product-image"
-                src="${escapeHTML(product.image)}"
-                alt="${escapeHTML(product.name)}"
-              >`
-              :
-              `<div class="product-image"></div>`;
-
-
-          return `
-
-            <div class="product">
-
-              ${image}
-
-              <div class="product-info">
-
-                <h3>
-                  ${escapeHTML(product.name)}
-                </h3>
-
-                <p>
-                  PKR ${Number(
-                    product.price
-                  ).toLocaleString()}
-                </p>
-
-                <p>
-                  ${escapeHTML(
-                    product.description || ""
-                  )}
-                </p>
-
-              </div>
-
-              <button
-                class="delete"
-                onclick="deleteProduct(${product.id})"
-              >
-                Delete
-              </button>
-
-            </div>
-
-          `;
-
-        }
-      ).join("");
-
-
-  }catch(error){
-
-    console.error(error);
-
-    box.innerHTML =
-      "<p>Could not load products.</p>";
-
-  }
+`).join("");
 
 }
 
-
-/* UPLOAD IMAGE */
-
-async function uploadImage(file){
-
-  const formData =
-    new FormData();
-
-
-  formData.append(
-    "image",
-    file
-  );
-
-
-  const response =
-    await fetch(
-      "/.netlify/functions/upload",
-      {
-        method:"POST",
-        body:formData
-      }
-    );
-
-
-  const data =
-    await response.json();
-
-
-  if(!response.ok){
-
-    throw new Error(
-      data.error ||
-      "Image upload failed"
-    );
-
-  }
-
-
-  return (
-    "/.netlify/functions/image?file=" +
-    encodeURIComponent(
-      data.filename
-    )
-  );
-
-}
-
-
-/* ADD PRODUCT */
 
 async function addProduct(){
 
-  const name =
-    document
-      .getElementById("name")
-      .value
-      .trim();
-
-
-  const price =
-    document
-      .getElementById("price")
-      .value;
-
-
-  const description =
-    document
-      .getElementById("description")
-      .value
-      .trim();
-
-
-  const file =
-    imageFile.files[0];
-
-
-  if(!name){
-
-    status.textContent =
-      "Please enter a product name.";
-
-    return;
-
-  }
-
-
-  if(!price){
-
-    status.textContent =
-      "Please enter a price.";
-
-    return;
-
-  }
-
-
-  if(!file){
-
-    status.textContent =
-      "Please choose a product image.";
-
-    return;
-
-  }
-
-
-  try{
-
-    publishButton.disabled =
-      true;
-
-
-    status.textContent =
-      "Uploading image...";
-
-
-    const imageURL =
-      await uploadImage(file);
-
-
-    status.textContent =
-      "Saving product...";
-
-
-    const response =
-      await fetch(
-        "/.netlify/functions/products",
-        {
-          method:"POST",
-
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
-
-          body:JSON.stringify({
-
-            name:name,
-
-            price:Number(price),
-
-            description:description,
-
-            image:imageURL
-
-          })
-
-        }
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if(!response.ok){
-
-      throw new Error(
-        data.error ||
-        "Product save failed"
-      );
-
-    }
-
-
-    /* CLEAR FORM */
-
-    document
-      .getElementById("name")
-      .value = "";
-
-
-    document
-      .getElementById("price")
-      .value = "";
-
-
-    document
-      .getElementById("description")
-      .value = "";
-
-
-    imageFile.value = "";
-
-
-    preview.src = "";
-
-    preview.style.display =
-      "none";
-
-
-    status.textContent =
-      "✅ Product published successfully!";
-
-
-    loadProducts();
-
-
-  }catch(error){
-
-    console.error(error);
-
-
-    status.textContent =
-      "❌ " + error.message;
-
-
-  }finally{
-
-    publishButton.disabled =
-      false;
-
-  }
-
+const name=document.getElementById("name").value.trim();
+const category=document.getElementById("category").value;
+const price=document.getElementById("price").value;
+const description=document.getElementById("description").value.trim();
+const image=document.getElementById("image").value.trim();
+const status=document.getElementById("status");
+
+if(!name||!price){
+status.textContent="Please enter product name and price.";
+return;
 }
 
+status.textContent="Publishing...";
 
-/* DELETE */
+const {error}=await db
+.from("products")
+.insert({
+name,
+category,
+price:Number(price),
+description,
+image_url:image
+});
 
-async function deleteProduct(id){
-
-  if(
-    !confirm(
-      "Delete this product?"
-    )
-  ){
-
-    return;
-
-  }
-
-
-  try{
-
-    const response =
-      await fetch(
-        "/.netlify/functions/products",
-        {
-          method:"DELETE",
-
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
-
-          body:JSON.stringify({
-            id:id
-          })
-
-        }
-      );
-
-
-    if(!response.ok){
-
-      throw new Error(
-        "Delete failed"
-      );
-
-    }
-
-
-    loadProducts();
-
-
-  }catch(error){
-
-    alert(
-      error.message
-    );
-
-  }
-
+if(error){
+status.textContent="❌ "+error.message;
+return;
 }
 
+document.getElementById("name").value="";
+document.getElementById("price").value="";
+document.getElementById("description").value="";
+document.getElementById("image").value="";
 
-/* SECURITY */
-
-function escapeHTML(text){
-
-  return String(text)
-
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
-
-}
-
-
-/* START */
+status.textContent="✅ Product published!";
 
 loadProducts();
 
+}
+
+
+async function deleteProduct(id){
+
+if(!confirm("Delete this product?")) return;
+
+const {error}=await db
+.from("products")
+.delete()
+.eq("id",id);
+
+if(error){
+alert(error.message);
+return;
+}
+
+loadProducts();
+
+}
+
+
+function escapeHTML(text){
+
+return String(text)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+loadProducts();
 </script>
 
 </body>
