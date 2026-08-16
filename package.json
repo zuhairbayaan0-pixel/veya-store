@@ -1,13 +1,11 @@
 {
   "name": "veya-store",
   "version": "1.0.0",
-  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "@netlify/blobs": "^10.0.0",
     "express": "^5.1.0",
     "multer": "^2.0.2",
     "better-sqlite3": "^12.4.1"
