@@ -3,97 +3,1143 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>VEYA — Fashion & Accessories</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f7f5f0;color:#171717}a{text-decoration:none;color:inherit}
-header{height:72px;border-bottom:1px solid #ddd;display:flex;align-items:center;justify-content:space-between;padding:0 6%;position:sticky;top:0;background:#f7f5f0;z-index:10}.logo{font-size:25px;font-weight:900;letter-spacing:7px}.nav{display:flex;gap:25px}.cart{background:#171717;color:#fff;border:0;border-radius:25px;padding:11px 18px}
-.hero{text-align:center;padding:100px 20px;background:linear-gradient(135deg,#ddd7cc,#f7f5f0,#dce0dc)}.hero small{letter-spacing:5px;color:#666}.hero h1{font-size:clamp(60px,10vw,115px);line-height:.85;letter-spacing:-6px;margin:22px 0}.hero i{font-family:Georgia;font-weight:400}.hero p{max-width:550px;margin:auto;color:#666;line-height:1.6}.shopbtn{display:inline-block;margin-top:28px;background:#171717;color:white;padding:14px 24px;border-radius:30px;font-weight:bold}
-.categories{padding:45px 7% 10px;display:flex;gap:10px;flex-wrap:wrap}.cat{border:1px solid #bbb;background:none;border-radius:25px;padding:10px 18px;cursor:pointer}.cat.active{background:#171717;color:white}
-.shop{padding:25px 7% 90px}.heading{display:flex;justify-content:space-between;align-items:end;margin-bottom:30px}.heading h2{font-size:46px;margin:8px 0}.search{padding:12px 18px;border:1px solid #ccc;border-radius:25px;width:240px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.product{background:white;border:1px solid #ddd}.image{height:320px;background:#e8e5de;overflow:hidden;display:flex;align-items:center;justify-content:center}.image img{width:100%;height:100%;object-fit:cover}.placeholder{font-size:28px;color:#aaa;font-weight:bold;letter-spacing:5px}.info{padding:17px}.category{font-size:10px;letter-spacing:2px;color:#888}.name{font-weight:bold;font-size:18px;margin:8px 0}.description{color:#777;font-size:13px;min-height:35px}.price{font-weight:bold;margin-top:12px}.add{width:100%;margin-top:13px;padding:12px;background:#171717;color:white;border:0;border-radius:5px}
-.about{background:#171717;color:white;padding:90px 9%}.about h2{font-size:48px}.about p{max-width:650px;color:#bbb;line-height:1.7}footer{padding:45px 7%;display:flex;justify-content:space-between}
-.overlay{position:fixed;inset:0;background:#0008;opacity:0;pointer-events:none;z-index:20}.overlay.open{opacity:1;pointer-events:auto}.drawer{position:fixed;right:-450px;top:0;width:min(430px,100%);height:100vh;background:white;z-index:30;padding:25px;transition:.25s;display:flex;flex-direction:column}.drawer.open{right:0}.drawerhead{display:flex;justify-content:space-between;border-bottom:1px solid #ddd}.close{border:0;background:none;font-size:30px}.items{flex:1;overflow:auto}.item{padding:16px 0;border-bottom:1px solid #ddd;display:flex;justify-content:space-between}.qty button{width:28px;height:28px;border:1px solid #ccc;background:white}.checkout{border-top:1px solid #ddd;padding-top:15px}.checkout input{width:100%;padding:11px;margin:4px 0;border:1px solid #ccc}.whatsapp{width:100%;padding:14px;background:#171717;color:white;border:0;margin-top:8px;font-weight:bold}
-@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.nav{display:none}}@media(max-width:600px){.grid{grid-template-columns:1fr 1fr}.image{height:230px}.heading{display:block}.search{width:100%}}
+
+*{
+  box-sizing:border-box
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f7f5f0;
+  color:#171717
+}
+
+a{
+  text-decoration:none;
+  color:inherit
+}
+
+header{
+  height:72px;
+  border-bottom:1px solid #ddd;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 6%;
+  position:sticky;
+  top:0;
+  background:#f7f5f0;
+  z-index:10
+}
+
+.logo{
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:7px
+}
+
+.nav{
+  display:flex;
+  gap:25px
+}
+
+.cart{
+  background:#171717;
+  color:#fff;
+  border:0;
+  border-radius:25px;
+  padding:11px 18px;
+  cursor:pointer
+}
+
+.hero{
+  text-align:center;
+  padding:100px 20px;
+  background:linear-gradient(
+    135deg,
+    #ddd7cc,
+    #f7f5f0,
+    #dce0dc
+  )
+}
+
+.hero small{
+  letter-spacing:5px;
+  color:#666
+}
+
+.hero h1{
+  font-size:clamp(60px,10vw,115px);
+  line-height:.85;
+  letter-spacing:-6px;
+  margin:22px 0
+}
+
+.hero i{
+  font-family:Georgia;
+  font-weight:400
+}
+
+.hero p{
+  max-width:550px;
+  margin:auto;
+  color:#666;
+  line-height:1.6
+}
+
+.shopbtn{
+  display:inline-block;
+  margin-top:28px;
+  background:#171717;
+  color:white;
+  padding:14px 24px;
+  border-radius:30px;
+  font-weight:bold
+}
+
+.categories{
+  padding:45px 7% 10px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap
+}
+
+.cat{
+  border:1px solid #bbb;
+  background:none;
+  border-radius:25px;
+  padding:10px 18px;
+  cursor:pointer
+}
+
+.cat.active{
+  background:#171717;
+  color:white
+}
+
+.shop{
+  padding:25px 7% 90px
+}
+
+.heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  margin-bottom:30px
+}
+
+.heading h2{
+  font-size:46px;
+  margin:8px 0
+}
+
+.search{
+  padding:12px 18px;
+  border:1px solid #ccc;
+  border-radius:25px;
+  width:240px
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px
+}
+
+.product{
+  background:white;
+  border:1px solid #ddd
+}
+
+.image{
+  height:320px;
+  background:#e8e5de;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center
+}
+
+.image img{
+  width:100%;
+  height:100%;
+  object-fit:cover
+}
+
+.placeholder{
+  font-size:28px;
+  color:#aaa;
+  font-weight:bold;
+  letter-spacing:5px
+}
+
+.info{
+  padding:17px
+}
+
+.category{
+  font-size:10px;
+  letter-spacing:2px;
+  color:#888
+}
+
+.name{
+  font-weight:bold;
+  font-size:18px;
+  margin:8px 0
+}
+
+.description{
+  color:#777;
+  font-size:13px;
+  min-height:35px
+}
+
+.price{
+  font-weight:bold;
+  margin-top:12px
+}
+
+.stock{
+  font-size:13px;
+  margin-top:7px;
+  color:#666
+}
+
+.stock.out{
+  color:#b00020;
+  font-weight:bold
+}
+
+.add{
+  width:100%;
+  margin-top:13px;
+  padding:12px;
+  background:#171717;
+  color:white;
+  border:0;
+  border-radius:5px;
+  cursor:pointer
+}
+
+.add:disabled{
+  background:#aaa;
+  cursor:not-allowed
+}
+
+.about{
+  background:#171717;
+  color:white;
+  padding:90px 9%
+}
+
+.about h2{
+  font-size:48px
+}
+
+.about p{
+  max-width:650px;
+  color:#bbb;
+  line-height:1.7
+}
+
+footer{
+  padding:45px 7%;
+  display:flex;
+  justify-content:space-between
+}
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:#0008;
+  opacity:0;
+  pointer-events:none;
+  z-index:20
+}
+
+.overlay.open{
+  opacity:1;
+  pointer-events:auto
+}
+
+.drawer{
+  position:fixed;
+  right:-450px;
+  top:0;
+  width:min(430px,100%);
+  height:100vh;
+  background:white;
+  z-index:30;
+  padding:25px;
+  transition:.25s;
+  display:flex;
+  flex-direction:column
+}
+
+.drawer.open{
+  right:0
+}
+
+.drawerhead{
+  display:flex;
+  justify-content:space-between;
+  border-bottom:1px solid #ddd
+}
+
+.close{
+  border:0;
+  background:none;
+  font-size:30px;
+  cursor:pointer
+}
+
+.items{
+  flex:1;
+  overflow:auto
+}
+
+.item{
+  padding:16px 0;
+  border-bottom:1px solid #ddd
+}
+
+.itemtop{
+  display:flex;
+  justify-content:space-between;
+  gap:10px
+}
+
+.itemname{
+  font-weight:bold
+}
+
+.itemprice{
+  color:#666;
+  font-size:13px;
+  margin-top:4px
+}
+
+.qty{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:10px
+}
+
+.qty button{
+  width:30px;
+  height:30px;
+  border:1px solid #ccc;
+  background:white;
+  cursor:pointer;
+  border-radius:4px
+}
+
+.qty-number{
+  min-width:25px;
+  text-align:center;
+  font-weight:bold
+}
+
+.stock-note{
+  font-size:12px;
+  color:#888;
+  margin-top:7px
+}
+
+.checkout{
+  border-top:1px solid #ddd;
+  padding-top:15px
+}
+
+.checkout input{
+  width:100%;
+  padding:11px;
+  margin:4px 0;
+  border:1px solid #ccc;
+  border-radius:5px
+}
+
+.whatsapp{
+  width:100%;
+  padding:14px;
+  background:#171717;
+  color:white;
+  border:0;
+  margin-top:8px;
+  font-weight:bold;
+  cursor:pointer
+}
+
+@media(max-width:900px){
+
+  .grid{
+    grid-template-columns:repeat(2,1fr)
+  }
+
+  .nav{
+    display:none
+  }
+
+}
+
+@media(max-width:600px){
+
+  .grid{
+    grid-template-columns:1fr 1fr
+  }
+
+  .image{
+    height:230px
+  }
+
+  .heading{
+    display:block
+  }
+
+  .search{
+    width:100%
+  }
+
+}
+
 </style>
 </head>
+
 <body>
 
 <header>
+
 <div class="logo">VEYA</div>
-<nav class="nav"><a href="#shop">Shop</a><a href="#about">About</a><a href="admin.html">Admin</a></nav>
-<button class="cart" onclick="openCart()">🛒 Cart (<span id="count">0</span>)</button>
+
+<nav class="nav">
+<a href="#shop">Shop</a>
+<a href="#about">About</a>
+<a href="admin.html">Admin</a>
+</nav>
+
+<button class="cart" onclick="openCart()">
+🛒 Cart (<span id="count">0</span>)
+</button>
+
 </header>
 
+
 <section class="hero">
+
 <div>
+
 <small>VEYA FASHION COLLECTION</small>
-<h1>Wear.<br><i>Carry.</i><br>VEYA.</h1>
-<p>Modern clothing and accessories selected for everyday style.</p>
-<a class="shopbtn" href="#shop">Shop Collection</a>
+
+<h1>
+Wear.<br>
+<i>Carry.</i><br>
+VEYA.
+</h1>
+
+<p>
+Modern clothing and accessories selected for everyday style.
+</p>
+
+<a class="shopbtn" href="#shop">
+Shop Collection
+</a>
+
 </div>
+
 </section>
+
 
 <div class="categories" id="categories"></div>
 
+
 <section class="shop" id="shop">
-<div class="heading"><div><small>THE COLLECTION</small><h2>Shop VEYA</h2></div><input class="search" id="search" placeholder="Search..." oninput="render()"></div>
-<div class="grid" id="products"><p>Loading products...</p></div>
+
+<div class="heading">
+
+<div>
+<small>THE COLLECTION</small>
+<h2>Shop VEYA</h2>
+</div>
+
+<input
+class="search"
+id="search"
+placeholder="Search..."
+oninput="render()"
+>
+
+</div>
+
+<div class="grid" id="products">
+<p>Loading products...</p>
+</div>
+
 </section>
 
-<section class="about" id="about"><small>ABOUT VEYA</small><h2>Style without the noise.</h2><p>Discover clothing, purses, glasses, watches and jewellery in one simple shopping experience.</p></section>
 
-<footer><strong>VEYA</strong><span>© 2026 VEYA</span></footer>
+<section class="about" id="about">
 
-<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<small>ABOUT VEYA</small>
+
+<h2>Style without the noise.</h2>
+
+<p>
+Discover clothing, purses, glasses, watches and jewellery
+in one simple shopping experience.
+</p>
+
+</section>
+
+
+<footer>
+
+<strong>VEYA</strong>
+
+<span>© 2026 VEYA</span>
+
+</footer>
+
+
+<div
+class="overlay"
+id="overlay"
+onclick="closeCart()">
+</div>
+
 
 <div class="drawer" id="drawer">
-<div class="drawerhead"><h2>Your Cart</h2><button class="close" onclick="closeCart()">×</button></div>
+
+<div class="drawerhead">
+
+<h2>Your Cart</h2>
+
+<button
+class="close"
+onclick="closeCart()">
+×
+</button>
+
+</div>
+
+
 <div class="items" id="cartItems"></div>
+
+
 <div class="checkout">
-<strong id="total">Total: PKR 0</strong>
-<input id="customerName" placeholder="Name">
-<input id="customerPhone" placeholder="Phone">
-<input id="customerAddress" placeholder="Delivery address">
-<button class="whatsapp" onclick="order()">Order on WhatsApp</button>
+
+<strong id="total">
+Total: PKR 0
+</strong>
+
+<input
+id="customerName"
+placeholder="Name"
+>
+
+<input
+id="customerPhone"
+placeholder="Phone"
+>
+
+<input
+id="customerAddress"
+placeholder="Delivery address"
+>
+
+<button
+class="whatsapp"
+onclick="order()">
+Order on WhatsApp
+</button>
+
 </div>
+
 </div>
+
 
 <script>
-const supabaseClient=supabase.createClient(window.SUPABASE_URL,window.SUPABASE_KEY);
-const WA="923335308890";
-let products=[],cart=[],category="All";
+
+const supabaseClient =
+supabase.createClient(
+  window.SUPABASE_URL,
+  window.SUPABASE_KEY
+);
+
+const WA = "923335308890";
+
+let products = [];
+
+let cart = [];
+
+let category = "All";
+
+
+/* LOAD PRODUCTS */
 
 async function loadProducts(){
- const {data,error}=await supabaseClient.from("products").select("*").order("created_at",{ascending:false});
- if(error){document.getElementById("products").innerHTML="<p>Could not load products.</p>";return}
- products=data||[];renderCats();render();
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("products")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+
+  if(error){
+
+    console.error(error);
+
+    document.getElementById("products").innerHTML =
+      "<p>Could not load products.</p>";
+
+    return;
+  }
+
+
+  products = data || [];
+
+  renderCats();
+
+  render();
+
 }
+
+
+/* CATEGORIES */
 
 function renderCats(){
- const cats=["All","Clothing","Purses","Glasses","Watches","Jewellery"];
- document.getElementById("categories").innerHTML=cats.map(c=>`<button class="cat ${c===category?"active":""}" onclick="category='${c}';renderCats();render()">${c}</button>`).join("");
+
+  const cats = [
+    "All",
+    "Clothing",
+    "Purses",
+    "Glasses",
+    "Watches",
+    "Jewellery"
+  ];
+
+
+  document.getElementById("categories").innerHTML =
+    cats.map(c => `
+
+      <button
+        class="cat ${c === category ? "active" : ""}"
+        onclick="setCategory('${c}')"
+      >
+        ${c}
+      </button>
+
+    `).join("");
+
 }
+
+
+function setCategory(c){
+
+  category = c;
+
+  renderCats();
+
+  render();
+
+}
+
+
+/* PRODUCT DISPLAY */
 
 function render(){
- const q=document.getElementById("search").value.toLowerCase();
- const list=products.filter(p=>(category==="All"||p.category===category)&&(`${p.name} ${p.description||""} ${p.category}`).toLowerCase().includes(q));
- document.getElementById("products").innerHTML=list.length?list.map(p=>`
- <article class="product">
- <div class="image">${p.image_url?`<img src="${p.image_url}" alt="">`:`<div class="placeholder">VEYA</div>`}</div>
- <div class="info"><div class="category">${esc(p.category)}</div><div class="name">${esc(p.name)}</div><div class="description">${esc(p.description||"")}</div><div class="price">PKR ${Number(p.price).toLocaleString()}</div><button class="add" onclick="add(${p.id})">Add to Cart</button></div>
- </article>`).join(""):"<p>No products found.</p>";
+
+  const q =
+    document.getElementById("search")
+      .value
+      .toLowerCase();
+
+
+  const list =
+    products.filter(p =>
+
+      (category === "All" ||
+       p.category === category)
+
+      &&
+
+      (
+        `${p.name}
+         ${p.description || ""}
+         ${p.category || ""}`
+      )
+      .toLowerCase()
+      .includes(q)
+
+    );
+
+
+  document.getElementById("products").innerHTML =
+
+    list.length
+
+    ?
+
+    list.map(p => {
+
+      const stock =
+        Number(p.stock_quantity || 0);
+
+
+      const outOfStock =
+        stock <= 0;
+
+
+      return `
+
+        <article class="product">
+
+          <div class="image">
+
+            ${
+              p.image_url
+
+              ?
+
+              `<img
+                src="${esc(p.image_url)}"
+                alt="${esc(p.name)}"
+              >`
+
+              :
+
+              `<div class="placeholder">
+                VEYA
+              </div>`
+            }
+
+          </div>
+
+
+          <div class="info">
+
+            <div class="category">
+              ${esc(p.category || "")}
+            </div>
+
+
+            <div class="name">
+              ${esc(p.name)}
+            </div>
+
+
+            <div class="description">
+              ${esc(p.description || "")}
+            </div>
+
+
+            <div class="price">
+              PKR ${Number(p.price || 0).toLocaleString()}
+            </div>
+
+
+            <div class="stock ${outOfStock ? "out" : ""}">
+
+              ${
+                outOfStock
+
+                ? "Out of stock"
+
+                : `${stock} available`
+              }
+
+            </div>
+
+
+            <button
+              class="add"
+              onclick="add(${p.id})"
+              ${outOfStock ? "disabled" : ""}
+            >
+
+              ${
+                outOfStock
+                ? "Out of Stock"
+                : "Add to Cart"
+              }
+
+            </button>
+
+          </div>
+
+        </article>
+
+      `;
+
+    }).join("")
+
+    :
+
+    "<p>No products found.</p>";
+
 }
 
-function add(id){let p=products.find(x=>x.id===id),x=cart.find(x=>x.id===id);x?x.qty++:cart.push({...p,qty:1});update();openCart()}
-function update(){document.getElementById("count").textContent=cart.reduce((a,x)=>a+x.qty,0);let t=cart.reduce((a,x)=>a+x.price*x.qty,0);document.getElementById("total").textContent="Total: PKR "+t.toLocaleString();document.getElementById("cartItems").innerHTML=cart.length?cart.map(x=>`<div class="item"><span><b>${esc(x.name)}</b><br>PKR ${Number(x.price).toLocaleString()}</span><span class="qty"><button onclick="change(${x.id},-1)">−</button> ${x.qty} <button onclick="change(${x.id},1)">+</button></span></div>`).join(""):"<p>Your cart is empty.</p>"}
-function change(id,n){let x=cart.find(x=>x.id===id);if(x)x.qty+=n;cart=cart.filter(x=>x.qty>0);update()}
-function openCart(){document.getElementById("drawer").classList.add("open");document.getElementById("overlay").classList.add("open");update()}
-function closeCart(){document.getElementById("drawer").classList.remove("open");document.getElementById("overlay").classList.remove("open")}
-function order(){if(!cart.length)return alert("Your cart is empty.");let n=document.getElementById("customerName").value.trim(),p=document.getElementById("customerPhone").value.trim(),a=document.getElementById("customerAddress").value.trim();if(!n||!p||!a)return alert("Please fill all customer details.");let t=cart.reduce((x,y)=>x+y.price*y.qty,0);let m=`NEW VEYA ORDER\n\n${cart.map(x=>`${x.name} — Qty ${x.qty} — PKR ${x.price*x.qty}`).join("\n")}\n\nTOTAL: PKR ${t}\n\nName: ${n}\nPhone: ${p}\nAddress: ${a}`;window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(m),"_blank")}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+
+/* ADD PRODUCT TO CART */
+
+function add(id){
+
+  const product =
+    products.find(x => x.id === id);
+
+
+  if(!product){
+
+    return;
+  }
+
+
+  const stock =
+    Number(product.stock_quantity || 0);
+
+
+  if(stock <= 0){
+
+    alert("This product is out of stock.");
+
+    return;
+  }
+
+
+  const existing =
+    cart.find(x => x.id === id);
+
+
+  if(existing){
+
+    if(existing.qty >= stock){
+
+      alert(
+        "You cannot order more than the available stock."
+      );
+
+      return;
+    }
+
+
+    existing.qty++;
+
+  }else{
+
+    cart.push({
+      ...product,
+      qty:1
+    });
+
+  }
+
+
+  update();
+
+  openCart();
+
+}
+
+
+/* UPDATE CART */
+
+function update(){
+
+  const count =
+    cart.reduce(
+      (a,x) => a + x.qty,
+      0
+    );
+
+
+  const total =
+    cart.reduce(
+      (a,x) =>
+        a +
+        Number(x.price) * x.qty,
+      0
+    );
+
+
+  document.getElementById("count")
+    .textContent = count;
+
+
+  document.getElementById("total")
+    .textContent =
+      "Total: PKR "
+      + total.toLocaleString();
+
+
+  document.getElementById("cartItems").innerHTML =
+
+    cart.length
+
+    ?
+
+    cart.map(x => {
+
+      const stock =
+        Number(x.stock_quantity || 0);
+
+
+      return `
+
+        <div class="item">
+
+          <div class="itemtop">
+
+            <div>
+
+              <div class="itemname">
+                ${esc(x.name)}
+              </div>
+
+              <div class="itemprice">
+                PKR ${Number(x.price).toLocaleString()}
+                each
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="qty">
+
+            <button
+              onclick="change(${x.id},-1)"
+            >
+              −
+            </button>
+
+
+            <span class="qty-number">
+              ${x.qty}
+            </span>
+
+
+            <button
+              onclick="change(${x.id},1)"
+              ${x.qty >= stock ? "disabled" : ""}
+            >
+              +
+            </button>
+
+          </div>
+
+
+          <div class="stock-note">
+            ${stock} available
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("")
+
+    :
+
+    "<p>Your cart is empty.</p>";
+
+}
+
+
+/* CHANGE CUSTOMER QUANTITY */
+
+function change(id,n){
+
+  const item =
+    cart.find(x => x.id === id);
+
+
+  if(!item){
+
+    return;
+  }
+
+
+  const stock =
+    Number(item.stock_quantity || 0);
+
+
+  const newQuantity =
+    item.qty + n;
+
+
+  if(newQuantity > stock){
+
+    alert(
+      "You cannot order more than the available stock."
+    );
+
+    return;
+  }
+
+
+  item.qty = newQuantity;
+
+
+  if(item.qty <= 0){
+
+    cart =
+      cart.filter(
+        x => x.id !== id
+      );
+
+  }
+
+
+  update();
+
+}
+
+
+/* CART OPEN */
+
+function openCart(){
+
+  document.getElementById("drawer")
+    .classList.add("open");
+
+  document.getElementById("overlay")
+    .classList.add("open");
+
+  update();
+
+}
+
+
+/* CART CLOSE */
+
+function closeCart(){
+
+  document.getElementById("drawer")
+    .classList.remove("open");
+
+  document.getElementById("overlay")
+    .classList.remove("open");
+
+}
+
+
+/* PLACE WHATSAPP ORDER */
+
+function order(){
+
+  if(!cart.length){
+
+    alert("Your cart is empty.");
+
+    return;
+  }
+
+
+  const n =
+    document.getElementById("customerName")
+      .value
+      .trim();
+
+
+  const p =
+    document.getElementById("customerPhone")
+      .value
+      .trim();
+
+
+  const a =
+    document.getElementById("customerAddress")
+      .value
+      .trim();
+
+
+  if(!n || !p || !a){
+
+    alert(
+      "Please fill all customer details."
+    );
+
+    return;
+  }
+
+
+  const total =
+    cart.reduce(
+      (x,y) =>
+        x +
+        Number(y.price) * y.qty,
+      0
+    );
+
+
+  const message =
+
+`NEW VEYA ORDER
+
+${cart.map(x =>
+
+`${x.name} — Qty ${x.qty} — PKR ${(
+  Number(x.price) * x.qty
+).toLocaleString()}`
+
+).join("\n")}
+
+TOTAL: PKR ${total.toLocaleString()}
+
+Name: ${n}
+Phone: ${p}
+Address: ${a}`;
+
+
+  window.open(
+    "https://wa.me/"
+    + WA
+    + "?text="
+    + encodeURIComponent(message),
+    "_blank"
+  );
+
+}
+
+
+/* ESCAPE HTML */
+
+function esc(s){
+
+  return String(s)
+
+    .replace(
+      /[&<>"']/g,
+      c => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+      }[c])
+    );
+
+}
+
+
+/* START */
+
 loadProducts();
+
 </script>
+
 </body>
 </html>
