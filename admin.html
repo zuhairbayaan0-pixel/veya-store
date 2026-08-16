@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>VEYA Admin</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -12,144 +13,144 @@
 *{box-sizing:border-box}
 
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f5f5f2;
-  color:#171717;
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f5f2;
+color:#171717
 }
 
 header{
-  background:#171717;
-  color:white;
-  padding:22px 6%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+background:#171717;
+color:white;
+padding:22px 6%;
+display:flex;
+justify-content:space-between;
+align-items:center
 }
 
 .logo{
-  font-size:24px;
-  font-weight:bold;
-  letter-spacing:6px;
+font-size:24px;
+font-weight:bold;
+letter-spacing:6px
 }
 
 header a{
-  color:white;
+color:white
 }
 
 .container{
-  max-width:900px;
-  margin:40px auto;
-  padding:0 20px;
+max-width:900px;
+margin:40px auto;
+padding:0 20px
 }
 
 .card{
-  background:white;
-  padding:30px;
-  border-radius:12px;
-  margin-bottom:25px;
-  box-shadow:0 3px 15px #0000000f;
+background:white;
+padding:30px;
+border-radius:12px;
+margin-bottom:25px;
+box-shadow:0 3px 15px #0000000f
 }
 
 h1{
-  margin-top:0;
+margin-top:0
 }
 
 label{
-  display:block;
-  font-weight:bold;
-  margin-top:18px;
-  margin-bottom:7px;
+display:block;
+font-weight:bold;
+margin-top:18px;
+margin-bottom:7px
 }
 
 input,
 textarea,
 select{
-  width:100%;
-  padding:13px;
-  border:1px solid #ccc;
-  border-radius:6px;
-  font-size:15px;
+width:100%;
+padding:13px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:15px
 }
 
 input[type="file"]{
-  background:#fafafa;
-  cursor:pointer;
+background:#fafafa;
+cursor:pointer
 }
 
 textarea{
-  min-height:100px;
-  resize:vertical;
+min-height:100px;
+resize:vertical
 }
 
 button{
-  border:0;
-  border-radius:6px;
-  padding:13px 20px;
-  cursor:pointer;
-  font-weight:bold;
+border:0;
+border-radius:6px;
+padding:13px 20px;
+cursor:pointer;
+font-weight:bold
 }
 
 .publish{
-  background:#171717;
-  color:white;
-  width:100%;
-  margin-top:22px;
+background:#171717;
+color:white;
+width:100%;
+margin-top:22px
 }
 
 .publish:disabled{
-  opacity:.6;
-  cursor:not-allowed;
+opacity:.6;
+cursor:not-allowed
 }
 
 .product{
-  border:1px solid #ddd;
-  padding:15px;
-  margin-top:15px;
-  border-radius:8px;
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
+border:1px solid #ddd;
+padding:15px;
+margin-top:15px;
+border-radius:8px;
+display:flex;
+justify-content:space-between;
+gap:15px
 }
 
 .product img{
-  width:80px;
-  height:80px;
-  object-fit:cover;
-  border-radius:6px;
+width:80px;
+height:80px;
+object-fit:cover;
+border-radius:6px
 }
 
 .product-info{
-  flex:1;
+flex:1
 }
 
 .product h3{
-  margin:0 0 7px;
+margin:0 0 7px
 }
 
 .product p{
-  margin:5px 0;
-  color:#777;
+margin:5px 0;
+color:#777
 }
 
 .delete{
-  background:#eee;
-  height:max-content;
+background:#eee;
+height:max-content
 }
 
 .status{
-  margin-top:15px;
-  color:#666;
+margin-top:15px;
+color:#666
 }
 
 .preview{
-  display:none;
-  margin-top:12px;
-  width:120px;
-  height:120px;
-  object-fit:cover;
-  border-radius:8px;
-  border:1px solid #ddd;
+display:none;
+margin-top:12px;
+width:120px;
+height:120px;
+object-fit:cover;
+border-radius:8px;
+border:1px solid #ddd
 }
 </style>
 </head>
@@ -157,208 +158,281 @@ button{
 <body>
 
 <header>
-  <div class="logo">VEYA</div>
-  <a href="index.html">View Store →</a>
+
+<div class="logo">VEYA</div>
+
+<a href="index.html">
+View Store →
+</a>
+
 </header>
+
 
 <div class="container">
 
-  <div class="card">
 
-    <h1>Add Product</h1>
+<div class="card">
 
-    <label>Product Name</label>
-    <input
-      id="name"
-      type="text"
-      placeholder="Example: Classic Shoulder Bag"
-    >
-
-    <label>Category</label>
-    <select id="category">
-      <option>Clothing</option>
-      <option>Purses</option>
-      <option>Glasses</option>
-      <option>Watches</option>
-      <option>Jewellery</option>
-    </select>
-
-    <label>Price (PKR)</label>
-    <input
-      id="price"
-      type="number"
-      min="0"
-      placeholder="1499"
-    >
-
-    <label>Description</label>
-    <textarea
-      id="description"
-      placeholder="Describe your product..."
-    ></textarea>
-
-    <label>Product Image</label>
-    <input
-      id="imageFile"
-      type="file"
-      accept="image/*"
-    >
-
-    <img
-      id="imagePreview"
-      class="preview"
-      alt="Image preview"
-    >
-
-    <label>Stock Quantity</label>
-    <input
-      id="stockQuantity"
-      type="number"
-      min="0"
-      value="0"
-      placeholder="Example: 25"
-    >
-
-    <button
-      id="publishButton"
-      class="publish"
-      onclick="addProduct()"
-    >
-      PUBLISH PRODUCT
-    </button>
-
-    <div class="status" id="status"></div>
-
-  </div>
+<h1>Add Product</h1>
 
 
-  <div class="card">
+<label>Product Name</label>
 
-    <h1>Your Products</h1>
+<input
+id="name"
+type="text"
+placeholder="Example: Classic Shoulder Bag"
+>
 
-    <div id="products">
-      Loading...
-    </div>
 
-  </div>
+<label>Category</label>
+
+<select id="category">
+
+<option>Clothing</option>
+<option>Purses</option>
+<option>Glasses</option>
+<option>Watches</option>
+<option>Jewellery</option>
+
+</select>
+
+
+<label>Price (PKR)</label>
+
+<input
+id="price"
+type="number"
+min="0"
+placeholder="1499"
+>
+
+
+<label>Description</label>
+
+<textarea
+id="description"
+placeholder="Describe your product..."
+></textarea>
+
+
+<label>Product Image</label>
+
+<input
+id="imageFile"
+type="file"
+accept="image/*"
+>
+
+
+<img
+id="imagePreview"
+class="preview"
+alt="Image preview"
+>
+
+
+<label>Stock Quantity</label>
+
+<input
+id="stockQuantity"
+type="number"
+min="0"
+value="0"
+placeholder="Example: 25"
+>
+
+
+<button
+id="publishButton"
+class="publish"
+onclick="addProduct()"
+>
+PUBLISH PRODUCT
+</button>
+
+
+<div
+class="status"
+id="status">
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h1>Your Products</h1>
+
+<div id="products">
+Loading...
+</div>
+
+</div>
+
 
 </div>
 
 
 <script>
 
-const db = supabase.createClient(
-  window.SUPABASE_URL,
-  window.SUPABASE_KEY
+const db =
+supabase.createClient(
+window.SUPABASE_URL,
+window.SUPABASE_KEY
 );
 
 
 /* IMAGE PREVIEW */
 
 document
-  .getElementById("imageFile")
-  .addEventListener("change", function(){
+.getElementById("imageFile")
+.addEventListener(
+"change",
+function(){
 
-    const file = this.files[0];
-    const preview = document.getElementById("imagePreview");
+const file=this.files[0];
 
-    if(!file){
-      preview.style.display = "none";
-      preview.src = "";
-      return;
-    }
+const preview=
+document.getElementById(
+"imagePreview"
+);
 
-    preview.src = URL.createObjectURL(file);
-    preview.style.display = "block";
+if(!file){
 
-  });
+preview.style.display="none";
+
+preview.src="";
+
+return;
+}
+
+preview.src=
+URL.createObjectURL(file);
+
+preview.style.display="block";
+
+}
+);
 
 
 /* LOAD PRODUCTS */
 
 async function loadProducts(){
 
-  const box = document.getElementById("products");
+const box=
+document.getElementById(
+"products"
+);
 
-  box.innerHTML = "Loading...";
-
-  const { data, error } = await db
-    .from("products")
-    .select("*")
-    .order("created_at", { ascending:false });
-
-  if(error){
-
-    box.innerHTML =
-      "<p>Could not load products: "
-      + escapeHTML(error.message)
-      + "</p>";
-
-    return;
-  }
-
-  if(!data || !data.length){
-
-    box.innerHTML = "<p>No products yet.</p>";
-
-    return;
-  }
+box.innerHTML="Loading...";
 
 
-  box.innerHTML = data.map(p => {
+const {data,error}=
+await db
+.from("products")
+.select("*")
+.order(
+"created_at",
+{ascending:false}
+);
 
-    const image = p.image_url
-      ? `<img src="${escapeHTML(p.image_url)}" alt="${escapeHTML(p.name)}">`
-      : "";
 
-    const stock =
-      p.stock_quantity !== null &&
-      p.stock_quantity !== undefined
-        ? Number(p.stock_quantity)
-        : 0;
+if(error){
 
-    return `
+box.innerHTML=
+"<p>Could not load products: "
++
+escapeHTML(error.message)
++
+"</p>";
 
-      <div class="product">
+return;
+}
 
-        ${image}
 
-        <div class="product-info">
+if(!data || !data.length){
 
-          <h3>
-            ${escapeHTML(p.name)}
-          </h3>
+box.innerHTML=
+"<p>No products yet.</p>";
 
-          <p>
-            ${escapeHTML(p.category || "")}
-          </p>
+return;
+}
 
-          <p>
-            PKR ${Number(p.price || 0).toLocaleString()}
-          </p>
 
-          <p>
-            ${escapeHTML(p.description || "")}
-          </p>
+box.innerHTML=
+data.map(p=>{
 
-          <p>
-            <strong>Stock:</strong> ${stock}
-          </p>
+const stock=
+Number(
+p.stock_quantity || 0
+);
 
-        </div>
 
-        <button
-          class="delete"
-          onclick="deleteProduct(${p.id})"
-        >
-          Delete
-        </button>
+return `
 
-      </div>
+<div class="product">
 
-    `;
+${
+p.image_url
+?
+`<img
+src="${escapeHTML(p.image_url)}"
+alt="${escapeHTML(p.name)}"
+>`
+:
+""
+}
 
-  }).join("");
+
+<div class="product-info">
+
+<h3>
+${escapeHTML(p.name)}
+</h3>
+
+<p>
+${escapeHTML(
+p.category || ""
+)}
+</p>
+
+<p>
+PKR ${
+Number(
+p.price || 0
+).toLocaleString()
+}
+</p>
+
+<p>
+${escapeHTML(
+p.description || ""
+)}
+</p>
+
+<p>
+<strong>
+Stock:
+</strong>
+${stock}
+</p>
+
+</div>
+
+
+<button
+class="delete"
+onclick="deleteProduct(${p.id})"
+>
+Delete
+</button>
+
+</div>
+
+`;
+
+}).join("");
 
 }
 
@@ -367,255 +441,292 @@ async function loadProducts(){
 
 async function addProduct(){
 
-  const name =
-    document.getElementById("name")
-      .value
-      .trim();
+const name=
+document
+.getElementById("name")
+.value
+.trim();
 
-  const category =
-    document.getElementById("category")
-      .value;
 
-  const price =
-    document.getElementById("price")
-      .value;
+const category=
+document
+.getElementById("category")
+.value;
 
-  const description =
-    document.getElementById("description")
-      .value
-      .trim();
 
-  const fileInput =
-    document.getElementById("imageFile");
+const price=
+document
+.getElementById("price")
+.value;
 
-  const file =
-    fileInput.files[0];
 
-  const stock =
-    document.getElementById("stockQuantity")
-      .value;
+const description=
+document
+.getElementById("description")
+.value
+.trim();
 
-  const status =
-    document.getElementById("status");
 
-  const publishButton =
-    document.getElementById("publishButton");
+const fileInput=
+document
+.getElementById("imageFile");
 
 
-  /* VALIDATION */
+const file=
+fileInput.files[0];
 
-  if(!name){
 
-    status.textContent =
-      "Please enter a product name.";
+const stock=
+document
+.getElementById("stockQuantity")
+.value;
 
-    return;
-  }
 
+const status=
+document
+.getElementById("status");
 
-  if(!price || Number(price) < 0){
 
-    status.textContent =
-      "Please enter a valid price.";
+const publishButton=
+document
+.getElementById(
+"publishButton"
+);
 
-    return;
-  }
 
+if(!name){
 
-  if(!file){
+status.textContent=
+"Please enter a product name.";
 
-    status.textContent =
-      "Please choose a product image.";
+return;
+}
 
-    return;
-  }
 
+if(!price){
 
-  if(stock === "" || Number(stock) < 0){
+status.textContent=
+"Please enter a valid price.";
 
-    status.textContent =
-      "Please enter a valid stock quantity.";
+return;
+}
 
-    return;
-  }
 
+if(!file){
 
-  /* CHECK FILE TYPE */
+status.textContent=
+"Please choose a product image.";
 
-  if(!file.type.startsWith("image/")){
+return;
+}
 
-    status.textContent =
-      "Please select an image file.";
 
-    return;
-  }
+if(stock==="" || Number(stock)<0){
 
+status.textContent=
+"Please enter a valid stock quantity.";
 
-  /* CHECK FILE SIZE */
+return;
+}
 
-  if(file.size > 5 * 1024 * 1024){
 
-    status.textContent =
-      "Image must be smaller than 5MB.";
+if(!file.type.startsWith("image/")){
 
-    return;
-  }
+status.textContent=
+"Please select an image file.";
 
+return;
+}
 
-  publishButton.disabled = true;
 
-  status.textContent =
-    "Uploading image...";
+if(file.size>5*1024*1024){
 
+status.textContent=
+"Image must be smaller than 5MB.";
 
-  try{
+return;
+}
 
-    /*
-      CREATE UNIQUE FILE NAME
-    */
 
-    const extension =
-      file.name
-        .split(".")
-        .pop()
-        .toLowerCase();
+publishButton.disabled=true;
 
-    const fileName =
-      Date.now()
-      + "-"
-      + Math.random()
-          .toString(36)
-          .substring(2,10)
-      + "."
-      + extension;
+status.textContent=
+"Uploading image...";
 
 
-    /*
-      UPLOAD TO SUPABASE STORAGE
-    */
+try{
 
-    const { error: uploadError } =
-      await db.storage
-        .from("product-images")
-        .upload(
-          fileName,
-          file,
-          {
-            cacheControl:"3600",
-            upsert:false,
-            contentType:file.type
-          }
-        );
 
+const extension=
+file.name
+.split(".")
+.pop()
+.toLowerCase();
 
-    if(uploadError){
 
-      throw new Error(
-        "Image upload failed: "
-        + uploadError.message
-      );
+const fileName=
+Date.now()
++
+"-"
++
+Math.random()
+.toString(36)
+.substring(2,10)
++
+"."
++
+extension;
 
-    }
 
+/* UPLOAD IMAGE */
 
-    /*
-      GET PUBLIC IMAGE URL
-    */
+const {
+error:uploadError
+}=
+await db.storage
+.from("product-images")
+.upload(
+fileName,
+file,
+{
+cacheControl:"3600",
+upsert:false,
+contentType:file.type
+}
+);
 
-    const { data: publicUrlData } =
-      db.storage
-        .from("product-images")
-        .getPublicUrl(fileName);
 
+if(uploadError){
 
-    const imageUrl =
-      publicUrlData.publicUrl;
+throw new Error(
+"Image upload failed: "
++
+uploadError.message
+);
 
+}
 
-    status.textContent =
-      "Saving product...";
 
+/* GET IMAGE URL */
 
-    /*
-      SAVE PRODUCT TO DATABASE
-    */
+const {
+data:publicUrlData
+}=
+db.storage
+.from("product-images")
+.getPublicUrl(
+fileName
+);
 
-    const { error: productError } =
-      await db
-        .from("products")
-        .insert({
 
-          name:name,
+const imageUrl=
+publicUrlData.publicUrl;
 
-          category:category,
 
-          price:Number(price),
+status.textContent=
+"Saving product...";
 
-          description:description,
 
-          image_url:imageUrl,
+/* SAVE PRODUCT */
 
-          stock_quantity:Number(stock)
+const {
+error:productError
+}=
+await db
+.from("products")
+.insert({
 
-        });
+name:name,
 
+category:category,
 
-    if(productError){
+price:Number(price),
 
-      /*
-        IF DATABASE INSERT FAILS,
-        REMOVE THE UPLOADED IMAGE
-      */
+description:description,
 
-      await db.storage
-        .from("product-images")
-        .remove([fileName]);
+image_url:imageUrl,
 
-      throw new Error(
-        "Product could not be saved: "
-        + productError.message
-      );
+stock_quantity:Number(stock)
 
-    }
+});
 
 
-    /*
-      SUCCESS
-    */
+if(productError){
 
-    document.getElementById("name").value = "";
+await db.storage
+.from("product-images")
+.remove([
+fileName
+]);
 
-    document.getElementById("price").value = "";
+throw new Error(
+"Product could not be saved: "
++
+productError.message
+);
 
-    document.getElementById("description").value = "";
+}
 
-    document.getElementById("imageFile").value = "";
 
-    document.getElementById("stockQuantity").value = "0";
+/* CLEAR FORM */
 
-    document.getElementById("imagePreview").style.display = "none";
+document
+.getElementById("name")
+.value="";
 
-    document.getElementById("imagePreview").src = "";
+document
+.getElementById("price")
+.value="";
 
+document
+.getElementById("description")
+.value="";
 
-    status.textContent =
-      "✅ Product published successfully!";
+document
+.getElementById("imageFile")
+.value="";
 
+document
+.getElementById(
+"stockQuantity"
+)
+.value="0";
 
-    await loadProducts();
 
+document
+.getElementById(
+"imagePreview"
+)
+.style.display="none";
 
-  }catch(error){
 
-    console.error(error);
+document
+.getElementById(
+"imagePreview"
+)
+.src="";
 
-    status.textContent =
-      "❌ " + error.message;
 
-  }
+status.textContent=
+"✅ Product published successfully!";
 
 
-  publishButton.disabled = false;
+await loadProducts();
+
+
+}catch(error){
+
+console.error(error);
+
+status.textContent=
+"❌ "
++
+error.message;
+
+}
+
+
+publishButton.disabled=false;
 
 }
 
@@ -624,107 +735,138 @@ async function addProduct(){
 
 async function deleteProduct(id){
 
-  if(!confirm("Delete this product?")){
+if(!confirm(
+"Delete this product?"
+)){
 
-    return;
-
-  }
-
-
-  const { data: product, error: findError } =
-    await db
-      .from("products")
-      .select("image_url")
-      .eq("id", id)
-      .single();
+return;
+}
 
 
-  if(findError){
-
-    alert(findError.message);
-
-    return;
-  }
-
-
-  const { error } =
-    await db
-      .from("products")
-      .delete()
-      .eq("id", id);
+const {
+data:product,
+error:findError
+}=
+await db
+.from("products")
+.select("image_url")
+.eq("id",id)
+.single();
 
 
-  if(error){
+if(findError){
 
-    alert(error.message);
+alert(
+findError.message
+);
 
-    return;
-  }
-
-
-  /*
-    TRY TO REMOVE IMAGE FROM STORAGE
-  */
-
-  if(product && product.image_url){
-
-    try{
-
-      const url =
-        new URL(product.image_url);
-
-      const marker =
-        "/storage/v1/object/public/product-images/";
-
-      const index =
-        url.pathname.indexOf(marker);
-
-      if(index !== -1){
-
-        const fileName =
-          url.pathname
-            .substring(
-              index + marker.length
-            );
-
-        await db.storage
-          .from("product-images")
-          .remove([fileName]);
-
-      }
-
-    }catch(e){
-
-      console.log(
-        "Image cleanup skipped:",
-        e
-      );
-
-    }
-
-  }
+return;
+}
 
 
-  loadProducts();
+const {error}=
+await db
+.from("products")
+.delete()
+.eq("id",id);
+
+
+if(error){
+
+alert(error.message);
+
+return;
+}
+
+
+/* REMOVE IMAGE */
+
+if(
+product &&
+product.image_url
+){
+
+try{
+
+const url=
+new URL(
+product.image_url
+);
+
+
+const marker=
+"/storage/v1/object/public/product-images/";
+
+
+const index=
+url.pathname.indexOf(
+marker
+);
+
+
+if(index!==-1){
+
+const fileName=
+url.pathname.substring(
+index+marker.length
+);
+
+
+await db.storage
+.from("product-images")
+.remove([
+fileName
+]);
+
+}
+
+}catch(e){
+
+console.log(
+"Image cleanup skipped:",
+e
+);
+
+}
 
 }
 
 
-/* SECURITY */
+loadProducts();
+
+}
+
+
+/* ESCAPE HTML */
 
 function escapeHTML(text){
 
-  return String(text)
+return String(text)
 
-    .replaceAll("&","&amp;")
+.replaceAll(
+"&",
+"&amp;"
+)
 
-    .replaceAll("<","&lt;")
+.replaceAll(
+"<",
+"&lt;"
+)
 
-    .replaceAll(">","&gt;")
+.replaceAll(
+">",
+"&gt;"
+)
 
-    .replaceAll('"',"&quot;")
+.replaceAll(
+'"',
+"&quot;"
+)
 
-    .replaceAll("'","&#039;");
+.replaceAll(
+"'",
+"&#039;"
+);
 
 }
 
