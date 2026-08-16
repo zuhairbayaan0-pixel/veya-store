@@ -10,147 +10,199 @@
 <script src="supabase-config.js"></script>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f5f5f2;
-color:#171717
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f5f2;
+  color:#171717;
 }
 
 header{
-background:#171717;
-color:white;
-padding:22px 6%;
-display:flex;
-justify-content:space-between;
-align-items:center
+  background:#171717;
+  color:white;
+  padding:22px 6%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
 .logo{
-font-size:24px;
-font-weight:bold;
-letter-spacing:6px
+  font-size:24px;
+  font-weight:bold;
+  letter-spacing:6px;
 }
 
 header a{
-color:white
+  color:white;
 }
 
 .container{
-max-width:900px;
-margin:40px auto;
-padding:0 20px
+  max-width:900px;
+  margin:40px auto;
+  padding:0 20px;
 }
 
 .card{
-background:white;
-padding:30px;
-border-radius:12px;
-margin-bottom:25px;
-box-shadow:0 3px 15px #0000000f
+  background:white;
+  padding:30px;
+  border-radius:12px;
+  margin-bottom:25px;
+  box-shadow:0 3px 15px #0000000f;
 }
 
 h1{
-margin-top:0
+  margin-top:0;
 }
 
 label{
-display:block;
-font-weight:bold;
-margin-top:18px;
-margin-bottom:7px
+  display:block;
+  font-weight:bold;
+  margin-top:18px;
+  margin-bottom:7px;
 }
 
 input,
 textarea,
 select{
-width:100%;
-padding:13px;
-border:1px solid #ccc;
-border-radius:6px;
-font-size:15px
+  width:100%;
+  padding:13px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:15px;
 }
 
 input[type="file"]{
-background:#fafafa;
-cursor:pointer
+  background:#fafafa;
+  cursor:pointer;
 }
 
 textarea{
-min-height:100px;
-resize:vertical
+  min-height:100px;
+  resize:vertical;
+}
+
+.help{
+  font-size:13px;
+  color:#777;
+  margin-top:7px;
+}
+
+.preview-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:15px;
+}
+
+.preview-box{
+  position:relative;
+}
+
+.preview-box img{
+  width:100%;
+  height:130px;
+  object-fit:cover;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+
+.preview-number{
+  position:absolute;
+  top:6px;
+  left:6px;
+  background:#171717;
+  color:white;
+  padding:4px 7px;
+  border-radius:5px;
+  font-size:12px;
 }
 
 button{
-border:0;
-border-radius:6px;
-padding:13px 20px;
-cursor:pointer;
-font-weight:bold
+  border:0;
+  border-radius:6px;
+  padding:13px 20px;
+  cursor:pointer;
+  font-weight:bold;
 }
 
 .publish{
-background:#171717;
-color:white;
-width:100%;
-margin-top:22px
+  background:#171717;
+  color:white;
+  width:100%;
+  margin-top:22px;
 }
 
 .publish:disabled{
-opacity:.6;
-cursor:not-allowed
+  opacity:.6;
+  cursor:not-allowed;
 }
 
 .product{
-border:1px solid #ddd;
-padding:15px;
-margin-top:15px;
-border-radius:8px;
-display:flex;
-justify-content:space-between;
-gap:15px
+  border:1px solid #ddd;
+  padding:15px;
+  margin-top:15px;
+  border-radius:8px;
+  display:flex;
+  gap:15px;
 }
 
-.product img{
-width:80px;
-height:80px;
-object-fit:cover;
-border-radius:6px
+.product-images{
+  display:flex;
+  gap:5px;
+  flex-wrap:wrap;
+  width:180px;
+  flex-shrink:0;
+}
+
+.product-images img{
+  width:55px;
+  height:55px;
+  object-fit:cover;
+  border-radius:5px;
 }
 
 .product-info{
-flex:1
+  flex:1;
 }
 
 .product h3{
-margin:0 0 7px
+  margin:0 0 7px;
 }
 
 .product p{
-margin:5px 0;
-color:#777
+  margin:5px 0;
+  color:#777;
 }
 
 .delete{
-background:#eee;
-height:max-content
+  background:#eee;
+  height:max-content;
 }
 
 .status{
-margin-top:15px;
-color:#666
+  margin-top:15px;
+  color:#666;
 }
 
-.preview{
-display:none;
-margin-top:12px;
-width:120px;
-height:120px;
-object-fit:cover;
-border-radius:8px;
-border:1px solid #ddd
+@media(max-width:600px){
+
+  .preview-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .product{
+    display:block;
+  }
+
+  .product-images{
+    width:100%;
+    margin-bottom:12px;
+  }
+
 }
 </style>
 </head>
@@ -216,20 +268,24 @@ placeholder="Describe your product..."
 ></textarea>
 
 
-<label>Product Image</label>
+<label>Product Images</label>
 
 <input
-id="imageFile"
+id="imageFiles"
 type="file"
 accept="image/*"
+multiple
 >
 
+<div class="help">
+Choose up to 6 images. The first image will be the main product image.
+</div>
 
-<img
-id="imagePreview"
-class="preview"
-alt="Image preview"
->
+
+<div
+id="previewGrid"
+class="preview-grid">
+</div>
 
 
 <label>Stock Quantity</label>
@@ -253,8 +309,8 @@ PUBLISH PRODUCT
 
 
 <div
-class="status"
-id="status">
+id="status"
+class="status">
 </div>
 
 </div>
@@ -278,161 +334,259 @@ Loading...
 
 const db =
 supabase.createClient(
-window.SUPABASE_URL,
-window.SUPABASE_KEY
+  window.SUPABASE_URL,
+  window.SUPABASE_KEY
 );
 
 
-/* IMAGE PREVIEW */
+/* SELECTED IMAGE PREVIEWS */
 
 document
-.getElementById("imageFile")
-.addEventListener(
-"change",
-function(){
+.getElementById("imageFiles")
+.addEventListener("change", function(){
 
-const file=this.files[0];
+  const files =
+    Array.from(this.files);
 
-const preview=
-document.getElementById(
-"imagePreview"
-);
+  const previewGrid =
+    document.getElementById(
+      "previewGrid"
+    );
 
-if(!file){
+  previewGrid.innerHTML = "";
 
-preview.style.display="none";
 
-preview.src="";
+  if(files.length > 6){
 
-return;
-}
+    alert(
+      "You can select a maximum of 6 images."
+    );
 
-preview.src=
-URL.createObjectURL(file);
+    this.value = "";
 
-preview.style.display="block";
+    return;
+  }
 
-}
-);
+
+  files.forEach((file,index)=>{
+
+    if(!file.type.startsWith("image/")){
+      return;
+    }
+
+
+    const box =
+      document.createElement("div");
+
+    box.className =
+      "preview-box";
+
+
+    const img =
+      document.createElement("img");
+
+    img.src =
+      URL.createObjectURL(file);
+
+
+    const number =
+      document.createElement("div");
+
+    number.className =
+      "preview-number";
+
+    number.textContent =
+      "Image " + (index + 1);
+
+
+    box.appendChild(img);
+
+    box.appendChild(number);
+
+    previewGrid.appendChild(box);
+
+  });
+
+});
 
 
 /* LOAD PRODUCTS */
 
 async function loadProducts(){
 
-const box=
-document.getElementById(
-"products"
-);
+  const box =
+    document.getElementById(
+      "products"
+    );
 
-box.innerHTML="Loading...";
-
-
-const {data,error}=
-await db
-.from("products")
-.select("*")
-.order(
-"created_at",
-{ascending:false}
-);
+  box.innerHTML =
+    "Loading...";
 
 
-if(error){
-
-box.innerHTML=
-"<p>Could not load products: "
-+
-escapeHTML(error.message)
-+
-"</p>";
-
-return;
-}
-
-
-if(!data || !data.length){
-
-box.innerHTML=
-"<p>No products yet.</p>";
-
-return;
-}
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("products")
+      .select("*")
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
 
-box.innerHTML=
-data.map(p=>{
+  if(error){
 
-const stock=
-Number(
-p.stock_quantity || 0
-);
+    box.innerHTML =
+      "<p>Could not load products: "
+      +
+      escapeHTML(
+        error.message
+      )
+      +
+      "</p>";
 
-
-return `
-
-<div class="product">
-
-${
-p.image_url
-?
-`<img
-src="${escapeHTML(p.image_url)}"
-alt="${escapeHTML(p.name)}"
->`
-:
-""
-}
+    return;
+  }
 
 
-<div class="product-info">
+  if(!data || !data.length){
 
-<h3>
-${escapeHTML(p.name)}
-</h3>
+    box.innerHTML =
+      "<p>No products yet.</p>";
 
-<p>
-${escapeHTML(
-p.category || ""
-)}
-</p>
-
-<p>
-PKR ${
-Number(
-p.price || 0
-).toLocaleString()
-}
-</p>
-
-<p>
-${escapeHTML(
-p.description || ""
-)}
-</p>
-
-<p>
-<strong>
-Stock:
-</strong>
-${stock}
-</p>
-
-</div>
+    return;
+  }
 
 
-<button
-class="delete"
-onclick="deleteProduct(${p.id})"
->
-Delete
-</button>
+  box.innerHTML =
+    data.map(p=>{
 
-</div>
+      let images = [];
 
-`;
+      try{
 
-}).join("");
+        if(
+          Array.isArray(
+            p.image_urls
+          )
+        ){
+
+          images =
+            p.image_urls;
+
+        }else if(
+          typeof p.image_urls ===
+          "string"
+        ){
+
+          images =
+            JSON.parse(
+              p.image_urls
+            );
+
+        }
+
+      }catch(e){
+
+        images = [];
+
+      }
+
+
+      if(
+        !images.length &&
+        p.image_url
+      ){
+
+        images =
+          [p.image_url];
+
+      }
+
+
+      const stock =
+        Number(
+          p.stock_quantity || 0
+        );
+
+
+      return `
+
+      <div class="product">
+
+        <div class="product-images">
+
+          ${
+            images.map(url=>`
+
+              <img
+                src="${escapeHTML(url)}"
+                alt="${escapeHTML(p.name)}"
+              >
+
+            `).join("")
+          }
+
+        </div>
+
+
+        <div class="product-info">
+
+          <h3>
+            ${escapeHTML(p.name)}
+          </h3>
+
+          <p>
+            ${escapeHTML(
+              p.category || ""
+            )}
+          </p>
+
+          <p>
+            PKR ${
+              Number(
+                p.price || 0
+              ).toLocaleString()
+            }
+          </p>
+
+          <p>
+            ${escapeHTML(
+              p.description || ""
+            )}
+          </p>
+
+          <p>
+            <strong>
+              Stock:
+            </strong>
+            ${stock}
+          </p>
+
+          <p>
+            <strong>
+              Images:
+            </strong>
+            ${images.length}
+          </p>
+
+        </div>
+
+
+        <button
+          class="delete"
+          onclick="deleteProduct(${p.id})"
+        >
+          Delete
+        </button>
+
+      </div>
+
+      `;
+
+    }).join("");
 
 }
 
@@ -441,292 +595,380 @@ Delete
 
 async function addProduct(){
 
-const name=
-document
-.getElementById("name")
-.value
-.trim();
+  const name =
+    document
+      .getElementById("name")
+      .value
+      .trim();
 
 
-const category=
-document
-.getElementById("category")
-.value;
+  const category =
+    document
+      .getElementById("category")
+      .value;
 
 
-const price=
-document
-.getElementById("price")
-.value;
+  const price =
+    document
+      .getElementById("price")
+      .value;
 
 
-const description=
-document
-.getElementById("description")
-.value
-.trim();
+  const description =
+    document
+      .getElementById("description")
+      .value
+      .trim();
 
 
-const fileInput=
-document
-.getElementById("imageFile");
+  const fileInput =
+    document.getElementById(
+      "imageFiles"
+    );
 
 
-const file=
-fileInput.files[0];
+  const files =
+    Array.from(
+      fileInput.files
+    );
 
 
-const stock=
-document
-.getElementById("stockQuantity")
-.value;
+  const stock =
+    document
+      .getElementById(
+        "stockQuantity"
+      )
+      .value;
 
 
-const status=
-document
-.getElementById("status");
+  const status =
+    document.getElementById(
+      "status"
+    );
 
 
-const publishButton=
-document
-.getElementById(
-"publishButton"
-);
+  const publishButton =
+    document.getElementById(
+      "publishButton"
+    );
 
 
-if(!name){
+  /* VALIDATION */
 
-status.textContent=
-"Please enter a product name.";
+  if(!name){
 
-return;
-}
+    status.textContent =
+      "Please enter a product name.";
 
+    return;
+  }
 
-if(!price){
 
-status.textContent=
-"Please enter a valid price.";
+  if(
+    !price ||
+    Number(price) < 0
+  ){
 
-return;
-}
+    status.textContent =
+      "Please enter a valid price.";
 
+    return;
+  }
 
-if(!file){
 
-status.textContent=
-"Please choose a product image.";
+  if(!files.length){
 
-return;
-}
+    status.textContent =
+      "Please choose at least one image.";
 
+    return;
+  }
 
-if(stock==="" || Number(stock)<0){
 
-status.textContent=
-"Please enter a valid stock quantity.";
+  if(files.length > 6){
 
-return;
-}
+    status.textContent =
+      "You can upload a maximum of 6 images.";
 
+    return;
+  }
 
-if(!file.type.startsWith("image/")){
 
-status.textContent=
-"Please select an image file.";
+  if(
+    stock === "" ||
+    Number(stock) < 0
+  ){
 
-return;
-}
+    status.textContent =
+      "Please enter a valid stock quantity.";
 
+    return;
+  }
 
-if(file.size>5*1024*1024){
 
-status.textContent=
-"Image must be smaller than 5MB.";
+  for(const file of files){
 
-return;
-}
+    if(
+      !file.type.startsWith(
+        "image/"
+      )
+    ){
 
+      status.textContent =
+        "Only image files are allowed.";
 
-publishButton.disabled=true;
+      return;
+    }
 
-status.textContent=
-"Uploading image...";
 
+    if(
+      file.size >
+      5 * 1024 * 1024
+    ){
 
-try{
+      status.textContent =
+        "Each image must be smaller than 5MB.";
 
+      return;
+    }
 
-const extension=
-file.name
-.split(".")
-.pop()
-.toLowerCase();
+  }
 
 
-const fileName=
-Date.now()
-+
-"-"
-+
-Math.random()
-.toString(36)
-.substring(2,10)
-+
-"."
-+
-extension;
+  publishButton.disabled =
+    true;
 
 
-/* UPLOAD IMAGE */
+  status.textContent =
+    "Uploading images...";
 
-const {
-error:uploadError
-}=
-await db.storage
-.from("product-images")
-.upload(
-fileName,
-file,
-{
-cacheControl:"3600",
-upsert:false,
-contentType:file.type
-}
-);
 
+  const uploadedUrls = [];
 
-if(uploadError){
+  const uploadedFiles = [];
 
-throw new Error(
-"Image upload failed: "
-+
-uploadError.message
-);
 
-}
+  try{
 
+    /* UPLOAD ALL IMAGES */
 
-/* GET IMAGE URL */
+    for(
+      let i = 0;
+      i < files.length;
+      i++
+    ){
 
-const {
-data:publicUrlData
-}=
-db.storage
-.from("product-images")
-.getPublicUrl(
-fileName
-);
+      const file =
+        files[i];
 
 
-const imageUrl=
-publicUrlData.publicUrl;
+      const extension =
+        file.name
+          .split(".")
+          .pop()
+          .toLowerCase();
 
 
-status.textContent=
-"Saving product...";
+      const fileName =
+        Date.now()
+        +
+        "-"
+        +
+        i
+        +
+        "-"
+        +
+        Math.random()
+          .toString(36)
+          .substring(2,10)
+        +
+        "."
+        +
+        extension;
 
 
-/* SAVE PRODUCT */
+      status.textContent =
+        "Uploading image "
+        +
+        (i + 1)
+        +
+        " of "
+        +
+        files.length
+        +
+        "...";
 
-const {
-error:productError
-}=
-await db
-.from("products")
-.insert({
 
-name:name,
+      const {
+        error:uploadError
+      } =
+        await db.storage
+          .from("product-images")
+          .upload(
+            fileName,
+            file,
+            {
+              cacheControl:"3600",
+              upsert:false,
+              contentType:file.type
+            }
+          );
 
-category:category,
 
-price:Number(price),
+      if(uploadError){
 
-description:description,
+        throw new Error(
+          "Image upload failed: "
+          +
+          uploadError.message
+        );
 
-image_url:imageUrl,
+      }
 
-stock_quantity:Number(stock)
 
-});
+      uploadedFiles.push(
+        fileName
+      );
 
 
-if(productError){
+      const {
+        data:publicUrlData
+      } =
+        db.storage
+          .from("product-images")
+          .getPublicUrl(
+            fileName
+          );
 
-await db.storage
-.from("product-images")
-.remove([
-fileName
-]);
 
-throw new Error(
-"Product could not be saved: "
-+
-productError.message
-);
+      uploadedUrls.push(
+        publicUrlData.publicUrl
+      );
 
-}
+    }
 
 
-/* CLEAR FORM */
+    status.textContent =
+      "Saving product...";
 
-document
-.getElementById("name")
-.value="";
 
-document
-.getElementById("price")
-.value="";
+    /* SAVE PRODUCT */
 
-document
-.getElementById("description")
-.value="";
+    const {
+      error:productError
+    } =
+      await db
+        .from("products")
+        .insert({
 
-document
-.getElementById("imageFile")
-.value="";
+          name:name,
 
-document
-.getElementById(
-"stockQuantity"
-)
-.value="0";
+          category:category,
 
+          price:Number(price),
 
-document
-.getElementById(
-"imagePreview"
-)
-.style.display="none";
+          description:description,
 
+          image_url:
+            uploadedUrls[0],
 
-document
-.getElementById(
-"imagePreview"
-)
-.src="";
+          image_urls:
+            uploadedUrls,
 
+          stock_quantity:
+            Number(stock)
 
-status.textContent=
-"✅ Product published successfully!";
+        });
 
 
-await loadProducts();
+    if(productError){
 
+      /* DELETE UPLOADED IMAGES
+         IF PRODUCT SAVE FAILS */
 
-}catch(error){
+      if(
+        uploadedFiles.length
+      ){
 
-console.error(error);
+        await db.storage
+          .from("product-images")
+          .remove(
+            uploadedFiles
+          );
 
-status.textContent=
-"❌ "
-+
-error.message;
+      }
 
-}
 
+      throw new Error(
+        "Product could not be saved: "
+        +
+        productError.message
+      );
 
-publishButton.disabled=false;
+    }
+
+
+    /* CLEAR FORM */
+
+    document
+      .getElementById("name")
+      .value = "";
+
+
+    document
+      .getElementById("price")
+      .value = "";
+
+
+    document
+      .getElementById(
+        "description"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "imageFiles"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "stockQuantity"
+      )
+      .value = "0";
+
+
+    document
+      .getElementById(
+        "previewGrid"
+      )
+      .innerHTML = "";
+
+
+    status.textContent =
+      "✅ Product published successfully!";
+
+
+    await loadProducts();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    status.textContent =
+      "❌ "
+      +
+      error.message;
+
+  }
+
+
+  publishButton.disabled =
+    false;
 
 }
 
@@ -735,104 +977,163 @@ publishButton.disabled=false;
 
 async function deleteProduct(id){
 
-if(!confirm(
-"Delete this product?"
-)){
+  if(
+    !confirm(
+      "Delete this product?"
+    )
+  ){
 
-return;
-}
-
-
-const {
-data:product,
-error:findError
-}=
-await db
-.from("products")
-.select("image_url")
-.eq("id",id)
-.single();
+    return;
+  }
 
 
-if(findError){
-
-alert(
-findError.message
-);
-
-return;
-}
-
-
-const {error}=
-await db
-.from("products")
-.delete()
-.eq("id",id);
+  const {
+    data:product,
+    error:findError
+  } =
+    await db
+      .from("products")
+      .select(
+        "image_url,image_urls"
+      )
+      .eq("id",id)
+      .single();
 
 
-if(error){
+  if(findError){
 
-alert(error.message);
+    alert(
+      findError.message
+    );
 
-return;
-}
-
-
-/* REMOVE IMAGE */
-
-if(
-product &&
-product.image_url
-){
-
-try{
-
-const url=
-new URL(
-product.image_url
-);
+    return;
+  }
 
 
-const marker=
-"/storage/v1/object/public/product-images/";
+  const {
+    error
+  } =
+    await db
+      .from("products")
+      .delete()
+      .eq("id",id);
 
 
-const index=
-url.pathname.indexOf(
-marker
-);
+  if(error){
+
+    alert(
+      error.message
+    );
+
+    return;
+  }
 
 
-if(index!==-1){
+  /* TRY TO DELETE IMAGES */
 
-const fileName=
-url.pathname.substring(
-index+marker.length
-);
+  try{
 
-
-await db.storage
-.from("product-images")
-.remove([
-fileName
-]);
-
-}
-
-}catch(e){
-
-console.log(
-"Image cleanup skipped:",
-e
-);
-
-}
-
-}
+    let urls = [];
 
 
-loadProducts();
+    if(
+      Array.isArray(
+        product.image_urls
+      )
+    ){
+
+      urls =
+        product.image_urls;
+
+    }else if(
+      typeof product.image_urls ===
+      "string"
+    ){
+
+      urls =
+        JSON.parse(
+          product.image_urls
+        );
+
+    }
+
+
+    if(
+      !urls.length &&
+      product.image_url
+    ){
+
+      urls =
+        [product.image_url];
+
+    }
+
+
+    const filesToDelete = [];
+
+
+    urls.forEach(url=>{
+
+      try{
+
+        const parsed =
+          new URL(url);
+
+
+        const marker =
+          "/storage/v1/object/public/product-images/";
+
+
+        const index =
+          parsed.pathname.indexOf(
+            marker
+          );
+
+
+        if(index !== -1){
+
+          filesToDelete.push(
+            parsed.pathname.substring(
+              index + marker.length
+            )
+          );
+
+        }
+
+      }catch(e){
+
+        console.log(
+          "Could not parse image URL"
+        );
+
+      }
+
+    });
+
+
+    if(
+      filesToDelete.length
+    ){
+
+      await db.storage
+        .from("product-images")
+        .remove(
+          filesToDelete
+        );
+
+    }
+
+  }catch(e){
+
+    console.log(
+      "Image cleanup skipped:",
+      e
+    );
+
+  }
+
+
+  loadProducts();
 
 }
 
@@ -841,32 +1142,32 @@ loadProducts();
 
 function escapeHTML(text){
 
-return String(text)
+  return String(text)
 
-.replaceAll(
-"&",
-"&amp;"
-)
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
 
-.replaceAll(
-"<",
-"&lt;"
-)
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
 
-.replaceAll(
-">",
-"&gt;"
-)
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
 
-.replaceAll(
-'"',
-"&quot;"
-)
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
 
-.replaceAll(
-"'",
-"&#039;"
-);
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 
 }
 
