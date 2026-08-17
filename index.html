@@ -4,38 +4,37 @@
 
 <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>VEYA — Fashion & Accessories</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script src="supabase-config.js"></script>
-
 
 <style>
 
 *{
-box-sizing:border-box
+box-sizing:border-box;
 }
 
 body{
 margin:0;
 font-family:Arial,sans-serif;
 background:#f7f5f0;
-color:#171717
+color:#171717;
+}
+
+button,input,textarea{
+font-family:inherit;
+}
+
+button{
+cursor:pointer;
 }
 
 a{
 text-decoration:none;
-color:inherit
-}
-
-button{
-font-family:inherit
+color:inherit;
 }
 
 
@@ -51,18 +50,18 @@ padding:0 6%;
 position:sticky;
 top:0;
 background:#f7f5f0;
-z-index:10
+z-index:10;
 }
 
 .logo{
 font-size:25px;
 font-weight:900;
-letter-spacing:7px
+letter-spacing:7px;
 }
 
 .nav{
 display:flex;
-gap:25px
+gap:25px;
 }
 
 .cart{
@@ -71,7 +70,6 @@ color:white;
 border:0;
 border-radius:25px;
 padding:11px 18px;
-cursor:pointer
 }
 
 
@@ -85,35 +83,31 @@ background:linear-gradient(
 #ddd7cc,
 #f7f5f0,
 #dce0dc
-)
+);
 }
 
 .hero small{
 letter-spacing:5px;
-color:#666
+color:#666;
 }
 
 .hero h1{
-font-size:clamp(
-60px,
-10vw,
-115px
-);
+font-size:clamp(60px,10vw,115px);
 line-height:.85;
 letter-spacing:-6px;
-margin:22px 0
+margin:22px 0;
 }
 
 .hero i{
 font-family:Georgia;
-font-weight:400
+font-weight:400;
 }
 
 .hero p{
 max-width:550px;
 margin:auto;
 color:#666;
-line-height:1.6
+line-height:1.6;
 }
 
 .shopbtn{
@@ -123,7 +117,7 @@ background:#171717;
 color:white;
 padding:14px 24px;
 border-radius:30px;
-font-weight:bold
+font-weight:bold;
 }
 
 
@@ -133,7 +127,7 @@ font-weight:bold
 padding:45px 7% 10px;
 display:flex;
 gap:10px;
-flex-wrap:wrap
+flex-wrap:wrap;
 }
 
 .cat{
@@ -141,56 +135,55 @@ border:1px solid #bbb;
 background:none;
 border-radius:25px;
 padding:10px 18px;
-cursor:pointer
 }
 
 .cat.active{
 background:#171717;
-color:white
+color:white;
 }
 
 
 /* SHOP */
 
 .shop{
-padding:25px 7% 90px
+padding:25px 7% 90px;
 }
 
 .heading{
 display:flex;
 justify-content:space-between;
 align-items:end;
-margin-bottom:30px
+margin-bottom:30px;
 }
 
 .heading h2{
 font-size:46px;
-margin:8px 0
+margin:8px 0;
 }
 
 .search{
 padding:12px 18px;
 border:1px solid #ccc;
 border-radius:25px;
-width:240px
+width:240px;
 }
 
 .grid{
 display:grid;
 grid-template-columns:repeat(4,1fr);
-gap:18px
+gap:18px;
 }
 
 .product{
 background:white;
 border:1px solid #ddd;
 cursor:pointer;
-transition:.2s
+transition:.2s;
 }
 
 .product:hover{
 transform:translateY(-3px);
-box-shadow:0 8px 25px #00000012
+box-shadow:0 8px 25px #00000012;
 }
 
 .image{
@@ -199,58 +192,58 @@ background:#e8e5de;
 overflow:hidden;
 display:flex;
 align-items:center;
-justify-content:center
+justify-content:center;
 }
 
 .image img{
 width:100%;
 height:100%;
-object-fit:cover
+object-fit:cover;
 }
 
 .placeholder{
 font-size:28px;
 color:#aaa;
 font-weight:bold;
-letter-spacing:5px
+letter-spacing:5px;
 }
 
 .info{
-padding:17px
+padding:17px;
 }
 
 .category{
 font-size:10px;
 letter-spacing:2px;
-color:#888
+color:#888;
 }
 
 .name{
 font-weight:bold;
 font-size:18px;
-margin:8px 0
+margin:8px 0;
 }
 
 .description{
 color:#777;
 font-size:13px;
-min-height:35px
+min-height:35px;
 }
 
 .price{
 font-weight:bold;
-margin-top:12px
+margin-top:12px;
 }
 
 .stock{
 font-size:13px;
+color:#666;
 margin-top:7px;
-color:#666
 }
 
-.stock.out{
+.out{
 color:#b00020;
-font-weight:bold
+font-weight:bold;
 }
 
 .add{
@@ -261,12 +254,10 @@ background:#171717;
 color:white;
 border:0;
 border-radius:5px;
-cursor:pointer
 }
 
 .add:disabled{
 background:#aaa;
-cursor:not-allowed
 }
 
 
@@ -275,23 +266,23 @@ cursor:not-allowed
 .about{
 background:#171717;
 color:white;
-padding:90px 9%
+padding:90px 9%;
 }
 
 .about h2{
-font-size:48px
+font-size:48px;
 }
 
 .about p{
 max-width:650px;
 color:#bbb;
-line-height:1.7
+line-height:1.7;
 }
 
 footer{
 padding:45px 7%;
 display:flex;
-justify-content:space-between
+justify-content:space-between;
 }
 
 
@@ -305,11 +296,11 @@ display:none;
 align-items:center;
 justify-content:center;
 padding:20px;
-z-index:50
+z-index:50;
 }
 
 .product-overlay.open{
-display:flex
+display:flex;
 }
 
 .product-modal{
@@ -320,7 +311,7 @@ overflow:auto;
 border-radius:12px;
 position:relative;
 display:grid;
-grid-template-columns:1fr 1fr
+grid-template-columns:1fr 1fr;
 }
 
 .modal-close{
@@ -334,8 +325,7 @@ border-radius:50%;
 background:#171717;
 color:white;
 font-size:24px;
-cursor:pointer;
-z-index:5
+z-index:5;
 }
 
 
@@ -343,7 +333,7 @@ z-index:5
 
 .gallery{
 padding:25px;
-background:#f5f3ee
+background:#f5f3ee;
 }
 
 .main-image{
@@ -353,20 +343,20 @@ display:flex;
 align-items:center;
 justify-content:center;
 overflow:hidden;
-border-radius:8px
+border-radius:8px;
 }
 
 .main-image img{
 width:100%;
 height:100%;
-object-fit:contain
+object-fit:contain;
 }
 
 .gallery-controls{
 display:flex;
 align-items:center;
 justify-content:space-between;
-margin-top:12px
+margin-top:12px;
 }
 
 .gallery-controls button{
@@ -374,19 +364,18 @@ border:1px solid #ccc;
 background:white;
 padding:10px 16px;
 border-radius:6px;
-cursor:pointer
 }
 
 .image-count{
 font-size:13px;
-color:#777
+color:#777;
 }
 
 .thumbnails{
 display:flex;
 gap:8px;
 margin-top:12px;
-overflow:auto
+overflow:auto;
 }
 
 .thumbnail{
@@ -395,66 +384,60 @@ height:65px;
 object-fit:cover;
 border:2px solid transparent;
 border-radius:5px;
-cursor:pointer
 }
 
 .thumbnail.active{
-border-color:#171717
+border-color:#171717;
 }
 
 
-/* MODAL INFO */
+/* PRODUCT INFO */
 
 .modal-info{
-padding:45px 35px
+padding:45px 35px;
 }
 
 .modal-category{
 font-size:11px;
 letter-spacing:3px;
-color:#888
+color:#888;
 }
 
 .modal-info h2{
 font-size:38px;
-margin:12px 0
+margin:12px 0;
 }
 
 .modal-price{
 font-size:22px;
 font-weight:bold;
-margin:20px 0
+margin:20px 0;
 }
 
 .modal-description{
 color:#666;
 line-height:1.7;
-white-space:pre-line
+white-space:pre-line;
 }
 
 .modal-stock{
 margin-top:20px;
-font-size:14px
-}
-
-.modal-stock.out{
-color:#b00020;
-font-weight:bold
+font-size:14px;
 }
 
 
-/* VARIANTS */
+/* OPTIONS */
 
 .variant-title{
 font-weight:bold;
 margin-top:22px;
-margin-bottom:8px
+margin-bottom:8px;
 }
 
 .variant-buttons{
 display:flex;
 gap:8px;
-flex-wrap:wrap
+flex-wrap:wrap;
 }
 
 .variant-button{
@@ -462,13 +445,12 @@ border:1px solid #ccc;
 background:white;
 padding:10px 15px;
 border-radius:5px;
-cursor:pointer
 }
 
 .variant-button.selected{
 background:#171717;
 color:white;
-border-color:#171717
+border-color:#171717;
 }
 
 
@@ -477,12 +459,12 @@ border-color:#171717
 .quantity-title{
 font-weight:bold;
 margin-top:25px;
-margin-bottom:8px
+margin-bottom:8px;
 }
 
 .quantity-selector{
 display:flex;
-align-items:center
+align-items:center;
 }
 
 .quantity-selector button{
@@ -491,7 +473,6 @@ height:45px;
 border:1px solid #ccc;
 background:white;
 font-size:20px;
-cursor:pointer
 }
 
 .quantity-number{
@@ -502,28 +483,37 @@ align-items:center;
 justify-content:center;
 border-top:1px solid #ccc;
 border-bottom:1px solid #ccc;
-font-weight:bold
+font-weight:bold;
 }
 
-.modal-add{
+.modal-buttons{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:20px;
+}
+
+.modal-add,
+.buy-now{
 width:100%;
 padding:15px;
-margin-top:20px;
-background:#171717;
-color:white;
 border:0;
 border-radius:6px;
 font-weight:bold;
-cursor:pointer
 }
 
-.modal-add:disabled{
-background:#aaa;
-cursor:not-allowed
+.modal-add{
+background:#171717;
+color:white;
+}
+
+.buy-now{
+background:#e8e5de;
+color:#171717;
 }
 
 
-/* CART */
+/* CART DRAWER */
 
 .overlay{
 position:fixed;
@@ -531,12 +521,12 @@ inset:0;
 background:#0008;
 opacity:0;
 pointer-events:none;
-z-index:60
+z-index:60;
 }
 
 .overlay.open{
 opacity:1;
-pointer-events:auto
+pointer-events:auto;
 }
 
 .drawer{
@@ -550,51 +540,52 @@ z-index:70;
 padding:25px;
 transition:.25s;
 display:flex;
-flex-direction:column
+flex-direction:column;
 }
 
 .drawer.open{
-right:0
+right:0;
 }
 
 .drawerhead{
 display:flex;
 justify-content:space-between;
-border-bottom:1px solid #ddd
+border-bottom:1px solid #ddd;
 }
 
 .close{
 border:0;
 background:none;
 font-size:30px;
-cursor:pointer
 }
 
 .items{
 flex:1;
-overflow:auto
+overflow:auto;
 }
 
 .item{
 padding:16px 0;
-border-bottom:1px solid #ddd
+border-bottom:1px solid #ddd;
 }
 
 .item-name{
-font-weight:bold
+font-weight:bold;
+font-size:16px;
 }
 
 .item-detail{
 font-size:13px;
 color:#666;
-margin-top:5px
+line-height:1.6;
+margin-top:5px;
 }
 
 .qty{
 display:flex;
 align-items:center;
 gap:8px;
-margin-top:10px
+margin-top:10px;
 }
 
 .qty button{
@@ -602,70 +593,175 @@ width:30px;
 height:30px;
 border:1px solid #ccc;
 background:white;
-cursor:pointer;
-border-radius:4px
-}
-
-.qty button:disabled{
-opacity:.4;
-cursor:not-allowed
+border-radius:4px;
 }
 
 .qty-number{
 min-width:25px;
 text-align:center;
-font-weight:bold
+font-weight:bold;
 }
 
-.stock-note{
+.remove{
+border:0;
+background:none;
+color:#999;
 font-size:12px;
-color:#888;
-margin-top:7px
+margin-top:8px;
 }
+
+
+/* CHECKOUT */
 
 .checkout{
 border-top:1px solid #ddd;
-padding-top:15px
+padding-top:15px;
 }
 
-.checkout input{
+.checkout h3{
+margin:5px 0 12px;
+}
+
+.checkout input,
+.checkout textarea{
 width:100%;
-padding:11px;
-margin:4px 0;
+padding:12px;
+margin:5px 0;
 border:1px solid #ccc;
-border-radius:5px
+border-radius:5px;
+}
+
+.checkout textarea{
+height:80px;
+resize:vertical;
 }
 
 .whatsapp{
 width:100%;
-padding:14px;
+padding:15px;
 background:#171717;
 color:white;
 border:0;
 margin-top:8px;
 font-weight:bold;
-cursor:pointer
+border-radius:6px;
 }
 
 
-/* MOBILE */
+/* DIRECT CHECKOUT */
+
+.checkout-overlay{
+position:fixed;
+inset:0;
+background:#0009;
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+z-index:100;
+}
+
+.checkout-overlay.open{
+display:flex;
+}
+
+.checkout-box{
+background:white;
+width:min(600px,100%);
+max-height:90vh;
+overflow:auto;
+border-radius:12px;
+padding:30px;
+position:relative;
+}
+
+.checkout-box h2{
+margin-top:0;
+}
+
+.checkout-close{
+position:absolute;
+right:15px;
+top:12px;
+border:0;
+background:none;
+font-size:28px;
+}
+
+.order-summary{
+background:#f5f3ee;
+padding:15px;
+border-radius:8px;
+margin-bottom:20px;
+}
+
+.summary-product{
+border-bottom:1px solid #ddd;
+padding:10px 0;
+}
+
+.summary-product:last-child{
+border-bottom:0;
+}
+
+.summary-total{
+font-weight:bold;
+font-size:18px;
+margin-top:12px;
+}
+
+.checkout-form label{
+display:block;
+font-weight:bold;
+font-size:13px;
+margin-top:12px;
+}
+
+.checkout-form input,
+.checkout-form textarea{
+width:100%;
+padding:12px;
+margin-top:5px;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+.checkout-form textarea{
+height:90px;
+resize:vertical;
+}
+
+.send-order{
+width:100%;
+padding:15px;
+margin-top:20px;
+border:0;
+background:#171717;
+color:white;
+border-radius:6px;
+font-weight:bold;
+font-size:15px;
+}
+
+
+/* RESPONSIVE */
 
 @media(max-width:900px){
 
 .grid{
-grid-template-columns:repeat(2,1fr)
+grid-template-columns:repeat(2,1fr);
 }
 
 .nav{
-display:none
+display:none;
 }
 
 .product-modal{
-grid-template-columns:1fr
+grid-template-columns:1fr;
 }
 
 .main-image{
-height:350px
+height:350px;
 }
 
 }
@@ -673,31 +769,35 @@ height:350px
 @media(max-width:600px){
 
 .grid{
-grid-template-columns:1fr 1fr
+grid-template-columns:1fr 1fr;
 }
 
 .image{
-height:230px
+height:230px;
 }
 
 .heading{
-display:block
+display:block;
 }
 
 .search{
-width:100%
+width:100%;
 }
 
 .modal-info{
-padding:25px
+padding:25px;
 }
 
 .modal-info h2{
-font-size:30px
+font-size:30px;
 }
 
 .main-image{
-height:300px
+height:300px;
+}
+
+.modal-buttons{
+grid-template-columns:1fr;
 }
 
 }
@@ -705,7 +805,6 @@ height:300px
 </style>
 
 </head>
-
 
 <body>
 
@@ -732,10 +831,7 @@ Admin
 
 </nav>
 
-<button
-class="cart"
-onclick="openCart()"
->
+<button class="cart" onclick="openCart()">
 🛒 Cart (<span id="count">0</span>)
 </button>
 
@@ -758,27 +854,17 @@ VEYA.
 Modern clothing and accessories selected for everyday style.
 </p>
 
-<a
-class="shopbtn"
-href="#shop"
->
+<a class="shopbtn" href="#shop">
 Shop Collection
 </a>
 
 </section>
 
 
-<div
-class="categories"
-id="categories"
->
-</div>
+<div class="categories" id="categories"></div>
 
 
-<section
-class="shop"
-id="shop"
->
+<section class="shop" id="shop">
 
 <div class="heading">
 
@@ -803,25 +889,14 @@ oninput="render()"
 
 </div>
 
-
-<div
-class="grid"
-id="products"
->
-
-<p>
-Loading products...
-</p>
-
+<div class="grid" id="products">
+<p>Loading products...</p>
 </div>
 
 </section>
 
 
-<section
-class="about"
-id="about"
->
+<section class="about" id="about">
 
 <small>
 ABOUT VEYA
@@ -840,9 +915,7 @@ Discover clothing, purses, glasses, watches and jewellery in one simple shopping
 
 <footer>
 
-<strong>
-VEYA
-</strong>
+<strong>VEYA</strong>
 
 <span>
 © 2026 VEYA
@@ -851,12 +924,9 @@ VEYA
 </footer>
 
 
-<!-- PRODUCT DETAIL -->
+<!-- PRODUCT DETAILS -->
 
-<div
-class="product-overlay"
-id="productOverlay"
->
+<div class="product-overlay" id="productOverlay">
 
 <div class="product-modal">
 
@@ -870,158 +940,102 @@ onclick="closeProduct()"
 
 <div class="gallery">
 
-<div
-class="main-image"
-id="mainImage"
->
-</div>
-
+<div class="main-image" id="mainImage"></div>
 
 <div class="gallery-controls">
 
-<button
-onclick="previousImage()"
->
+<button onclick="previousImage()">
 ‹ Previous
 </button>
 
-<span
-class="image-count"
-id="imageCount"
->
+<span id="imageCount">
 1 / 1
 </span>
 
-<button
-onclick="nextImage()"
->
+<button onclick="nextImage()">
 Next ›
 </button>
 
 </div>
 
-
-<div
-class="thumbnails"
-id="thumbnails"
->
-</div>
+<div class="thumbnails" id="thumbnails"></div>
 
 </div>
 
 
 <div class="modal-info">
 
-<div
-class="modal-category"
-id="modalCategory"
->
-</div>
+<div class="modal-category" id="modalCategory"></div>
+
+<h2 id="modalName"></h2>
+
+<div class="modal-price" id="modalPrice"></div>
+
+<div class="modal-description" id="modalDescription"></div>
+
+<div class="modal-stock" id="modalStock"></div>
 
 
-<h2
-id="modalName"
->
-</h2>
-
-
-<div
-class="modal-price"
-id="modalPrice"
->
-</div>
-
-
-<div
-class="modal-description"
-id="modalDescription"
->
-</div>
-
-
-<div
-class="modal-stock"
-id="modalStock"
->
-</div>
-
-
-<!-- COLORS -->
-
-<div
-id="colorSection"
->
+<div id="colorSection">
 
 <div class="variant-title">
 Color
 </div>
 
-<div
-class="variant-buttons"
-id="colorButtons"
->
-</div>
+<div class="variant-buttons" id="colorButtons"></div>
 
 </div>
 
 
-<!-- SIZES -->
-
-<div
-id="sizeSection"
->
+<div id="sizeSection">
 
 <div class="variant-title">
 Size
 </div>
 
-<div
-class="variant-buttons"
-id="sizeButtons"
->
-</div>
+<div class="variant-buttons" id="sizeButtons"></div>
 
 </div>
 
-
-<!-- QUANTITY -->
 
 <div class="quantity-title">
 Quantity
 </div>
 
-
 <div class="quantity-selector">
 
-<button
-onclick="changeProductQuantity(-1)"
->
+<button onclick="changeProductQuantity(-1)">
 −
 </button>
 
-<div
-class="quantity-number"
-id="productQuantity"
->
+<div class="quantity-number" id="productQuantity">
 1
 </div>
 
-<button
-onclick="changeProductQuantity(1)"
->
+<button onclick="changeProductQuantity(1)">
 +
 </button>
 
 </div>
 
 
+<div class="modal-buttons">
+
 <button
 class="modal-add"
-id="modalAddButton"
 onclick="addSelectedProductToCart()"
 >
 ADD TO CART
 </button>
+
+<button
+class="buy-now"
+onclick="buyNow()"
+>
+⚡ BUY NOW
+</button>
+
+</div>
 
 </div>
 
@@ -1040,10 +1054,7 @@ onclick="closeCart()"
 </div>
 
 
-<div
-class="drawer"
-id="drawer"
->
+<div class="drawer" id="drawer">
 
 <div class="drawerhead">
 
@@ -1061,11 +1072,7 @@ onclick="closeCart()"
 </div>
 
 
-<div
-class="items"
-id="cartItems"
->
-</div>
+<div class="items" id="cartItems"></div>
 
 
 <div class="checkout">
@@ -1074,31 +1081,106 @@ id="cartItems"
 Total: PKR 0
 </strong>
 
+<button
+class="whatsapp"
+onclick="openCartCheckout()"
+>
+Continue to Checkout
+</button>
+
+</div>
+
+</div>
+
+
+<!-- CHECKOUT -->
+
+<div
+class="checkout-overlay"
+id="checkoutOverlay"
+>
+
+<div class="checkout-box">
+
+<button
+class="checkout-close"
+onclick="closeCheckout()"
+>
+×
+</button>
+
+<h2>
+Complete Your Order
+</h2>
+
+
+<div
+class="order-summary"
+id="orderSummary"
+>
+</div>
+
+
+<div class="checkout-form">
+
+<label>
+Full Name
+</label>
 
 <input
 id="customerName"
-placeholder="Name"
+placeholder="Your full name"
 >
 
+
+<label>
+WhatsApp / Phone Number
+</label>
 
 <input
 id="customerPhone"
-placeholder="Phone"
+placeholder="03XXXXXXXXX"
 >
 
+
+<label>
+Complete Delivery Address
+</label>
+
+<textarea
+id="customerAddress"
+placeholder="House number, street, area..."
+></textarea>
+
+
+<label>
+City
+</label>
 
 <input
-id="customerAddress"
-placeholder="Delivery address"
+id="customerCity"
+placeholder="Peshawar"
 >
+
+
+<label>
+Delivery Notes
+</label>
+
+<textarea
+id="customerNotes"
+placeholder="Optional — e.g. call before delivery"
+></textarea>
 
 
 <button
-class="whatsapp"
-onclick="order()"
+class="send-order"
+onclick="sendWhatsAppOrder()"
 >
-Order on WhatsApp
+ORDER ON WHATSAPP
 </button>
+
+</div>
 
 </div>
 
@@ -1108,6 +1190,8 @@ Order on WhatsApp
 <script>
 
 
+/* SUPABASE */
+
 const supabaseClient =
 supabase.createClient(
 window.SUPABASE_URL,
@@ -1115,16 +1199,19 @@ window.SUPABASE_KEY
 );
 
 
+/* YOUR WHATSAPP NUMBER */
+
 const WA =
 "923335308890";
 
+
+/* STATE */
 
 let products = [];
 
 let cart = [];
 
 let category = "All";
-
 
 let selectedProduct = null;
 
@@ -1139,7 +1226,9 @@ let selectedColor = "";
 let selectedSize = "";
 
 
-/* LOAD */
+/* =========================
+LOAD PRODUCTS
+========================= */
 
 async function loadProducts(){
 
@@ -1157,7 +1246,6 @@ ascending:false
 }
 );
 
-
 if(error){
 
 console.error(error);
@@ -1171,21 +1259,21 @@ return;
 
 }
 
-
 products =
 data || [];
 
-
-renderCats();
+renderCategories();
 
 render();
 
 }
 
 
-/* CATEGORIES */
+/* =========================
+CATEGORIES
+========================= */
 
-function renderCats(){
+function renderCategories(){
 
 const cats = [
 "All",
@@ -1196,21 +1284,14 @@ const cats = [
 "Jewellery"
 ];
 
-
 document
 .getElementById("categories")
 .innerHTML =
 
-cats.map(c=>`
+cats.map(c => `
 
 <button
-class="cat ${
-c===category
-?
-"active"
-:
-""
-}"
+class="cat ${c === category ? "active" : ""}"
 onclick="setCategory('${c}')"
 >
 ${c}
@@ -1225,42 +1306,70 @@ function setCategory(c){
 
 category = c;
 
-renderCats();
+renderCategories();
 
 render();
 
 }
 
 
-/* IMAGES */
+/* =========================
+ARRAY HELPER
+========================= */
+
+function getArray(value){
+
+if(Array.isArray(value)){
+return value;
+}
+
+if(typeof value === "string"){
+
+try{
+
+const parsed =
+JSON.parse(value);
+
+if(Array.isArray(parsed)){
+return parsed;
+}
+
+}catch(e){}
+
+return value
+.split(",")
+.map(x => x.trim())
+.filter(Boolean);
+
+}
+
+return [];
+
+}
+
+
+/* =========================
+PRODUCT IMAGES
+========================= */
 
 function getProductImages(product){
 
 let images = [];
 
-
 try{
 
-if(
-Array.isArray(
-product.image_urls
-)
-){
+if(Array.isArray(product.image_urls)){
 
 images =
 product.image_urls;
 
 }
-
 else if(
-typeof product.image_urls ===
-"string"
+typeof product.image_urls === "string"
 ){
 
 images =
-JSON.parse(
-product.image_urls
-);
+JSON.parse(product.image_urls);
 
 }
 
@@ -1270,81 +1379,33 @@ images = [];
 
 }
 
-
 if(
 !images.length &&
 product.image_url
 ){
 
-images =
-[
+images = [
 product.image_url
 ];
 
 }
-
 
 return images;
 
 }
 
 
-/* OPTIONS */
-
-function getArray(value){
-
-if(
-Array.isArray(value)
-){
-
-return value;
-
-}
-
-
-if(
-typeof value === "string"
-){
-
-try{
-
-const parsed =
-JSON.parse(value);
-
-if(
-Array.isArray(parsed)
-){
-
-return parsed;
-
-}
-
-}catch(e){}
-
-
-return value
-.split(",")
-.map(x=>x.trim())
-.filter(Boolean);
-
-}
-
-
-return [];
-
-}
-
-
-/* RENDER */
+/* =========================
+RENDER PRODUCTS
+========================= */
 
 function render(){
 
-const q =
+const search =
 document
 .getElementById("search")
 .value
 .toLowerCase();
-
 
 const list =
 products.filter(p =>
@@ -1363,7 +1424,7 @@ ${p.description || ""}
 ${p.category || ""}`
 )
 .toLowerCase()
-.includes(q)
+.includes(search)
 
 );
 
@@ -1376,7 +1437,7 @@ list.length
 
 ?
 
-list.map(p=>{
+list.map(p => {
 
 const images =
 getProductImages(p);
@@ -1388,7 +1449,6 @@ p.stock_quantity || 0
 
 const out =
 stock <= 0;
-
 
 return `
 
@@ -1439,13 +1499,10 @@ ${esc(p.description || "")}
 </div>
 
 <div class="price">
-PKR
-${Number(p.price || 0).toLocaleString()}
+PKR ${Number(p.price || 0).toLocaleString()}
 </div>
 
-<div
-class="stock ${out ? "out" : ""}"
->
+<div class="stock ${out ? "out" : ""}">
 
 ${
 out
@@ -1489,7 +1546,9 @@ out
 }
 
 
-/* OPEN PRODUCT */
+/* =========================
+OPEN PRODUCT
+========================= */
 
 function openProduct(id){
 
@@ -1498,70 +1557,44 @@ products.find(
 p => p.id === id
 );
 
-
 if(!product){
-
 return;
-
 }
-
 
 selectedProduct =
 product;
 
-
 selectedImages =
 getProductImages(product);
 
+selectedImageIndex = 0;
 
-selectedImageIndex =
-0;
+selectedQuantity = 1;
 
+selectedColor = "";
 
-selectedQuantity =
-1;
-
-
-selectedColor =
-"";
-
-
-selectedSize =
-"";
+selectedSize = "";
 
 
 document
-.getElementById(
-"modalCategory"
-)
+.getElementById("modalCategory")
 .textContent =
 product.category || "";
 
-
 document
-.getElementById(
-"modalName"
-)
+.getElementById("modalName")
 .textContent =
 product.name;
 
-
 document
-.getElementById(
-"modalPrice"
-)
+.getElementById("modalPrice")
 .textContent =
-"PKR "
-+
-Number(
-product.price || 0
-).toLocaleString();
-
+"PKR " +
+Number(product.price || 0)
+.toLocaleString();
 
 document
-.getElementById(
-"modalDescription"
-)
+.getElementById("modalDescription")
 .textContent =
 product.description || "";
 
@@ -1574,15 +1607,15 @@ updateProductQuantity();
 
 
 document
-.getElementById(
-"productOverlay"
-)
+.getElementById("productOverlay")
 .classList.add("open");
 
 }
 
 
-/* VARIANTS */
+/* =========================
+VARIANTS
+========================= */
 
 function renderVariants(){
 
@@ -1590,7 +1623,6 @@ const colors =
 getArray(
 selectedProduct.colors
 );
-
 
 const sizes =
 getArray(
@@ -1603,36 +1635,22 @@ document.getElementById(
 "colorSection"
 );
 
-
 const sizeSection =
 document.getElementById(
 "sizeSection"
 );
 
 
-const colorButtons =
-document.getElementById(
-"colorButtons"
-);
-
-
-const sizeButtons =
-document.getElementById(
-"sizeButtons"
-);
-
-
-/* COLORS */
-
 if(colors.length){
 
 colorSection.style.display =
 "block";
 
+document
+.getElementById("colorButtons")
+.innerHTML =
 
-colorButtons.innerHTML =
-
-colors.map(color=>`
+colors.map(color => `
 
 <button
 class="variant-button"
@@ -1643,28 +1661,25 @@ ${esc(color)}
 
 `).join("");
 
-}else{
+}
+else{
 
 colorSection.style.display =
 "none";
 
-colorButtons.innerHTML =
-"";
-
 }
 
-
-/* SIZES */
 
 if(sizes.length){
 
 sizeSection.style.display =
 "block";
 
+document
+.getElementById("sizeButtons")
+.innerHTML =
 
-sizeButtons.innerHTML =
-
-sizes.map(size=>`
+sizes.map(size => `
 
 <button
 class="variant-button"
@@ -1675,13 +1690,11 @@ ${esc(size)}
 
 `).join("");
 
-}else{
+}
+else{
 
 sizeSection.style.display =
 "none";
-
-sizeButtons.innerHTML =
-"";
 
 }
 
@@ -1693,15 +1706,13 @@ function selectColor(color,button){
 selectedColor =
 color;
 
-
 document
 .querySelectorAll(
 "#colorButtons .variant-button"
 )
 .forEach(
-b=>b.classList.remove("selected")
+b => b.classList.remove("selected")
 );
-
 
 button.classList.add("selected");
 
@@ -1713,22 +1724,22 @@ function selectSize(size,button){
 selectedSize =
 size;
 
-
 document
 .querySelectorAll(
 "#sizeButtons .variant-button"
 )
 .forEach(
-b=>b.classList.remove("selected")
+b => b.classList.remove("selected")
 );
-
 
 button.classList.add("selected");
 
 }
 
 
-/* GALLERY */
+/* =========================
+GALLERY
+========================= */
 
 function renderGallery(){
 
@@ -1736,13 +1747,6 @@ const main =
 document.getElementById(
 "mainImage"
 );
-
-
-const thumbnails =
-document.getElementById(
-"thumbnails"
-);
-
 
 if(!selectedImages.length){
 
@@ -1753,13 +1757,12 @@ VEYA
 </div>
 `;
 
-thumbnails.innerHTML =
-"";
+document
+.getElementById("thumbnails")
+.innerHTML = "";
 
 document
-.getElementById(
-"imageCount"
-)
+.getElementById("imageCount")
 .textContent =
 "0 / 0";
 
@@ -1768,8 +1771,7 @@ return;
 }
 
 
-main.innerHTML =
-`
+main.innerHTML = `
 <img
 src="${esc(
 selectedImages[
@@ -1784,9 +1786,7 @@ selectedProduct.name
 
 
 document
-.getElementById(
-"imageCount"
-)
+.getElementById("imageCount")
 .textContent =
 
 (selectedImageIndex + 1)
@@ -1796,10 +1796,12 @@ document
 selectedImages.length;
 
 
-thumbnails.innerHTML =
+document
+.getElementById("thumbnails")
+.innerHTML =
 
 selectedImages.map(
-(url,index)=>`
+(url,index) => `
 
 <img
 class="thumbnail ${
@@ -1821,19 +1823,8 @@ onclick="selectImage(${index})"
 
 function selectImage(index){
 
-if(
-index < 0 ||
-index >= selectedImages.length
-){
-
-return;
-
-}
-
-
 selectedImageIndex =
 index;
-
 
 renderGallery();
 
@@ -1842,27 +1833,18 @@ renderGallery();
 
 function previousImage(){
 
-if(
-!selectedImages.length
-){
-
+if(!selectedImages.length){
 return;
-
 }
-
 
 selectedImageIndex--;
 
-
-if(
-selectedImageIndex < 0
-){
+if(selectedImageIndex < 0){
 
 selectedImageIndex =
 selectedImages.length - 1;
 
 }
-
 
 renderGallery();
 
@@ -1871,85 +1853,57 @@ renderGallery();
 
 function nextImage(){
 
-if(
-!selectedImages.length
-){
-
+if(!selectedImages.length){
 return;
-
 }
 
-
 selectedImageIndex++;
-
 
 if(
 selectedImageIndex >=
 selectedImages.length
 ){
 
-selectedImageIndex =
-0;
+selectedImageIndex = 0;
 
 }
-
 
 renderGallery();
 
 }
 
 
-/* PRODUCT QUANTITY */
+/* =========================
+QUANTITY
+========================= */
 
 function changeProductQuantity(amount){
-
-if(!selectedProduct){
-
-return;
-
-}
-
 
 const stock =
 Number(
 selectedProduct.stock_quantity || 0
 );
 
-
 const newQuantity =
-selectedQuantity +
-amount;
+selectedQuantity + amount;
 
-
-if(
-newQuantity < 1
-){
-
+if(newQuantity < 1){
 return;
-
 }
 
-
-if(
-newQuantity > stock
-){
+if(newQuantity > stock){
 
 alert(
-"Only "
-+
-stock
-+
+"Only " +
+stock +
 " available."
 );
 
 return;
-
 }
-
 
 selectedQuantity =
 newQuantity;
-
 
 updateProductQuantity();
 
@@ -1959,9 +1913,7 @@ updateProductQuantity();
 function updateProductQuantity(){
 
 document
-.getElementById(
-"productQuantity"
-)
+.getElementById("productQuantity")
 .textContent =
 selectedQuantity;
 
@@ -1973,9 +1925,7 @@ selectedProduct?.stock_quantity || 0
 
 
 document
-.getElementById(
-"modalStock"
-)
+.getElementById("modalStock")
 .textContent =
 
 stock > 0
@@ -1984,112 +1934,25 @@ stock + " available"
 :
 "Out of stock";
 
-
-document
-.getElementById(
-"modalStock"
-)
-.className =
-
-"modal-stock "
-+
-(
-stock <= 0
-?
-"out"
-:
-""
-);
-
-
-document
-.getElementById(
-"modalAddButton"
-)
-.disabled =
-stock <= 0;
-
 }
 
 
-/* ADD */
+/* =========================
+VALIDATE VARIANTS
+========================= */
 
-function quickAdd(id){
-
-const product =
-products.find(
-p => p.id === id
-);
-
-
-if(!product){
-
-return;
-
-}
-
-
-/*
-If the product has colors/sizes,
-open the product page so the customer
-must select them.
-*/
-
-const colors =
-getArray(
-product.colors
-);
-
-const sizes =
-getArray(
-product.sizes
-);
-
-
-if(
-colors.length ||
-sizes.length
-){
-
-openProduct(id);
-
-return;
-
-}
-
-
-addToCart(
-product,
-1
-);
-
-openCart();
-
-}
-
-
-function addSelectedProductToCart(){
-
-if(!selectedProduct){
-
-return;
-
-}
-
+function validateSelection(){
 
 const colors =
 getArray(
 selectedProduct.colors
 );
 
-
 const sizes =
 getArray(
 selectedProduct.sizes
 );
 
-
-/* REQUIRE COLOR */
 
 if(
 colors.length &&
@@ -2100,12 +1963,10 @@ alert(
 "Please select a color."
 );
 
-return;
+return false;
 
 }
 
-
-/* REQUIRE SIZE */
 
 if(
 sizes.length &&
@@ -2116,10 +1977,28 @@ alert(
 "Please select a size."
 );
 
-return;
+return false;
 
 }
 
+return true;
+
+}
+
+
+/* =========================
+ADD TO CART
+========================= */
+
+function addSelectedProductToCart(){
+
+if(!selectedProduct){
+return;
+}
+
+if(!validateSelection()){
+return;
+}
 
 addToCart(
 selectedProduct,
@@ -2128,7 +2007,6 @@ selectedColor,
 selectedSize
 );
 
-
 closeProduct();
 
 openCart();
@@ -2136,13 +2014,11 @@ openCart();
 }
 
 
-/* ADD TO CART */
-
 function addToCart(
 product,
 quantity,
-color="",
-size=""
+color,
+size
 ){
 
 const stock =
@@ -2150,22 +2026,14 @@ Number(
 product.stock_quantity || 0
 );
 
-
 if(stock <= 0){
 
-alert(
-"This product is out of stock."
-);
+alert("Out of stock.");
 
 return;
 
 }
 
-
-/*
-Products with different colors/sizes
-are separate cart items.
-*/
 
 const existing =
 cart.find(
@@ -2178,21 +2046,83 @@ x.size === size
 );
 
 
-const currentQuantity =
-existing
-?
-existing.qty
-:
-0;
-
+if(existing){
 
 if(
-currentQuantity + quantity >
+existing.qty + quantity >
 stock
 ){
 
 alert(
-"You cannot order more than the available stock."
+"Only " +
+stock +
+" available."
+);
+
+return;
+
+}
+
+existing.qty += quantity;
+
+}
+else{
+
+cart.push({
+
+...product,
+
+qty:quantity,
+
+color:color,
+
+size:size
+
+});
+
+}
+
+update();
+
+}
+
+
+/* =========================
+QUICK ADD
+========================= */
+
+function quickAdd(id){
+
+openProduct(id);
+
+}
+
+
+/* =========================
+BUY NOW
+========================= */
+
+function buyNow(){
+
+if(!selectedProduct){
+return;
+}
+
+if(!validateSelection()){
+return;
+}
+
+const stock =
+Number(
+selectedProduct.stock_quantity || 0
+);
+
+if(
+selectedQuantity > stock
+){
+
+alert(
+"Not enough stock."
 );
 
 return;
@@ -2200,121 +2130,105 @@ return;
 }
 
 
-if(existing){
+/*
+Buy Now does NOT require the customer
+to add the product to the cart.
+It sends this product directly
+to checkout.
+*/
 
-existing.qty +=
-quantity;
+const directItem = {
 
-}else{
+...selectedProduct,
 
-cart.push({
+qty:selectedQuantity,
 
-...product,
+color:selectedColor,
 
-qty:
-quantity,
+size:selectedSize
 
-color:
-color,
+};
 
-size:
-size
+closeProduct();
 
-});
+openCheckout(
+[directItem]
+);
 
 }
 
+
+/* =========================
+CART
+========================= */
+
+function openCart(){
+
+document
+.getElementById("drawer")
+.classList.add("open");
+
+document
+.getElementById("overlay")
+.classList.add("open");
 
 update();
 
 }
 
 
-/* CART */
+function closeCart(){
+
+document
+.getElementById("drawer")
+.classList.remove("open");
+
+document
+.getElementById("overlay")
+.classList.remove("open");
+
+}
+
 
 function update(){
 
 const count =
 cart.reduce(
-(a,x)=>
-a+x.qty,
+(a,x) => a + x.qty,
 0
 );
-
 
 const total =
 cart.reduce(
-(a,x)=>
-a+
-Number(x.price)*x.qty,
+(a,x) =>
+a +
+Number(x.price) *
+x.qty,
 0
 );
 
 
 document
-.getElementById(
-"count"
-)
+.getElementById("count")
 .textContent =
 count;
 
-
 document
-.getElementById(
-"total"
-)
+.getElementById("total")
 .textContent =
-"Total: PKR "
-+
+"Total: PKR " +
 total.toLocaleString();
 
 
 document
-.getElementById(
-"cartItems"
-)
+.getElementById("cartItems")
 .innerHTML =
 
 cart.length
 
 ?
 
-cart.map((x,index)=>{
-
-const stock =
-Number(
-x.stock_quantity || 0
-);
-
-
-let variantText = "";
-
-
-if(x.color){
-
-variantText +=
-"Color: "
-+
-esc(x.color)
-+
-"<br>";
-
-}
-
-
-if(x.size){
-
-variantText +=
-"Size: "
-+
-esc(x.size)
-+
-"<br>";
-
-}
-
-
-return `
+cart.map((x,index) => `
 
 <div class="item">
 
@@ -2322,10 +2236,32 @@ return `
 ${esc(x.name)}
 </div>
 
-
 <div class="item-detail">
 
-${variantText}
+${
+x.color
+?
+"Color: " +
+esc(x.color) +
+"<br>"
+:
+""
+}
+
+${
+x.size
+?
+"Size: " +
+esc(x.size) +
+"<br>"
+:
+""
+}
+
+Quantity:
+${x.qty}
+
+<br>
 
 Price:
 PKR
@@ -2342,15 +2278,12 @@ onclick="changeCartQuantity(${index},-1)"
 −
 </button>
 
-
 <span class="qty-number">
 ${x.qty}
 </span>
 
-
 <button
 onclick="changeCartQuantity(${index},1)"
-${x.qty >= stock ? "disabled" : ""}
 >
 +
 </button>
@@ -2358,15 +2291,16 @@ ${x.qty >= stock ? "disabled" : ""}
 </div>
 
 
-<div class="stock-note">
-${stock} available
-</div>
+<button
+class="remove"
+onclick="removeCartItem(${index})"
+>
+Remove
+</button>
 
 </div>
 
-`;
-
-}).join("")
+`).join("")
 
 :
 
@@ -2375,44 +2309,32 @@ ${stock} available
 }
 
 
-/* CART QUANTITY */
+/* =========================
+CHANGE CART QUANTITY
+========================= */
 
-function changeCartQuantity(
-index,
-amount
-){
+function changeCartQuantity(index,amount){
 
 const item =
 cart[index];
 
-
 if(!item){
-
 return;
-
 }
-
 
 const stock =
 Number(
 item.stock_quantity || 0
 );
 
+const newQty =
+item.qty + amount;
 
-const newQuantity =
-item.qty +
-amount;
-
-
-if(
-newQuantity > stock
-){
+if(newQty > stock){
 
 alert(
-"Only "
-+
-stock
-+
+"Only " +
+stock +
 " available."
 );
 
@@ -2420,87 +2342,40 @@ return;
 
 }
 
-
 item.qty =
-newQuantity;
+newQty;
 
+if(item.qty <= 0){
 
-if(
-item.qty <= 0
-){
-
-cart.splice(
-index,
-1
-);
+cart.splice(index,1);
 
 }
-
 
 update();
 
 }
 
 
-/* CART */
+/* =========================
+REMOVE
+========================= */
 
-function openCart(){
+function removeCartItem(index){
 
-document
-.getElementById(
-"drawer"
-)
-.classList.add("open");
-
-
-document
-.getElementById(
-"overlay"
-)
-.classList.add("open");
-
+cart.splice(index,1);
 
 update();
 
 }
 
 
-function closeCart(){
+/* =========================
+CART CHECKOUT
+========================= */
 
-document
-.getElementById(
-"drawer"
-)
-.classList.remove("open");
+function openCartCheckout(){
 
-
-document
-.getElementById(
-"overlay"
-)
-.classList.remove("open");
-
-}
-
-
-function closeProduct(){
-
-document
-.getElementById(
-"productOverlay"
-)
-.classList.remove("open");
-
-}
-
-
-/* WHATSAPP */
-
-function order(){
-
-if(
-!cart.length
-){
+if(!cart.length){
 
 alert(
 "Your cart is empty."
@@ -2510,30 +2385,174 @@ return;
 
 }
 
+openCheckout(cart);
+
+}
+
+
+/* =========================
+CHECKOUT
+========================= */
+
+function openCheckout(items){
+
+renderCheckoutSummary(items);
+
+document
+.getElementById("checkoutOverlay")
+.classList.add("open");
+
+}
+
+
+/*
+Store current checkout items
+so the WhatsApp function knows
+what is being ordered.
+*/
+
+let checkoutItems = [];
+
+
+function renderCheckoutSummary(items){
+
+checkoutItems =
+items.map(x => ({
+...x
+}));
+
+
+const total =
+checkoutItems.reduce(
+(a,x) =>
+a +
+Number(x.price) *
+x.qty,
+0
+);
+
+
+document
+.getElementById("orderSummary")
+.innerHTML = `
+
+<strong>
+Your Order
+</strong>
+
+${checkoutItems.map(x => `
+
+<div class="summary-product">
+
+<b>
+${esc(x.name)}
+</b>
+
+<br>
+
+${
+x.color
+?
+"Color: " +
+esc(x.color) +
+"<br>"
+:
+""
+}
+
+${
+x.size
+?
+"Size: " +
+esc(x.size) +
+"<br>"
+:
+""
+}
+
+Quantity:
+${x.qty}
+
+<br>
+
+Price:
+PKR
+${(
+Number(x.price) *
+x.qty
+).toLocaleString()}
+
+</div>
+
+`).join("")}
+
+
+<div class="summary-total">
+
+Total:
+PKR
+${total.toLocaleString()}
+
+</div>
+
+`;
+
+}
+
+
+function closeCheckout(){
+
+document
+.getElementById("checkoutOverlay")
+.classList.remove("open");
+
+}
+
+
+/* =========================
+SEND WHATSAPP
+========================= */
+
+function sendWhatsAppOrder(){
+
+if(!checkoutItems.length){
+
+alert(
+"No products selected."
+);
+
+return;
+
+}
+
 
 const name =
 document
-.getElementById(
-"customerName"
-)
+.getElementById("customerName")
 .value
 .trim();
-
 
 const phone =
 document
-.getElementById(
-"customerPhone"
-)
+.getElementById("customerPhone")
 .value
 .trim();
 
-
 const address =
 document
-.getElementById(
-"customerAddress"
-)
+.getElementById("customerAddress")
+.value
+.trim();
+
+const city =
+document
+.getElementById("customerCity")
+.value
+.trim();
+
+const notes =
+document
+.getElementById("customerNotes")
 .value
 .trim();
 
@@ -2541,11 +2560,12 @@ document
 if(
 !name ||
 !phone ||
-!address
+!address ||
+!city
 ){
 
 alert(
-"Please fill all customer details."
+"Please fill in your name, phone, complete address and city."
 );
 
 return;
@@ -2554,96 +2574,111 @@ return;
 
 
 const total =
-cart.reduce(
-(a,x)=>
-a+
-Number(x.price)*x.qty,
+checkoutItems.reduce(
+(a,x) =>
+a +
+Number(x.price) *
+x.qty,
 0
 );
 
 
-const items =
-cart.map(x=>{
+const productLines =
+checkoutItems.map(x => {
 
-let line =
-`Product: ${x.name}`;
-
+let text =
+`PRODUCT: ${x.name}`;
 
 if(x.color){
 
-line +=
-`\nColor: ${x.color}`;
+text +=
+`\nCOLOR: ${x.color}`;
 
 }
-
 
 if(x.size){
 
-line +=
-`\nSize: ${x.size}`;
+text +=
+`\nSIZE: ${x.size}`;
 
 }
 
+text +=
+`\nQUANTITY: ${x.qty}`;
 
-line +=
-`\nQuantity: ${x.qty}`;
-
-
-line +=
-`\nPrice: PKR ${
+text +=
+`\nPRICE: PKR ${
 (
-Number(x.price)*x.qty
+Number(x.price) *
+x.qty
 ).toLocaleString()
 }`;
 
+return text;
 
-return line;
-
-})
-.join(
+}).join(
 "\n\n"
 );
 
 
-const message =
+let message =
 
 `NEW VEYA ORDER
 
-${items}
+--------------------
+
+${productLines}
+
+--------------------
 
 TOTAL: PKR ${total.toLocaleString()}
 
 CUSTOMER DETAILS
 
-Name: ${name}
-Phone: ${phone}
-Address: ${address}`;
+NAME: ${name}
+
+PHONE: ${phone}
+
+DELIVERY ADDRESS:
+${address}
+
+CITY:
+${city}
+
+DELIVERY NOTES:
+${notes || "None"}
+
+--------------------
+
+Please confirm this order.`;
+
+
+
+const url =
+"https://wa.me/" +
+WA +
+"?text=" +
+encodeURIComponent(message);
 
 
 window.open(
-"https://wa.me/"
-+
-WA
-+
-"?text="
-+
-encodeURIComponent(
-message
-),
+url,
 "_blank"
 );
 
 }
 
 
-/* ESCAPE */
+/* =========================
+ESCAPE
+========================= */
 
 function esc(text){
 
 return String(text)
 .replace(
 /[&<>"']/g,
-c=>({
+c => ({
 
 "&":"&amp;",
 "<":"&lt;",
@@ -2675,6 +2710,8 @@ return String(text)
 
 }
 
+
+/* START */
 
 loadProducts();
 
