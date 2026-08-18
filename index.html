@@ -634,10 +634,57 @@ padding:10px 0
 border-bottom:0
 }
 
+.summary-row{
+display:flex;
+justify-content:space-between;
+margin-top:10px;
+font-size:15px
+}
+
 .summary-total{
 font-weight:bold;
 font-size:18px;
-margin-top:12px
+margin-top:12px;
+padding-top:12px;
+border-top:1px solid #ddd;
+display:flex;
+justify-content:space-between
+}
+
+/* PAYMENT METHOD */
+
+.payment-method{
+margin-top:20px;
+padding:15px;
+border:1px solid #ddd;
+border-radius:8px;
+background:#fafafa
+}
+
+.payment-method-title{
+font-weight:bold;
+font-size:14px;
+margin-bottom:10px
+}
+
+.payment-option{
+display:flex;
+align-items:center;
+gap:10px;
+font-weight:bold;
+margin:0
+}
+
+.payment-option input{
+width:auto;
+margin:0
+}
+
+.cod-fee{
+font-size:13px;
+color:#666;
+margin-top:7px;
+margin-left:26px
 }
 
 .checkout-form label{
@@ -1020,6 +1067,34 @@ placeholder="Optional"
 ></textarea>
 
 
+<!-- PAYMENT METHOD -->
+
+<div class="payment-method">
+
+<div class="payment-method-title">
+Payment Method
+</div>
+
+<label class="payment-option">
+
+<input
+type="radio"
+name="paymentMethod"
+value="cod"
+checked
+>
+
+Cash on Delivery
+
+</label>
+
+<div class="cod-fee">
+COD Fee: PKR 165
+</div>
+
+</div>
+
+
 <button
 class="send-order"
 onclick="sendWhatsAppOrder()"
@@ -1043,6 +1118,8 @@ window.SUPABASE_KEY
 );
 
 const WA="923335308890";
+
+const COD_FEE=165;
 
 let products=[];
 let cart=[];
@@ -1871,11 +1948,16 @@ document.getElementById("checkoutOverlay")
 
 function renderCheckoutSummary(){
 
-const total=
+const subtotal=
 checkoutItems.reduce(
 (a,x)=>a+Number(x.price)*x.qty,
 0
 );
+
+const codFee=COD_FEE;
+
+const total=
+subtotal+codFee;
 
 document.getElementById("orderSummary")
 .innerHTML=`
@@ -1904,8 +1986,36 @@ Price: PKR ${
 
 `).join("")}
 
+<div class="summary-row">
+
+<span>Subtotal</span>
+
+<span>
+PKR ${subtotal.toLocaleString()}
+</span>
+
+</div>
+
+<div class="summary-row">
+
+<span>
+Cash on Delivery
+</span>
+
+<span>
+PKR ${codFee.toLocaleString()}
+</span>
+
+</div>
+
 <div class="summary-total">
-Total: PKR ${total.toLocaleString()}
+
+<span>Total</span>
+
+<span>
+PKR ${total.toLocaleString()}
+</span>
+
 </div>
 
 `;
@@ -1957,11 +2067,28 @@ return;
 }
 
 
-const total=
+/* PAYMENT */
+
+const paymentMethod=
+document.querySelector(
+'input[name="paymentMethod"]:checked'
+)?.value||"cod";
+
+const subtotal=
 checkoutItems.reduce(
 (a,x)=>a+Number(x.price)*x.qty,
 0
 );
+
+const codFee=
+paymentMethod==="cod"
+?
+COD_FEE
+:
+0;
+
+const total=
+subtotal+codFee;
 
 
 const orderItems=
@@ -2048,6 +2175,12 @@ ${productLines}
 
 --------------------
 
+SUBTOTAL: PKR ${subtotal.toLocaleString()}
+
+PAYMENT METHOD: CASH ON DELIVERY
+
+COD FEE: PKR ${codFee.toLocaleString()}
+
 TOTAL: PKR ${total.toLocaleString()}
 
 CUSTOMER DETAILS
@@ -2125,6 +2258,5 @@ return String(text)
 loadProducts();
 
 </script>
-
 </body>
 </html>
