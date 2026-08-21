@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +10,10 @@
 <script src="supabase-config.js"></script>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+box-sizing:border-box
+}
 
 body{
 margin:0;
@@ -393,43 +395,6 @@ border-bottom:1px solid #eee
 border-bottom:0
 }
 
-/* NEW: ORDER PRODUCT IMAGE */
-
-.order-item-content{
-display:flex;
-gap:14px;
-align-items:flex-start
-}
-
-.order-item-image{
-width:85px;
-height:85px;
-object-fit:cover;
-border-radius:8px;
-border:1px solid #ddd;
-background:#f5f5f5;
-flex-shrink:0
-}
-
-.order-item-image-placeholder{
-width:85px;
-height:85px;
-border-radius:8px;
-border:1px solid #ddd;
-background:#f5f5f5;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:11px;
-color:#888;
-text-align:center;
-flex-shrink:0
-}
-
-.order-item-info{
-flex:1
-}
-
 .order-item-name{
 font-weight:bold
 }
@@ -483,6 +448,11 @@ color:white
 .cancel-btn{
 background:#eee;
 color:#a00020
+}
+
+.whatsapp-btn{
+background:#25D366;
+color:white
 }
 
 .no-orders{
@@ -540,13 +510,8 @@ display:grid;
 grid-template-columns:1fr 1fr
 }
 
-.order-item-image,
-.order-item-image-placeholder{
-width:70px;
-height:70px
 }
 
-}
 </style>
 </head>
 
@@ -563,6 +528,7 @@ View Store →
 </a>
 
 </header>
+
 
 <div class="container">
 
@@ -615,6 +581,7 @@ id="productFormCard"
 Add Product
 </h1>
 
+
 <label>
 Product Name
 </label>
@@ -623,6 +590,7 @@ Product Name
 id="name"
 placeholder="Example: Classic Hoodie"
 >
+
 
 <label>
 Category
@@ -638,6 +606,7 @@ Category
 
 </select>
 
+
 <label>
 Price (PKR)
 </label>
@@ -647,6 +616,7 @@ id="price"
 type="number"
 placeholder="1499"
 >
+
 
 <label>
 Stock Quantity
@@ -663,6 +633,7 @@ placeholder="20"
 How many units are available to sell.
 </div>
 
+
 <label>
 Description
 </label>
@@ -671,6 +642,7 @@ Description
 id="description"
 placeholder="Describe your product..."
 ></textarea>
+
 
 <label>
 Product Images — up to 6
@@ -682,6 +654,7 @@ id="imageHelp"
 >
 Select up to six images from your computer.
 </div>
+
 
 <div
 id="existingImagesBox"
@@ -704,6 +677,7 @@ Otherwise, the current images will remain.
 
 </div>
 
+
 <div class="image-grid">
 
 <div class="image-box">
@@ -712,7 +686,10 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,0)"
 >
-<img class="preview" id="preview0">
+<img
+class="preview"
+id="preview0"
+>
 </div>
 
 <div class="image-box">
@@ -721,7 +698,10 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,1)"
 >
-<img class="preview" id="preview1">
+<img
+class="preview"
+id="preview1"
+>
 </div>
 
 <div class="image-box">
@@ -730,7 +710,10 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,2)"
 >
-<img class="preview" id="preview2">
+<img
+class="preview"
+id="preview2"
+>
 </div>
 
 <div class="image-box">
@@ -739,7 +722,10 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,3)"
 >
-<img class="preview" id="preview3">
+<img
+class="preview"
+id="preview3"
+>
 </div>
 
 <div class="image-box">
@@ -748,7 +734,10 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,4)"
 >
-<img class="preview" id="preview4">
+<img
+class="preview"
+id="preview4"
+>
 </div>
 
 <div class="image-box">
@@ -757,10 +746,14 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,5)"
 >
-<img class="preview" id="preview5">
+<img
+class="preview"
+id="preview5"
+>
 </div>
 
 </div>
+
 
 <label>
 Colors
@@ -786,6 +779,7 @@ onclick="addColor()"
 >
 + Add another color
 </button>
+
 
 <label>
 Sizes
@@ -815,6 +809,7 @@ onclick="addSize()"
 >
 + Add another size
 </button>
+
 
 <button
 class="publish"
@@ -856,6 +851,7 @@ Loading...
 
 </div>
 
+
 </div>
 
 
@@ -877,6 +873,7 @@ window.SUPABASE_KEY
 ================================================== */
 
 let editingProductId = null;
+
 let editingProductImages = [];
 
 
@@ -885,27 +882,37 @@ let editingProductImages = [];
 ================================================== */
 
 const imageFiles = [
-null,null,null,null,null,null
+null,
+null,
+null,
+null,
+null,
+null
 ];
 
 
 function previewImage(input,index){
 
-const file = input.files[0];
+const file =
+input.files[0];
 
 if(!file){
 return;
 }
 
-imageFiles[index] = file;
+imageFiles[index] =
+file;
 
 const preview =
-document.getElementById("preview"+index);
+document.getElementById(
+"preview"+index
+);
 
 preview.src =
 URL.createObjectURL(file);
 
-preview.style.display = "block";
+preview.style.display =
+"block";
 
 }
 
@@ -919,7 +926,8 @@ function addColor(){
 const row =
 document.createElement("div");
 
-row.className = "option-row";
+row.className =
+"option-row";
 
 row.innerHTML = `
 
@@ -954,7 +962,8 @@ function addSize(){
 const row =
 document.createElement("div");
 
-row.className = "option-row";
+row.className =
+"option-row";
 
 row.innerHTML = `
 
@@ -987,7 +996,9 @@ document
 async function uploadImage(file){
 
 const extension =
-file.name.split(".").pop();
+file.name
+.split(".")
+.pop();
 
 const filename =
 Date.now()
@@ -1002,6 +1013,9 @@ Math.random()
 +
 extension;
 
+const path =
+filename;
+
 const {
 error
 } =
@@ -1009,7 +1023,7 @@ await db
 .storage
 .from("product-images")
 .upload(
-filename,
+path,
 file,
 {
 cacheControl:"3600",
@@ -1027,7 +1041,7 @@ data
 db
 .storage
 .from("product-images")
-.getPublicUrl(filename);
+.getPublicUrl(path);
 
 return data.publicUrl;
 
@@ -1041,39 +1055,50 @@ return data.publicUrl;
 function getFormData(){
 
 const name =
-document.getElementById("name")
-.value.trim();
+document
+.getElementById("name")
+.value
+.trim();
 
 const category =
-document.getElementById("category")
+document
+.getElementById("category")
 .value;
 
 const price =
 Number(
-document.getElementById("price")
+document
+.getElementById("price")
 .value
 );
 
 const stock =
 Number(
-document.getElementById("stock")
+document
+.getElementById("stock")
 .value
 );
 
 const description =
-document.getElementById("description")
-.value.trim();
+document
+.getElementById("description")
+.value
+.trim();
 
 const colors =
 [
-...document.querySelectorAll(".color-input")
+...document.querySelectorAll(
+".color-input"
+)
 ]
 .map(x=>x.value.trim())
 .filter(Boolean);
 
 const sizes =
 [
-...document.querySelectorAll(".size-input")
+...document.querySelectorAll(
+".size-input"
+)
 ]
 .map(x=>x.value.trim())
 .filter(Boolean);
@@ -1186,6 +1211,16 @@ return;
 
 }
 
+if(selectedFiles.length > 6){
+
+status.textContent =
+"You can upload a maximum of 6 images.";
+
+return;
+
+}
+
+
 try{
 
 status.textContent =
@@ -1193,7 +1228,10 @@ status.textContent =
 
 const imageUrls = [];
 
-for(const file of selectedFiles){
+for(
+const file
+of selectedFiles
+){
 
 const url =
 await uploadImage(file);
@@ -1213,19 +1251,30 @@ await db
 .insert({
 
 name:data.name,
+
 category:data.category,
+
 price:data.price,
+
 description:data.description,
 
-image_url:imageUrls[0],
-image_urls:imageUrls,
+image_url:
+imageUrls[0],
 
-stock_quantity:data.stock,
+image_urls:
+imageUrls,
 
-colors:data.colors,
-sizes:data.sizes,
+stock_quantity:
+data.stock,
 
-has_sizes:data.sizes.length > 0
+colors:
+data.colors,
+
+sizes:
+data.sizes,
+
+has_sizes:
+data.sizes.length > 0
 
 });
 
@@ -1265,14 +1314,27 @@ status.textContent =
 let imageUrls =
 editingProductImages;
 
+
 if(selectedFiles.length){
+
+if(selectedFiles.length > 6){
+
+status.textContent =
+"You can upload a maximum of 6 images.";
+
+return;
+
+}
 
 status.textContent =
 "Uploading new images...";
 
 imageUrls = [];
 
-for(const file of selectedFiles){
+for(
+const file
+of selectedFiles
+){
 
 const url =
 await uploadImage(file);
@@ -1283,6 +1345,7 @@ imageUrls.push(url);
 
 }
 
+
 const {
 error
 } =
@@ -1291,25 +1354,37 @@ await db
 .update({
 
 name:data.name,
+
 category:data.category,
+
 price:data.price,
+
 description:data.description,
 
-image_url:imageUrls[0] || null,
-image_urls:imageUrls,
+image_url:
+imageUrls[0] || null,
 
-stock_quantity:data.stock,
+image_urls:
+imageUrls,
 
-colors:data.colors,
-sizes:data.sizes,
+stock_quantity:
+data.stock,
 
-has_sizes:data.sizes.length > 0
+colors:
+data.colors,
+
+sizes:
+data.sizes,
+
+has_sizes:
+data.sizes.length > 0
 
 })
 .eq(
 "id",
 editingProductId
 );
+
 
 if(error){
 throw error;
@@ -1347,6 +1422,7 @@ document.getElementById("status");
 status.textContent =
 "Loading product...";
 
+
 const {
 data,
 error
@@ -1356,6 +1432,7 @@ await db
 .select("*")
 .eq("id",id)
 .single();
+
 
 if(error){
 
@@ -1369,33 +1446,49 @@ return;
 
 }
 
-editingProductId = data.id;
+
+editingProductId =
+data.id;
 
 document
 .getElementById("formTitle")
-.textContent = "Edit Product";
+.textContent =
+"Edit Product";
 
 document
 .getElementById("submitButton")
-.textContent = "SAVE CHANGES";
+.textContent =
+"SAVE CHANGES";
 
 document
 .getElementById("cancelButton")
-.style.display = "block";
+.style.display =
+"block";
 
-document.getElementById("name").value =
+
+document
+.getElementById("name")
+.value =
 data.name || "";
 
-document.getElementById("category").value =
+document
+.getElementById("category")
+.value =
 data.category || "Clothing";
 
-document.getElementById("price").value =
+document
+.getElementById("price")
+.value =
 data.price ?? "";
 
-document.getElementById("stock").value =
+document
+.getElementById("stock")
+.value =
 data.stock_quantity ?? "";
 
-document.getElementById("description").value =
+document
+.getElementById("description")
+.value =
 data.description || "";
 
 
@@ -1405,49 +1498,81 @@ let images = [];
 
 try{
 
-if(Array.isArray(data.image_urls)){
-images = data.image_urls;
+if(
+Array.isArray(data.image_urls)
+){
+
+images =
+data.image_urls;
+
 }
-else if(typeof data.image_urls === "string"){
-images = JSON.parse(data.image_urls);
+
+else if(
+typeof data.image_urls === "string"
+){
+
+images =
+JSON.parse(data.image_urls);
+
 }
 
 }
 catch(e){
+
 images = [];
+
 }
 
-if(!images.length && data.image_url){
-images = [data.image_url];
+if(
+!images.length &&
+data.image_url
+){
+
+images =
+[data.image_url];
+
 }
 
-editingProductImages = images;
+editingProductImages =
+images;
+
 
 const existingBox =
-document.getElementById("existingImagesBox");
+document.getElementById(
+"existingImagesBox"
+);
 
 const existingImages =
-document.getElementById("existingImages");
+document.getElementById(
+"existingImages"
+);
+
 
 if(images.length){
 
-existingBox.style.display = "block";
+existingBox.style.display =
+"block";
 
 existingImages.innerHTML =
-images.map(img=>`
+images
+.map(img=>`
 
 <img
 src="${escapeHTML(img)}"
 alt="Product image"
 >
 
-`).join("");
+`)
+.join("");
 
 }
 else{
 
-existingBox.style.display = "none";
-existingImages.innerHTML = "";
+existingBox.style.display =
+"none";
+
+existingImages.innerHTML =
+"";
 
 }
 
@@ -1461,19 +1586,23 @@ data.colors
 :
 [];
 
+
 const colorsBox =
 document.getElementById("colors");
 
+
 if(colors.length){
 
-colorsBox.innerHTML = "";
+colorsBox.innerHTML =
+"";
 
 colors.forEach(color=>{
 
 const row =
 document.createElement("div");
 
-row.className = "option-row";
+row.className =
+"option-row";
 
 row.innerHTML = `
 
@@ -1525,19 +1654,23 @@ data.sizes
 :
 [];
 
+
 const sizesBox =
 document.getElementById("sizes");
 
+
 if(sizes.length){
 
-sizesBox.innerHTML = "";
+sizesBox.innerHTML =
+"";
 
 sizes.forEach(size=>{
 
 const row =
 document.createElement("div");
 
-row.className = "option-row";
+row.className =
+"option-row";
 
 row.innerHTML = `
 
@@ -1579,6 +1712,7 @@ placeholder="Example: S"
 
 }
 
+
 clearImageInputs();
 
 document
@@ -1589,7 +1723,7 @@ block:"start"
 });
 
 status.textContent =
-"Editing: "+(data.name || "product");
+"Editing: "+(data.name||"product");
 
 }
 
@@ -1611,35 +1745,59 @@ resetForm();
 
 function resetForm(){
 
-editingProductId = null;
-editingProductImages = [];
+editingProductId =
+null;
+
+editingProductImages =
+[];
 
 document
 .getElementById("formTitle")
-.textContent = "Add Product";
+.textContent =
+"Add Product";
 
 document
 .getElementById("submitButton")
-.textContent = "PUBLISH PRODUCT";
+.textContent =
+"PUBLISH PRODUCT";
 
 document
 .getElementById("cancelButton")
-.style.display = "none";
+.style.display =
+"none";
 
-document.getElementById("name").value = "";
-document.getElementById("price").value = "";
-document.getElementById("stock").value = "";
-document.getElementById("description").value = "";
+document
+.getElementById("name")
+.value =
+"";
+
+document
+.getElementById("price")
+.value =
+"";
+
+document
+.getElementById("stock")
+.value =
+"";
+
+document
+.getElementById("description")
+.value =
+"";
 
 clearImageInputs();
 
 document
 .getElementById("existingImagesBox")
-.style.display = "none";
+.style.display =
+"none";
 
 document
 .getElementById("existingImages")
-.innerHTML = "";
+.innerHTML =
+"";
+
 
 document
 .getElementById("colors")
@@ -1656,6 +1814,7 @@ placeholder="Example: Black"
 
 `;
 
+
 document
 .getElementById("sizes")
 .innerHTML = `
@@ -1671,9 +1830,11 @@ placeholder="Example: S"
 
 `;
 
+
 document
 .getElementById("status")
-.textContent = "";
+.textContent =
+"";
 
 }
 
@@ -1684,23 +1845,37 @@ document
 
 function clearImageInputs(){
 
-for(let i=0;i<6;i++){
+for(
+let i=0;
+i<6;
+i++
+){
 
-imageFiles[i] = null;
+imageFiles[i] =
+null;
 
 const preview =
-document.getElementById("preview"+i);
+document.getElementById(
+"preview"+i
+);
 
-preview.src = "";
-preview.style.display = "none";
+preview.src =
+"";
+
+preview.style.display =
+"none";
 
 }
 
 document
-.querySelectorAll('input[type="file"]')
-.forEach(input=>{
+.querySelectorAll(
+'input[type="file"]'
+)
+.forEach(
+input=>{
 input.value="";
-});
+}
+);
 
 }
 
@@ -1712,7 +1887,10 @@ input.value="";
 async function loadProducts(){
 
 const box =
-document.getElementById("products");
+document.getElementById(
+"products"
+);
+
 
 const {
 data,
@@ -1728,6 +1906,7 @@ ascending:false
 }
 );
 
+
 if(error){
 
 box.innerHTML =
@@ -1739,6 +1918,7 @@ return;
 
 }
 
+
 if(!data.length){
 
 box.innerHTML =
@@ -1748,6 +1928,7 @@ return;
 
 }
 
+
 box.innerHTML =
 data.map(p=>{
 
@@ -1755,19 +1936,37 @@ let images = [];
 
 try{
 
-if(Array.isArray(p.image_urls)){
-images = p.image_urls;
+if(
+Array.isArray(p.image_urls)
+){
+
+images =
+p.image_urls;
+
 }
-else if(typeof p.image_urls === "string"){
-images = JSON.parse(p.image_urls);
+else if(
+typeof p.image_urls === "string"
+){
+
+images =
+JSON.parse(p.image_urls);
+
 }
 
 }
 catch(e){}
 
-if(!images.length && p.image_url){
-images = [p.image_url];
+
+if(
+!images.length &&
+p.image_url
+){
+
+images =
+[p.image_url];
+
 }
+
 
 const colors =
 Array.isArray(p.colors)
@@ -1776,12 +1975,14 @@ p.colors
 :
 [];
 
+
 const sizes =
 Array.isArray(p.sizes)
 ?
 p.sizes
 :
 [];
+
 
 return `
 
@@ -1791,13 +1992,19 @@ return `
 
 ${
 images.length
+
 ?
+
 `<img
 src="${escapeHTML(images[0])}"
 >`
+
 :
+
 ""
+
 }
+
 
 <div class="product-info">
 
@@ -1807,22 +2014,22 @@ ${escapeHTML(p.name)}
 
 <p>
 Category:
-${escapeHTML(p.category || "")}
+${escapeHTML(p.category||"")}
 </p>
 
 <p>
 Price:
 PKR
-${Number(p.price || 0).toLocaleString()}
+${Number(p.price||0).toLocaleString()}
 </p>
 
 <p>
 Stock:
-${Number(p.stock_quantity || 0)}
+${Number(p.stock_quantity||0)}
 </p>
 
 <p>
-${escapeHTML(p.description || "")}
+${escapeHTML(p.description||"")}
 </p>
 
 <p>
@@ -1896,9 +2103,16 @@ src="${escapeHTML(img)}"
 
 async function deleteProduct(id){
 
-if(!confirm("Delete this product?")){
+if(
+!confirm(
+"Delete this product?"
+)
+){
+
 return;
+
 }
+
 
 const {
 error
@@ -1906,7 +2120,11 @@ error
 await db
 .from("products")
 .delete()
-.eq("id",id);
+.eq(
+"id",
+id
+);
+
 
 if(error){
 
@@ -1916,11 +2134,258 @@ return;
 
 }
 
-if(editingProductId === id){
+if(
+editingProductId === id
+){
+
 resetForm();
+
 }
 
 loadProducts();
+
+}
+
+
+/* ==================================================
+   WHATSAPP
+================================================== */
+
+function openWhatsApp(phone,message){
+
+if(!phone){
+
+alert(
+"Customer phone number is missing."
+);
+
+return;
+
+}
+
+
+/*
+Remove spaces, +, -, brackets, etc.
+*/
+
+let cleanPhone =
+String(phone)
+.replace(/\D/g,"");
+
+
+/*
+Pakistan number conversion:
+
+03335308890
+↓
+923335308890
+*/
+
+if(
+cleanPhone.startsWith("0")
+){
+
+cleanPhone =
+"92"+
+cleanPhone.substring(1);
+
+}
+
+
+/*
+If someone entered:
+
++923335308890
+
+the number is already correct.
+*/
+
+const whatsappURL =
+"https://wa.me/"+
+cleanPhone+
+"?text="+
+encodeURIComponent(message);
+
+
+window.open(
+whatsappURL,
+"_blank"
+);
+
+}
+
+
+/* ==================================================
+   CREATE WHATSAPP MESSAGE
+================================================== */
+
+function createWhatsAppMessage(
+order,
+newStatus,
+orderItems
+){
+
+const customer =
+order.customer_name ||
+"there";
+
+
+const orderNumber =
+order.id;
+
+
+const total =
+Number(
+order.total || 0
+).toLocaleString();
+
+
+let message = "";
+
+
+/* =========================
+   PRODUCTS
+========================= */
+
+let productsText = "";
+
+
+if(
+orderItems &&
+orderItems.length
+){
+
+productsText =
+"\n\nProducts:\n";
+
+orderItems.forEach(item=>{
+
+productsText +=
+"• "+
+(item.product_name || "Product")+
+" × "+
+Number(item.quantity || 0);
+
+if(item.color){
+
+productsText +=
+" | Color: "+
+item.color;
+
+}
+
+if(item.size){
+
+productsText +=
+" | Size: "+
+item.size;
+
+}
+
+productsText += "\n";
+
+});
+
+}
+
+
+/* =========================
+   CONFIRMED
+========================= */
+
+if(
+newStatus === "confirmed"
+){
+
+message =
+"Hi "+
+customer+
+" 👋\n\n"+
+"Your VEYA order #"+
+orderNumber+
+" has been confirmed! ✅"+
+productsText+
+"\nTotal: PKR "+
+total+
+"\n\n"+
+"We will ship your order soon. 📦\n\n"+
+"Thank you for shopping with VEYA 🛍️";
+
+}
+
+
+/* =========================
+   SHIPPED
+========================= */
+
+if(
+newStatus === "shipped"
+){
+
+message =
+"Hi "+
+customer+
+" 👋\n\n"+
+"Your VEYA order #"+
+orderNumber+
+" has been shipped! 📦🚚"+
+productsText+
+"\nTotal: PKR "+
+total+
+"\n\n"+
+"Your order is now on its way. 🎉\n\n"+
+"Thank you for shopping with VEYA 🛍️";
+
+}
+
+
+/* =========================
+   DELIVERED
+========================= */
+
+if(
+newStatus === "delivered"
+){
+
+message =
+"Hi "+
+customer+
+" 👋\n\n"+
+"Your VEYA order #"+
+orderNumber+
+" has been delivered! 🎉"+
+productsText+
+"\n\n"+
+"Thank you for shopping with VEYA 🛍️\n\n"+
+"We hope you enjoy your order! ❤️";
+
+}
+
+
+/* =========================
+   CANCELLED
+========================= */
+
+if(
+newStatus === "cancelled"
+){
+
+message =
+"Hi "+
+customer+
+" 👋\n\n"+
+"Unfortunately, your VEYA order #"+
+orderNumber+
+" has been cancelled. ❌"+
+productsText+
+"\n\n"+
+"If you have any questions, please contact VEYA.\n\n"+
+"Thank you.";
+
+}
+
+
+return message;
 
 }
 
@@ -1934,14 +2399,17 @@ async function loadOrders(){
 const box =
 document.getElementById("orders");
 
-box.innerHTML = `
+box.innerHTML =
+`
 <div class="loading-orders">
 Loading orders...
 </div>
 `;
 
 
-/* LOAD ORDERS */
+/*
+Load orders.
+*/
 
 const {
 data,
@@ -1956,6 +2424,7 @@ await db
 ascending:false
 }
 );
+
 
 if(error){
 
@@ -1979,7 +2448,11 @@ return;
 
 }
 
-if(!data || !data.length){
+
+if(
+!data ||
+!data.length
+){
 
 box.innerHTML = `
 
@@ -2000,14 +2473,22 @@ return;
 }
 
 
-/* LOAD ORDER ITEMS */
+/*
+Load order items.
+*/
 
 const orderIds =
-data.map(order=>order.id);
+data.map(
+order=>order.id
+);
+
 
 let items = [];
 
-if(orderIds.length){
+
+if(
+orderIds.length
+){
 
 const {
 data:itemData,
@@ -2021,6 +2502,7 @@ await db
 orderIds
 );
 
+
 if(itemError){
 
 console.error(
@@ -2031,81 +2513,30 @@ itemError
 }
 else{
 
-items = itemData || [];
+items =
+itemData || [];
 
 }
 
 }
 
 
-/* ==================================================
-   NEW:
-   LOAD PRODUCTS FOR IMAGES
-================================================== */
-
-const productIds =
-[
-...new Set(
-items
-.map(item=>item.product_id)
-.filter(id=>id !== null && id !== undefined)
-)
-];
-
-let productsMap = {};
-
-
-if(productIds.length){
-
-const {
-data:productData,
-error:productError
-} =
-await db
-.from("products")
-.select(
-"id,image_url,image_urls,name"
-)
-.in(
-"id",
-productIds
-);
-
-
-if(productError){
-
-console.error(
-"Product image error:",
-productError
-);
-
-}
-else{
-
-(productData || []).forEach(product=>{
-
-productsMap[
-String(product.id)
-] = product;
-
-});
-
-}
-
-}
-
-
-/* ==================================================
-   RENDER ORDERS
-================================================== */
+/*
+Render orders.
+*/
 
 box.innerHTML =
 data.map(order=>{
 
+/*
+IMPORTANT:
+
+Your Supabase table column is "status".
+*/
+
 const status =
 String(
 order.status ||
-order.statu ||
 "pending"
 ).toLowerCase();
 
@@ -2121,207 +2552,106 @@ String(order.id)
 let statusClass =
 "status-pending";
 
-if(status==="confirmed")
-statusClass="status-confirmed";
 
-if(status==="shipped")
-statusClass="status-shipped";
-
-if(status==="delivered")
-statusClass="status-delivered";
-
-if(status==="cancelled")
-statusClass="status-cancelled";
+if(
+status === "confirmed"
+)
+statusClass =
+"status-confirmed";
 
 
-let dateText = "";
+if(
+status === "shipped"
+)
+statusClass =
+"status-shipped";
+
+
+if(
+status === "delivered"
+)
+statusClass =
+"status-delivered";
+
+
+if(
+status === "cancelled"
+)
+statusClass =
+"status-cancelled";
+
+
+let dateText =
+"";
+
 
 if(order.created_at){
 
 const date =
-new Date(order.created_at);
-
-if(!isNaN(date)){
-dateText =
-date.toLocaleString();
-}
-
-}
-
-
-/* ==================================================
-   ORDER ITEMS HTML
-================================================== */
-
-let orderItemsHTML = "";
-
-if(orderItems.length){
-
-orderItemsHTML =
-orderItems.map(item=>{
-
-const product =
-productsMap[
-String(item.product_id)
-];
-
-
-let imageUrl = "";
-
-
-/* First try image_urls */
-
-if(product){
-
-if(
-Array.isArray(product.image_urls)
-&&
-product.image_urls.length
-){
-
-imageUrl =
-product.image_urls[0];
-
-}
-
-
-/* If image_urls is stored as JSON text */
-
-else if(
-typeof product.image_urls === "string"
-){
-
-try{
-
-const parsed =
-JSON.parse(
-product.image_urls
+new Date(
+order.created_at
 );
 
-if(
-Array.isArray(parsed)
-&&
-parsed.length
-){
+if(!isNaN(date)){
 
-imageUrl =
-parsed[0];
+dateText =
+date.toLocaleString();
 
 }
 
 }
-catch(e){}
-
-}
 
 
-/* Fallback to image_url */
+/*
+Create product summary for WhatsApp.
+*/
+
+let productSummary = "";
 
 if(
-!imageUrl &&
-product.image_url
+orderItems.length
 ){
 
-imageUrl =
-product.image_url;
+productSummary =
+orderItems
+.map(item=>{
+
+let text =
+(item.product_name || "Product")+
+" x"+
+Number(item.quantity || 0);
+
+if(item.color){
+
+text +=
+" ("+
+item.color;
+
+if(item.size){
+
+text +=
+", "+
+item.size;
 
 }
 
-}
-
-
-return `
-
-<div class="order-item">
-
-<div class="order-item-content">
-
-${
-imageUrl
-
-?
-
-`<img
-class="order-item-image"
-src="${escapeHTML(imageUrl)}"
-alt="${escapeHTML(item.product_name || "Product")}"
-loading="lazy"
->`
-
-:
-
-`<div class="order-item-image-placeholder">
-No image
-</div>`
+text += ")";
 
 }
 
-<div class="order-item-info">
+else if(item.size){
 
-<div class="order-item-name">
-
-${escapeHTML(
-item.product_name ||
-"Product"
-)}
-
-</div>
-
-<div class="order-item-details">
-
-${
-item.color
-?
-"Color: "+
-escapeHTML(item.color)+
-"<br>"
-:
-""
-}
-
-${
-item.size
-?
-"Size: "+
-escapeHTML(item.size)+
-"<br>"
-:
-""
-}
-
-Quantity:
-${Number(item.quantity || 0)}
-
-<br>
-
-Price:
-PKR
-${Number(item.price || 0).toLocaleString()}
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-}).join("");
+text +=
+" ("+
+item.size+
+")";
 
 }
-else{
 
-orderItemsHTML = `
+return text;
 
-<div class="order-item-details">
-
-No order items found.
-
-</div>
-
-`;
+})
+.join("\n");
 
 }
 
@@ -2353,6 +2683,7 @@ ${escapeHTML(dateText)}
 }
 
 </div>
+
 
 <div
 class="order-status ${statusClass}"
@@ -2413,7 +2744,75 @@ order.delivery_notes || "None"
 Products
 </strong>
 
-${orderItemsHTML}
+
+${
+orderItems.length
+
+?
+
+orderItems.map(item=>`
+
+<div class="order-item">
+
+<div class="order-item-name">
+
+${escapeHTML(
+item.product_name ||
+"Product"
+)}
+
+</div>
+
+<div class="order-item-details">
+
+${
+item.color
+?
+"Color: "+
+escapeHTML(item.color)+
+"<br>"
+:
+""
+}
+
+${
+item.size
+?
+"Size: "+
+escapeHTML(item.size)+
+"<br>"
+:
+""
+}
+
+Quantity:
+${Number(
+item.quantity || 0
+)}
+
+<br>
+
+Price:
+PKR
+${Number(
+item.price || 0
+).toLocaleString()}
+
+</div>
+
+</div>
+
+`).join("")
+
+:
+
+`
+<div class="order-item-details">
+No order items found.
+</div>
+`
+
+}
 
 </div>
 
@@ -2431,8 +2830,13 @@ order.total || 0
 
 <div class="order-actions">
 
+
+<!-- =========================
+     PENDING
+========================= -->
+
 ${
-status==="pending"
+status === "pending"
 
 ?
 
@@ -2461,8 +2865,12 @@ onclick="updateOrderStatus('${escapeJS(order.id)}','cancelled')"
 }
 
 
+<!-- =========================
+     CONFIRMED
+========================= -->
+
 ${
-status==="confirmed"
+status === "confirmed"
 
 ?
 
@@ -2491,8 +2899,12 @@ onclick="updateOrderStatus('${escapeJS(order.id)}','cancelled')"
 }
 
 
+<!-- =========================
+     SHIPPED
+========================= -->
+
 ${
-status==="shipped"
+status === "shipped"
 
 ?
 
@@ -2503,6 +2915,42 @@ class="deliver-btn"
 onclick="updateOrderStatus('${escapeJS(order.id)}','delivered')"
 >
 🚚 Mark Delivered
+</button>
+
+`
+
+:
+
+""
+
+}
+
+
+<!-- =========================
+     WHATSAPP BUTTON
+========================= -->
+
+${
+order.customer_phone
+
+?
+
+`
+
+<button
+class="whatsapp-btn"
+onclick="openWhatsApp(
+'${escapeJS(order.customer_phone)}',
+'${escapeJS(
+createWhatsAppMessage(
+order,
+status,
+orderItems
+)
+)}'
+)"
+>
+💬 WhatsApp Customer
 </button>
 
 `
@@ -2533,31 +2981,127 @@ orderId,
 newStatus
 ){
 
-let message = "";
+let confirmationMessage =
+"";
 
-if(newStatus==="confirmed"){
-message = "Confirm this order?";
+
+if(
+newStatus === "confirmed"
+){
+
+confirmationMessage =
+"Confirm this order?";
+
 }
 
-if(newStatus==="shipped"){
-message = "Mark this order as shipped?";
+
+if(
+newStatus === "shipped"
+){
+
+confirmationMessage =
+"Mark this order as shipped?";
+
 }
 
-if(newStatus==="delivered"){
-message = "Mark this order as delivered?";
+
+if(
+newStatus === "delivered"
+){
+
+confirmationMessage =
+"Mark this order as delivered?";
+
 }
 
-if(newStatus==="cancelled"){
-message = "Cancel this order?";
+
+if(
+newStatus === "cancelled"
+){
+
+confirmationMessage =
+"Cancel this order?";
+
 }
 
-if(!confirm(message)){
+
+if(
+!confirm(
+confirmationMessage
+)
+){
+
 return;
+
 }
 
 
 /*
-Your database uses "status".
+Load complete order.
+*/
+
+const {
+data:order,
+error:orderError
+} =
+await db
+.from("orders")
+.select("*")
+.eq(
+"id",
+orderId
+)
+.single();
+
+
+if(orderError){
+
+console.error(
+orderError
+);
+
+alert(
+"Could not load order:\n\n"+
+orderError.message
+);
+
+return;
+
+}
+
+
+/*
+Load its products.
+*/
+
+const {
+data:orderItems,
+error:itemError
+} =
+await db
+.from("order_items")
+.select("*")
+.eq(
+"order_id",
+orderId
+);
+
+
+if(itemError){
+
+console.error(
+"Order items:",
+itemError
+);
+
+}
+
+
+/*
+UPDATE STATUS
+
+Your Supabase column is:
+status
 */
 
 const {
@@ -2566,16 +3110,21 @@ error
 await db
 .from("orders")
 .update({
+
 status:newStatus
+
 })
 .eq(
 "id",
 orderId
 );
 
+
 if(error){
 
-console.error(error);
+console.error(
+error
+);
 
 alert(
 "Could not update order:\n\n"+
@@ -2586,13 +3135,44 @@ return;
 
 }
 
-alert(
-"Order updated to "+
-capitalize(newStatus)+
-"."
+
+/*
+Create WhatsApp message.
+*/
+
+const whatsappMessage =
+createWhatsAppMessage(
+order,
+newStatus,
+orderItems || []
 );
 
-loadOrders();
+
+/*
+Open WhatsApp.
+
+The message is pre-filled.
+You still press Send yourself.
+*/
+
+if(
+order.customer_phone &&
+whatsappMessage
+){
+
+openWhatsApp(
+order.customer_phone,
+whatsappMessage
+);
+
+}
+
+
+/*
+Refresh orders.
+*/
+
+await loadOrders();
 
 }
 
@@ -2624,13 +3204,19 @@ return String(text)
 }
 
 
+/*
+Used for IDs and WhatsApp text
+inside onclick attributes.
+*/
+
 function escapeJS(text){
 
 return String(text)
 .replaceAll("\\","\\\\")
 .replaceAll("'","\\'")
 .replaceAll("\n","\\n")
-.replaceAll("\r","\\r");
+.replaceAll("\r","\\r")
+.replaceAll("\`","\\`");
 
 }
 
@@ -2647,4 +3233,3 @@ loadOrders();
 
 </body>
 </html>
-```
