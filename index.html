@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -193,8 +192,6 @@ font-size:18px;
 margin:8px 0
 }
 
-/* CLEAN SHORT DESCRIPTION ON PRODUCT CARDS */
-
 .description{
 color:#777;
 font-size:13px;
@@ -212,13 +209,21 @@ font-weight:bold;
 margin-top:12px
 }
 
+/* STOCK */
+
 .stock{
 font-size:13px;
 color:#666;
-margin-top:7px
+margin-top:7px;
+font-weight:600
 }
 
-.out{
+.stock.low{
+color:#d62828;
+font-weight:700
+}
+
+.stock.out{
 color:#b00020;
 font-weight:bold
 }
@@ -234,7 +239,8 @@ border-radius:5px
 }
 
 .add:disabled{
-background:#aaa
+background:#aaa;
+cursor:not-allowed
 }
 
 .about{
@@ -382,8 +388,6 @@ font-weight:bold;
 margin:20px 0
 }
 
-/* FULL DESCRIPTION ONLY INSIDE PRODUCT MODAL */
-
 .modal-description{
 color:#666;
 line-height:1.7;
@@ -392,9 +396,22 @@ max-height:280px;
 overflow:auto
 }
 
+/* MODAL STOCK */
+
 .modal-stock{
 margin-top:20px;
-font-size:14px
+font-size:14px;
+font-weight:600
+}
+
+.modal-stock.low{
+color:#d62828;
+font-weight:700
+}
+
+.modal-stock.out{
+color:#b00020;
+font-weight:bold
 }
 
 .variant-title{
@@ -441,6 +458,12 @@ background:white;
 font-size:20px
 }
 
+.quantity-selector button:disabled{
+background:#eee;
+color:#aaa;
+cursor:not-allowed
+}
+
 .quantity-number{
 width:60px;
 height:45px;
@@ -473,9 +496,20 @@ background:#171717;
 color:white
 }
 
+.modal-add:disabled{
+background:#aaa;
+cursor:not-allowed
+}
+
 .buy-now{
 background:#e8e5de;
 color:#171717
+}
+
+.buy-now:disabled{
+background:#ccc;
+color:#777;
+cursor:not-allowed
 }
 
 /* CART */
@@ -663,8 +697,6 @@ border-top:1px solid #ddd;
 display:flex;
 justify-content:space-between
 }
-
-/* PAYMENT METHOD */
 
 .payment-method{
 margin-top:20px;
@@ -876,6 +908,7 @@ Discover clothing, purses, glasses, watches and jewellery in one simple shopping
 <span>© 2026 VEYA</span>
 </footer>
 
+
 <!-- PRODUCT DETAILS -->
 
 <div class="product-overlay" id="productOverlay">
@@ -934,11 +967,26 @@ Discover clothing, purses, glasses, watches and jewellery in one simple shopping
 
 <div class="quantity-selector">
 
-<button onclick="changeProductQuantity(-1)">−</button>
+<button
+id="minusQuantity"
+onclick="changeProductQuantity(-1)"
+>
+−
+</button>
 
-<div class="quantity-number" id="productQuantity">1</div>
+<div
+class="quantity-number"
+id="productQuantity"
+>
+1
+</div>
 
-<button onclick="changeProductQuantity(1)">+</button>
+<button
+id="plusQuantity"
+onclick="changeProductQuantity(1)"
+>
++
+</button>
 
 </div>
 
@@ -946,6 +994,7 @@ Discover clothing, purses, glasses, watches and jewellery in one simple shopping
 
 <button
 class="modal-add"
+id="modalAddButton"
 onclick="addSelectedProductToCart()"
 >
 ADD TO CART
@@ -953,6 +1002,7 @@ ADD TO CART
 
 <button
 class="buy-now"
+id="buyNowButton"
 onclick="buyNow()"
 >
 ⚡ BUY NOW
@@ -965,6 +1015,7 @@ onclick="buyNow()"
 </div>
 
 </div>
+
 
 <!-- CART -->
 
@@ -1002,6 +1053,7 @@ Continue to Checkout
 </div>
 
 </div>
+
 
 <!-- CHECKOUT -->
 
@@ -1102,6 +1154,7 @@ ORDER ON WHATSAPP
 
 </div>
 
+
 <script>
 
 const supabaseClient =
@@ -1110,13 +1163,6 @@ window.SUPABASE_URL,
 window.SUPABASE_KEY
 );
 
-/*
-IMPORTANT:
-This must be ONLY the WhatsApp number.
-No + sign.
-No spaces.
-No hyphens.
-*/
 const WA="923335308890";
 
 const COD_FEE=165;
@@ -1255,9 +1301,7 @@ return images.filter(Boolean);
 }
 
 
-/* CLEAN SHORT DESCRIPTION
-   Removes markdown and limits the card to a short preview.
-*/
+/* SHORT DESCRIPTION */
 
 function getShortDescription(text){
 
@@ -1266,23 +1310,18 @@ return "";
 
 let clean=String(text);
 
-/* Remove markdown headings */
 clean=clean.replace(/^#{1,6}\s*/gm,"");
 
-/* Remove bold / italic markdown */
 clean=clean.replace(/\*\*/g,"");
+
 clean=clean.replace(/\*/g,"");
 
-/* Remove bullet marks */
 clean=clean.replace(/^\s*[-•]\s*/gm,"");
 
-/* Remove extra line breaks */
 clean=clean.replace(/\r?\n+/g," ");
 
-/* Remove extra spaces */
 clean=clean.replace(/\s+/g," ").trim();
 
-/* Keep product cards short */
 if(clean.length>125){
 
 clean=clean.substring(0,125).trim()+"...";
@@ -1294,7 +1333,42 @@ return clean;
 }
 
 
-/* STORE PRODUCTS */
+/* STOCK DISPLAY */
+
+function getStockHTML(stock){
+
+stock=Number(stock||0);
+
+if(stock<=0){
+
+return `
+<span class="stock out">
+Out of stock
+</span>
+`;
+
+}
+
+if(stock<=7){
+
+return `
+<span class="stock low">
+🔥 Only ${stock} left!
+</span>
+`;
+
+}
+
+return `
+<span class="stock">
+${stock} available
+</span>
+`;
+
+}
+
+
+/* RENDER PRODUCTS */
 
 function render(){
 
@@ -1384,11 +1458,7 @@ ${escapeHTML(shortDescription)}
 PKR ${Number(p.price||0).toLocaleString()}
 </div>
 
-<div class="stock ${out?"out":""}">
-
-${out?"Out of stock":`${stock} available`}
-
-</div>
+${getStockHTML(stock)}
 
 <button
 class="add"
@@ -1413,7 +1483,7 @@ ${out?"Out of Stock":"View Product"}
 }
 
 
-/* PRODUCT */
+/* PRODUCT MODAL */
 
 function openProduct(id){
 
@@ -1442,10 +1512,6 @@ document.getElementById("modalPrice")
 .textContent=
 "PKR "+Number(product.price||0).toLocaleString();
 
-/*
-Full description stays here.
-It is NOT displayed on the product card.
-*/
 document.getElementById("modalDescription")
 .textContent=product.description||"";
 
@@ -1517,6 +1583,7 @@ onclick="selectImage(${index})"
 function selectImage(index){
 
 selectedImageIndex=index;
+
 renderGallery();
 
 }
@@ -1643,8 +1710,12 @@ button.classList.add("selected");
 
 function changeProductQuantity(amount){
 
+if(!selectedProduct)return;
+
 const stock=
 Number(selectedProduct.stock_quantity||0);
+
+if(stock<=0)return;
 
 const newQuantity=
 selectedQuantity+amount;
@@ -1665,21 +1736,86 @@ updateProductQuantity();
 
 }
 
+
 function updateProductQuantity(){
+
+if(!selectedProduct)return;
+
+const stock=
+Number(selectedProduct.stock_quantity||0);
+
+const modalStock=
+document.getElementById("modalStock");
+
+const minus=
+document.getElementById("minusQuantity");
+
+const plus=
+document.getElementById("plusQuantity");
+
+const addButton=
+document.getElementById("modalAddButton");
+
+const buyButton=
+document.getElementById("buyNowButton");
+
 
 document.getElementById("productQuantity")
 .textContent=selectedQuantity;
 
-const stock=
-Number(selectedProduct?.stock_quantity||0);
 
-document.getElementById("modalStock")
-.textContent=
-stock>0
-?
-stock+" available"
-:
+/* OUT OF STOCK */
+
+if(stock<=0){
+
+modalStock.textContent=
 "Out of stock";
+
+modalStock.className=
+"modal-stock out";
+
+minus.disabled=true;
+plus.disabled=true;
+
+addButton.disabled=true;
+buyButton.disabled=true;
+
+return;
+
+}
+
+
+/* LOW STOCK */
+
+if(stock<=7){
+
+modalStock.textContent=
+"🔥 Only "+stock+" left!";
+
+modalStock.className=
+"modal-stock low";
+
+}else{
+
+modalStock.textContent=
+stock+" available";
+
+modalStock.className=
+"modal-stock";
+
+}
+
+
+/* BUTTON STATES */
+
+minus.disabled=
+selectedQuantity<=1;
+
+plus.disabled=
+selectedQuantity>=stock;
+
+addButton.disabled=false;
+buyButton.disabled=false;
 
 }
 
@@ -1789,6 +1925,14 @@ if(!validateSelection())return;
 
 const stock=
 Number(selectedProduct.stock_quantity||0);
+
+if(stock<=0){
+
+alert("Out of stock.");
+
+return;
+
+}
 
 if(selectedQuantity>stock){
 
@@ -2072,18 +2216,7 @@ PKR ${total.toLocaleString()}
 }
 
 
-/*
-====================================================
-WHATSAPP ORDER
-====================================================
-
-IMPORTANT FIXES:
-
-1. Correct wa.me URL.
-2. Pre-open the WhatsApp tab immediately after button click.
-   This prevents popup blockers after the Supabase await.
-3. Fill WhatsApp with complete order information.
-*/
+/* WHATSAPP ORDER */
 
 async function sendWhatsAppOrder(){
 
@@ -2127,13 +2260,6 @@ return;
 }
 
 
-/*
-Open a blank tab BEFORE the async Supabase request.
-
-This is important because browsers can block
-window.open() when it happens after await.
-*/
-
 const whatsappWindow=
 window.open("about:blank","_blank");
 
@@ -2148,16 +2274,12 @@ return;
 }
 
 
-/* Disable button while order is processing */
-
 const sendButton=
 document.getElementById("sendOrderButton");
 
 sendButton.disabled=true;
 sendButton.textContent="PROCESSING ORDER...";
 
-
-/* PAYMENT */
 
 const paymentMethod=
 document.querySelector(
@@ -2199,8 +2321,6 @@ price:Number(x.price)
 }));
 
 
-/* SAVE ORDER */
-
 const {data:orderId,error}=
 await supabaseClient.rpc(
 "place_order",
@@ -2235,8 +2355,6 @@ return;
 }
 
 
-/* WHATSAPP PRODUCT DETAILS */
-
 const productLines=
 checkoutItems.map(x=>{
 
@@ -2258,8 +2376,6 @@ return text;
 
 }).join("\n\n");
 
-
-/* FINAL WHATSAPP MESSAGE */
 
 const message=
 `NEW VEYA ORDER
@@ -2302,15 +2418,6 @@ ${notes||"None"}
 VEYA ORDER`;
 
 
-/*
-THIS IS THE CORRECT WHATSAPP URL.
-
-Your old code had:
-[https://wa.me/](https://wa.me/)
-
-which is NOT a valid URL.
-*/
-
 const url=
 "https://wa.me/"+
 WA+
@@ -2318,14 +2425,8 @@ WA+
 encodeURIComponent(message);
 
 
-/*
-Send the already-opened tab to WhatsApp.
-*/
-
 whatsappWindow.location.href=url;
 
-
-/* CLEAR CART */
 
 cart=[];
 
@@ -2377,4 +2478,3 @@ loadProducts();
 
 </body>
 </html>
-```
