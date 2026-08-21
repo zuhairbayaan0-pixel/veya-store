@@ -387,23 +387,56 @@ margin-top:15px
 }
 
 .order-item{
-padding:12px 0;
-border-bottom:1px solid #eee
+display:flex;
+gap:15px;
+padding:15px 0;
+border-bottom:1px solid #eee;
+align-items:flex-start
 }
 
 .order-item:last-child{
 border-bottom:0
 }
 
+.order-item-image{
+width:100px;
+height:100px;
+object-fit:cover;
+border-radius:8px;
+border:1px solid #ddd;
+background:#f5f5f5;
+flex-shrink:0
+}
+
+.order-item-no-image{
+width:100px;
+height:100px;
+border-radius:8px;
+border:1px solid #ddd;
+background:#f5f5f5;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+font-size:12px;
+color:#888;
+flex-shrink:0
+}
+
+.order-item-content{
+flex:1
+}
+
 .order-item-name{
-font-weight:bold
+font-weight:bold;
+font-size:16px
 }
 
 .order-item-details{
 font-size:13px;
 color:#666;
-margin-top:4px;
-line-height:1.6
+margin-top:7px;
+line-height:1.7
 }
 
 .order-total{
@@ -448,11 +481,6 @@ color:white
 .cancel-btn{
 background:#eee;
 color:#a00020
-}
-
-.whatsapp-btn{
-background:#25D366;
-color:white
 }
 
 .no-orders{
@@ -508,6 +536,16 @@ align-self:flex-start
 .order-actions{
 display:grid;
 grid-template-columns:1fr 1fr
+}
+
+.order-item{
+align-items:flex-start
+}
+
+.order-item-image,
+.order-item-no-image{
+width:80px;
+height:80px
 }
 
 }
@@ -2060,14 +2098,14 @@ sizes.map(escapeHTML).join(", ")
 
 <button
 class="edit"
-onclick="editProduct(${p.id})"
+onclick="editProduct('${escapeJS(String(p.id))}')"
 >
 ✏️ Edit
 </button>
 
 <button
 class="delete"
-onclick="deleteProduct(${p.id})"
+onclick="deleteProduct('${escapeJS(String(p.id))}')"
 >
 Delete
 </button>
@@ -2135,7 +2173,8 @@ return;
 }
 
 if(
-editingProductId === id
+String(editingProductId) ===
+String(id)
 ){
 
 resetForm();
@@ -2148,244 +2187,141 @@ loadProducts();
 
 
 /* ==================================================
-   WHATSAPP
+   GET PRODUCT IMAGES FOR ORDERS
 ================================================== */
 
-function openWhatsApp(phone,message){
+async function getProductImages(productIds){
 
-if(!phone){
+if(!productIds.length){
+return {};
+}
 
-alert(
-"Customer phone number is missing."
+const uniqueIds =
+[
+...new Set(
+productIds
+.filter(
+id =>
+id !== null &&
+id !== undefined &&
+id !== ""
+)
+.map(id=>String(id))
+)
+];
+
+if(!uniqueIds.length){
+return {};
+}
+
+
+/*
+Load the actual products.
+The order_items table gives us product_id.
+The products table contains image_url/image_urls.
+*/
+
+const {
+data,
+error
+} =
+await db
+.from("products")
+.select(
+"id,name,image_url,image_urls"
+)
+.in(
+"id",
+uniqueIds
 );
 
-return;
+
+if(error){
+
+console.error(
+"Could not load product images:",
+error
+);
+
+return {};
+
+}
+
+
+const productMap = {};
+
+
+(data || []).forEach(product=>{
+
+let images = [];
+
+
+/*
+image_urls can be:
+- a JavaScript array
+- a JSON string
+*/
+
+try{
+
+if(
+Array.isArray(product.image_urls)
+){
+
+images =
+product.image_urls;
+
+}
+else if(
+typeof product.image_urls === "string"
+){
+
+images =
+JSON.parse(product.image_urls);
+
+}
+
+}
+catch(e){
+
+images = [];
 
 }
 
 
 /*
-Remove spaces, +, -, brackets, etc.
-*/
-
-let cleanPhone =
-String(phone)
-.replace(/\D/g,"");
-
-
-/*
-Pakistan number conversion:
-
-03335308890
-↓
-923335308890
+Fallback to image_url.
 */
 
 if(
-cleanPhone.startsWith("0")
+!images.length &&
+product.image_url
 ){
 
-cleanPhone =
-"92"+
-cleanPhone.substring(1);
+images =
+[
+product.image_url
+];
 
 }
 
 
-/*
-If someone entered:
+productMap[
+String(product.id)
+] = {
 
-+923335308890
+name:
+product.name || "",
 
-the number is already correct.
-*/
+image:
+images[0] || ""
 
-const whatsappURL =
-"https://wa.me/"+
-cleanPhone+
-"?text="+
-encodeURIComponent(message);
-
-
-window.open(
-whatsappURL,
-"_blank"
-);
-
-}
-
-
-/* ==================================================
-   CREATE WHATSAPP MESSAGE
-================================================== */
-
-function createWhatsAppMessage(
-order,
-newStatus,
-orderItems
-){
-
-const customer =
-order.customer_name ||
-"there";
-
-
-const orderNumber =
-order.id;
-
-
-const total =
-Number(
-order.total || 0
-).toLocaleString();
-
-
-let message = "";
-
-
-/* =========================
-   PRODUCTS
-========================= */
-
-let productsText = "";
-
-
-if(
-orderItems &&
-orderItems.length
-){
-
-productsText =
-"\n\nProducts:\n";
-
-orderItems.forEach(item=>{
-
-productsText +=
-"• "+
-(item.product_name || "Product")+
-" × "+
-Number(item.quantity || 0);
-
-if(item.color){
-
-productsText +=
-" | Color: "+
-item.color;
-
-}
-
-if(item.size){
-
-productsText +=
-" | Size: "+
-item.size;
-
-}
-
-productsText += "\n";
+};
 
 });
 
-}
 
-
-/* =========================
-   CONFIRMED
-========================= */
-
-if(
-newStatus === "confirmed"
-){
-
-message =
-"Hi "+
-customer+
-" 👋\n\n"+
-"Your VEYA order #"+
-orderNumber+
-" has been confirmed! ✅"+
-productsText+
-"\nTotal: PKR "+
-total+
-"\n\n"+
-"We will ship your order soon. 📦\n\n"+
-"Thank you for shopping with VEYA 🛍️";
-
-}
-
-
-/* =========================
-   SHIPPED
-========================= */
-
-if(
-newStatus === "shipped"
-){
-
-message =
-"Hi "+
-customer+
-" 👋\n\n"+
-"Your VEYA order #"+
-orderNumber+
-" has been shipped! 📦🚚"+
-productsText+
-"\nTotal: PKR "+
-total+
-"\n\n"+
-"Your order is now on its way. 🎉\n\n"+
-"Thank you for shopping with VEYA 🛍️";
-
-}
-
-
-/* =========================
-   DELIVERED
-========================= */
-
-if(
-newStatus === "delivered"
-){
-
-message =
-"Hi "+
-customer+
-" 👋\n\n"+
-"Your VEYA order #"+
-orderNumber+
-" has been delivered! 🎉"+
-productsText+
-"\n\n"+
-"Thank you for shopping with VEYA 🛍️\n\n"+
-"We hope you enjoy your order! ❤️";
-
-}
-
-
-/* =========================
-   CANCELLED
-========================= */
-
-if(
-newStatus === "cancelled"
-){
-
-message =
-"Hi "+
-customer+
-" 👋\n\n"+
-"Unfortunately, your VEYA order #"+
-orderNumber+
-" has been cancelled. ❌"+
-productsText+
-"\n\n"+
-"If you have any questions, please contact VEYA.\n\n"+
-"Thank you.";
-
-}
-
-
-return message;
+return productMap;
 
 }
 
@@ -2409,6 +2345,9 @@ Loading orders...
 
 /*
 Load orders.
+IMPORTANT:
+Your actual database column is "status",
+not "statu".
 */
 
 const {
@@ -2473,22 +2412,20 @@ return;
 }
 
 
-/*
-Load order items.
-*/
+/* ==================================================
+   LOAD ORDER ITEMS
+================================================== */
 
 const orderIds =
 data.map(
-order=>order.id
+order =>
+order.id
 );
-
 
 let items = [];
 
 
-if(
-orderIds.length
-){
+if(orderIds.length){
 
 const {
 data:itemData,
@@ -2521,18 +2458,37 @@ itemData || [];
 }
 
 
+/* ==================================================
+   LOAD PRODUCT IMAGES
+================================================== */
+
+const productIds =
+items.map(
+item =>
+item.product_id
+);
+
+
 /*
-Render orders.
+This is the important part.
+
+The order_items table has product_id.
+We use that product_id to find the image
+inside the products table.
 */
+
+const productMap =
+await getProductImages(
+productIds
+);
+
+
+/* ==================================================
+   RENDER ORDERS
+================================================== */
 
 box.innerHTML =
 data.map(order=>{
-
-/*
-IMPORTANT:
-
-Your Supabase table column is "status".
-*/
 
 const status =
 String(
@@ -2553,30 +2509,19 @@ let statusClass =
 "status-pending";
 
 
-if(
-status === "confirmed"
-)
+if(status==="confirmed")
 statusClass =
 "status-confirmed";
 
-
-if(
-status === "shipped"
-)
+if(status==="shipped")
 statusClass =
 "status-shipped";
 
-
-if(
-status === "delivered"
-)
+if(status==="delivered")
 statusClass =
 "status-delivered";
 
-
-if(
-status === "cancelled"
-)
+if(status==="cancelled")
 statusClass =
 "status-cancelled";
 
@@ -2602,59 +2547,146 @@ date.toLocaleString();
 }
 
 
-/*
-Create product summary for WhatsApp.
-*/
+/* ==================================================
+   ORDER ITEMS HTML
+================================================== */
 
-let productSummary = "";
+let itemsHTML =
+"";
 
-if(
-orderItems.length
-){
 
-productSummary =
+if(orderItems.length){
+
+itemsHTML =
 orderItems
 .map(item=>{
 
-let text =
-(item.product_name || "Product")+
-" x"+
-Number(item.quantity || 0);
+const product =
+productMap[
+String(item.product_id)
+];
 
-if(item.color){
 
-text +=
-" ("+
-item.color;
+const productImage =
+product
+?
+product.image
+:
+"";
 
-if(item.size){
 
-text +=
-", "+
-item.size;
+return `
+
+<div class="order-item">
+
+${
+productImage
+
+?
+
+`
+<img
+class="order-item-image"
+src="${escapeHTML(productImage)}"
+alt="${escapeHTML(item.product_name || "Product")}"
+onerror="this.style.display='none'"
+>
+`
+
+:
+
+`
+<div class="order-item-no-image">
+No image
+</div>
+`
 
 }
 
-text += ")";
 
+<div class="order-item-content">
+
+<div class="order-item-name">
+
+${escapeHTML(
+item.product_name ||
+product?.name ||
+"Product"
+)}
+
+</div>
+
+
+<div class="order-item-details">
+
+${
+item.color
+?
+"Color: "+
+escapeHTML(item.color)+
+"<br>"
+:
+""
 }
 
-else if(item.size){
 
-text +=
-" ("+
-item.size+
-")";
-
+${
+item.size
+?
+"Size: "+
+escapeHTML(item.size)+
+"<br>"
+:
+""
 }
 
-return text;
+
+Quantity:
+${Number(
+item.quantity || 0
+)}
+
+
+<br>
+
+
+Price:
+PKR
+${Number(
+item.price || 0
+).toLocaleString()}
+
+
+</div>
+
+</div>
+
+</div>
+
+`;
 
 })
-.join("\n");
+.join("");
+
+}
+else{
+
+itemsHTML = `
+
+<div class="order-item-details">
+
+No order items found.
+
+</div>
+
+`;
 
 }
 
+
+/* ==================================================
+   ORDER HTML
+================================================== */
 
 return `
 
@@ -2675,9 +2707,11 @@ String(order.id)
 ${
 dateText
 ?
-`<div class="order-date">
+`
+<div class="order-date">
 ${escapeHTML(dateText)}
-</div>`
+</div>
+`
 :
 ""
 }
@@ -2745,74 +2779,7 @@ Products
 </strong>
 
 
-${
-orderItems.length
-
-?
-
-orderItems.map(item=>`
-
-<div class="order-item">
-
-<div class="order-item-name">
-
-${escapeHTML(
-item.product_name ||
-"Product"
-)}
-
-</div>
-
-<div class="order-item-details">
-
-${
-item.color
-?
-"Color: "+
-escapeHTML(item.color)+
-"<br>"
-:
-""
-}
-
-${
-item.size
-?
-"Size: "+
-escapeHTML(item.size)+
-"<br>"
-:
-""
-}
-
-Quantity:
-${Number(
-item.quantity || 0
-)}
-
-<br>
-
-Price:
-PKR
-${Number(
-item.price || 0
-).toLocaleString()}
-
-</div>
-
-</div>
-
-`).join("")
-
-:
-
-`
-<div class="order-item-details">
-No order items found.
-</div>
-`
-
-}
+${itemsHTML}
 
 </div>
 
@@ -2830,13 +2797,8 @@ order.total || 0
 
 <div class="order-actions">
 
-
-<!-- =========================
-     PENDING
-========================= -->
-
 ${
-status === "pending"
+status==="pending"
 
 ?
 
@@ -2844,14 +2806,14 @@ status === "pending"
 
 <button
 class="confirm-btn"
-onclick="updateOrderStatus('${escapeJS(order.id)}','confirmed')"
+onclick="updateOrderStatus('${escapeJS(String(order.id))}','confirmed')"
 >
 ✅ Confirm Order
 </button>
 
 <button
 class="cancel-btn"
-onclick="updateOrderStatus('${escapeJS(order.id)}','cancelled')"
+onclick="updateOrderStatus('${escapeJS(String(order.id))}','cancelled')"
 >
 ❌ Cancel
 </button>
@@ -2861,16 +2823,11 @@ onclick="updateOrderStatus('${escapeJS(order.id)}','cancelled')"
 :
 
 ""
-
 }
 
 
-<!-- =========================
-     CONFIRMED
-========================= -->
-
 ${
-status === "confirmed"
+status==="confirmed"
 
 ?
 
@@ -2878,14 +2835,14 @@ status === "confirmed"
 
 <button
 class="ship-btn"
-onclick="updateOrderStatus('${escapeJS(order.id)}','shipped')"
+onclick="updateOrderStatus('${escapeJS(String(order.id))}','shipped')"
 >
 📦 Mark Shipped
 </button>
 
 <button
 class="cancel-btn"
-onclick="updateOrderStatus('${escapeJS(order.id)}','cancelled')"
+onclick="updateOrderStatus('${escapeJS(String(order.id))}','cancelled')"
 >
 ❌ Cancel
 </button>
@@ -2895,16 +2852,11 @@ onclick="updateOrderStatus('${escapeJS(order.id)}','cancelled')"
 :
 
 ""
-
 }
 
 
-<!-- =========================
-     SHIPPED
-========================= -->
-
 ${
-status === "shipped"
+status==="shipped"
 
 ?
 
@@ -2912,7 +2864,7 @@ status === "shipped"
 
 <button
 class="deliver-btn"
-onclick="updateOrderStatus('${escapeJS(order.id)}','delivered')"
+onclick="updateOrderStatus('${escapeJS(String(order.id))}','delivered')"
 >
 🚚 Mark Delivered
 </button>
@@ -2922,43 +2874,6 @@ onclick="updateOrderStatus('${escapeJS(order.id)}','delivered')"
 :
 
 ""
-
-}
-
-
-<!-- =========================
-     WHATSAPP BUTTON
-========================= -->
-
-${
-order.customer_phone
-
-?
-
-`
-
-<button
-class="whatsapp-btn"
-onclick="openWhatsApp(
-'${escapeJS(order.customer_phone)}',
-'${escapeJS(
-createWhatsAppMessage(
-order,
-status,
-orderItems
-)
-)}'
-)"
->
-💬 WhatsApp Customer
-</button>
-
-`
-
-:
-
-""
-
 }
 
 </div>
@@ -2967,7 +2882,8 @@ orderItems
 
 `;
 
-}).join("");
+})
+.join("");
 
 }
 
@@ -2981,54 +2897,41 @@ orderId,
 newStatus
 ){
 
-let confirmationMessage =
+let message =
 "";
 
 
-if(
-newStatus === "confirmed"
-){
+if(newStatus==="confirmed"){
 
-confirmationMessage =
+message =
 "Confirm this order?";
 
 }
 
+if(newStatus==="shipped"){
 
-if(
-newStatus === "shipped"
-){
-
-confirmationMessage =
+message =
 "Mark this order as shipped?";
 
 }
 
+if(newStatus==="delivered"){
 
-if(
-newStatus === "delivered"
-){
-
-confirmationMessage =
+message =
 "Mark this order as delivered?";
 
 }
 
+if(newStatus==="cancelled"){
 
-if(
-newStatus === "cancelled"
-){
-
-confirmationMessage =
+message =
 "Cancel this order?";
 
 }
 
 
 if(
-!confirm(
-confirmationMessage
-)
+!confirm(message)
 ){
 
 return;
@@ -3037,71 +2940,8 @@ return;
 
 
 /*
-Load complete order.
-*/
-
-const {
-data:order,
-error:orderError
-} =
-await db
-.from("orders")
-.select("*")
-.eq(
-"id",
-orderId
-)
-.single();
-
-
-if(orderError){
-
-console.error(
-orderError
-);
-
-alert(
-"Could not load order:\n\n"+
-orderError.message
-);
-
-return;
-
-}
-
-
-/*
-Load its products.
-*/
-
-const {
-data:orderItems,
-error:itemError
-} =
-await db
-.from("order_items")
-.select("*")
-.eq(
-"order_id",
-orderId
-);
-
-
-if(itemError){
-
-console.error(
-"Order items:",
-itemError
-);
-
-}
-
-
-/*
-UPDATE STATUS
-
-Your Supabase column is:
-status
+IMPORTANT:
+Your Supabase table uses "status".
 */
 
 const {
@@ -3111,7 +2951,8 @@ await db
 .from("orders")
 .update({
 
-status:newStatus
+status:
+newStatus
 
 })
 .eq(
@@ -3122,9 +2963,7 @@ orderId
 
 if(error){
 
-console.error(
-error
-);
+console.error(error);
 
 alert(
 "Could not update order:\n\n"+
@@ -3136,43 +2975,18 @@ return;
 }
 
 
-/*
-Create WhatsApp message.
-*/
-
-const whatsappMessage =
-createWhatsAppMessage(
-order,
-newStatus,
-orderItems || []
+alert(
+"Order updated to "+
+capitalize(newStatus)+
+"."
 );
 
 
 /*
-Open WhatsApp.
-
-The message is pre-filled.
-You still press Send yourself.
+Refresh immediately.
 */
 
-if(
-order.customer_phone &&
-whatsappMessage
-){
-
-openWhatsApp(
-order.customer_phone,
-whatsappMessage
-);
-
-}
-
-
-/*
-Refresh orders.
-*/
-
-await loadOrders();
+loadOrders();
 
 }
 
@@ -3204,19 +3018,13 @@ return String(text)
 }
 
 
-/*
-Used for IDs and WhatsApp text
-inside onclick attributes.
-*/
-
 function escapeJS(text){
 
 return String(text)
 .replaceAll("\\","\\\\")
 .replaceAll("'","\\'")
 .replaceAll("\n","\\n")
-.replaceAll("\r","\\r")
-.replaceAll("\`","\\`");
+.replaceAll("\r","\\r");
 
 }
 
