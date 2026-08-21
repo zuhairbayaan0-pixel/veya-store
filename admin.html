@@ -28,7 +28,10 @@ color:white;
 padding:22px 6%;
 display:flex;
 justify-content:space-between;
-align-items:center
+align-items:center;
+position:sticky;
+top:0;
+z-index:20
 }
 
 .logo{
@@ -43,7 +46,7 @@ text-decoration:none
 }
 
 .container{
-max-width:1000px;
+max-width:1100px;
 margin:40px auto;
 padding:0 20px
 }
@@ -88,6 +91,11 @@ color:#777;
 margin-top:6px
 }
 
+
+/* =========================
+   PRODUCT IMAGES
+========================= */
+
 .image-grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
@@ -131,6 +139,11 @@ border-radius:6px;
 border:1px solid #ddd
 }
 
+
+/* =========================
+   OPTIONS
+========================= */
+
 .option-row{
 display:flex;
 gap:8px;
@@ -158,6 +171,11 @@ border-radius:6px;
 cursor:pointer;
 font-weight:bold
 }
+
+
+/* =========================
+   BUTTONS
+========================= */
 
 .publish{
 background:#171717;
@@ -190,6 +208,11 @@ display:none
 margin-top:15px;
 color:#666
 }
+
+
+/* =========================
+   PRODUCTS
+========================= */
 
 .product{
 border:1px solid #ddd;
@@ -262,9 +285,189 @@ border-radius:6px;
 cursor:pointer
 }
 
-.editing{
-border:2px solid #171717;
+
+/* =========================
+   ORDERS
+========================= */
+
+.orders-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+margin-bottom:20px
 }
+
+.refresh-orders{
+background:#171717;
+color:white;
+border:0;
+padding:10px 16px;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold
+}
+
+.order{
+border:1px solid #ddd;
+border-radius:10px;
+padding:20px;
+margin-top:15px;
+background:#fff
+}
+
+.order-top{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:15px;
+border-bottom:1px solid #eee;
+padding-bottom:15px
+}
+
+.order-id{
+font-weight:bold;
+font-size:17px
+}
+
+.order-date{
+font-size:12px;
+color:#888;
+margin-top:5px
+}
+
+.order-status{
+padding:7px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+white-space:nowrap
+}
+
+.status-pending{
+background:#fff3cd;
+color:#856404
+}
+
+.status-confirmed{
+background:#d1ecf1;
+color:#0c5460
+}
+
+.status-shipped{
+background:#dbeafe;
+color:#1e40af
+}
+
+.status-delivered{
+background:#d4edda;
+color:#155724
+}
+
+.status-cancelled{
+background:#f8d7da;
+color:#721c24
+}
+
+.customer-box{
+background:#f7f7f4;
+padding:15px;
+border-radius:8px;
+margin-top:15px;
+line-height:1.7
+}
+
+.customer-box strong{
+display:inline-block;
+min-width:90px
+}
+
+.order-items{
+margin-top:15px
+}
+
+.order-item{
+padding:12px 0;
+border-bottom:1px solid #eee
+}
+
+.order-item:last-child{
+border-bottom:0
+}
+
+.order-item-name{
+font-weight:bold
+}
+
+.order-item-details{
+font-size:13px;
+color:#666;
+margin-top:4px;
+line-height:1.6
+}
+
+.order-total{
+font-size:18px;
+font-weight:bold;
+text-align:right;
+margin-top:15px;
+padding-top:15px;
+border-top:1px solid #ddd
+}
+
+.order-actions{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-top:18px
+}
+
+.order-actions button{
+border:0;
+padding:10px 14px;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold
+}
+
+.confirm-btn{
+background:#171717;
+color:white
+}
+
+.ship-btn{
+background:#e8e5de;
+color:#171717
+}
+
+.deliver-btn{
+background:#171717;
+color:white
+}
+
+.cancel-btn{
+background:#eee;
+color:#a00020
+}
+
+.no-orders{
+padding:25px;
+text-align:center;
+color:#777;
+background:#fafafa;
+border-radius:8px
+}
+
+.loading-orders{
+padding:20px;
+text-align:center;
+color:#777
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media(max-width:700px){
 
@@ -289,6 +492,19 @@ flex-direction:row
 flex:1
 }
 
+.order-top{
+flex-direction:column
+}
+
+.order-status{
+align-self:flex-start
+}
+
+.order-actions{
+display:grid;
+grid-template-columns:1fr 1fr
+}
+
 }
 
 </style>
@@ -296,9 +512,12 @@ flex:1
 
 <body>
 
+
 <header>
 
-<div class="logo">VEYA</div>
+<div class="logo">
+VEYA
+</div>
 
 <a href="index.html">
 View Store →
@@ -310,9 +529,51 @@ View Store →
 <div class="container">
 
 
-<!-- PRODUCT FORM -->
+<!-- ==================================================
+     ORDERS
+================================================== -->
 
-<div class="card" id="productFormCard">
+<div class="card">
+
+<div class="orders-header">
+
+<h1>
+Orders
+</h1>
+
+<button
+class="refresh-orders"
+onclick="loadOrders()"
+>
+↻ Refresh Orders
+</button>
+
+</div>
+
+<div
+class="help"
+>
+New orders will appear here after customers complete checkout.
+</div>
+
+<div
+id="orders"
+class="loading-orders"
+>
+Loading orders...
+</div>
+
+</div>
+
+
+<!-- ==================================================
+     PRODUCT FORM
+================================================== -->
+
+<div
+class="card"
+id="productFormCard"
+>
 
 <h1 id="formTitle">
 Add Product
@@ -385,12 +646,13 @@ placeholder="Describe your product..."
 Product Images — up to 6
 </label>
 
-<div class="help" id="imageHelp">
+<div
+class="help"
+id="imageHelp"
+>
 Select up to six images from your computer.
 </div>
 
-
-<!-- EXISTING EDIT IMAGES -->
 
 <div
 id="existingImagesBox"
@@ -417,33 +679,75 @@ Otherwise, the current images will remain.
 <div class="image-grid">
 
 <div class="image-box">
-<input type="file" accept="image/*" onchange="previewImage(this,0)">
-<img class="preview" id="preview0">
+<input
+type="file"
+accept="image/*"
+onchange="previewImage(this,0)"
+>
+<img
+class="preview"
+id="preview0"
+>
 </div>
 
 <div class="image-box">
-<input type="file" accept="image/*" onchange="previewImage(this,1)">
-<img class="preview" id="preview1">
+<input
+type="file"
+accept="image/*"
+onchange="previewImage(this,1)"
+>
+<img
+class="preview"
+id="preview1"
+>
 </div>
 
 <div class="image-box">
-<input type="file" accept="image/*" onchange="previewImage(this,2)">
-<img class="preview" id="preview2">
+<input
+type="file"
+accept="image/*"
+onchange="previewImage(this,2)"
+>
+<img
+class="preview"
+id="preview2"
+>
 </div>
 
 <div class="image-box">
-<input type="file" accept="image/*" onchange="previewImage(this,3)">
-<img class="preview" id="preview3">
+<input
+type="file"
+accept="image/*"
+onchange="previewImage(this,3)"
+>
+<img
+class="preview"
+id="preview3"
+>
 </div>
 
 <div class="image-box">
-<input type="file" accept="image/*" onchange="previewImage(this,4)">
-<img class="preview" id="preview4">
+<input
+type="file"
+accept="image/*"
+onchange="previewImage(this,4)"
+>
+<img
+class="preview"
+id="preview4"
+>
 </div>
 
 <div class="image-box">
-<input type="file" accept="image/*" onchange="previewImage(this,5)">
-<img class="preview" id="preview5">
+<input
+type="file"
+accept="image/*"
+onchange="previewImage(this,5)"
+>
+<img
+class="preview"
+id="preview5"
+>
 </div>
 
 </div>
@@ -529,7 +833,9 @@ id="status"
 </div>
 
 
-<!-- PRODUCTS -->
+<!-- ==================================================
+     PRODUCTS
+================================================== -->
 
 <div class="card">
 
@@ -543,10 +849,16 @@ Loading...
 
 </div>
 
+
 </div>
 
 
 <script>
+
+
+/* ==================================================
+   SUPABASE
+================================================== */
 
 const db =
 supabase.createClient(
@@ -555,18 +867,18 @@ window.SUPABASE_KEY
 );
 
 
-/* =========================
+/* ==================================================
    EDIT STATE
-========================= */
+================================================== */
 
 let editingProductId = null;
 
 let editingProductImages = [];
 
 
-/* =========================
+/* ==================================================
    IMAGE FILES
-========================= */
+================================================== */
 
 const imageFiles = [
 null,
@@ -604,9 +916,9 @@ preview.style.display =
 }
 
 
-/* =========================
+/* ==================================================
    COLORS
-========================= */
+================================================== */
 
 function addColor(){
 
@@ -640,9 +952,9 @@ document
 }
 
 
-/* =========================
+/* ==================================================
    SIZES
-========================= */
+================================================== */
 
 function addSize(){
 
@@ -676,9 +988,9 @@ document
 }
 
 
-/* =========================
-   UPLOAD IMAGE
-========================= */
+/* ==================================================
+   IMAGE UPLOAD
+================================================== */
 
 async function uploadImage(file){
 
@@ -735,9 +1047,9 @@ return data.publicUrl;
 }
 
 
-/* =========================
-   GET FORM DATA
-========================= */
+/* ==================================================
+   FORM DATA
+================================================== */
 
 function getFormData(){
 
@@ -803,9 +1115,9 @@ sizes
 }
 
 
-/* =========================
-   VALIDATE FORM
-========================= */
+/* ==================================================
+   VALIDATE
+================================================== */
 
 function validateProduct(data){
 
@@ -818,6 +1130,7 @@ status.textContent =
 "Please enter a product name.";
 
 return false;
+
 }
 
 if(
@@ -830,6 +1143,7 @@ status.textContent =
 "Please enter a valid price.";
 
 return false;
+
 }
 
 if(
@@ -842,6 +1156,7 @@ status.textContent =
 "Please enter a valid stock quantity.";
 
 return false;
+
 }
 
 if(
@@ -854,6 +1169,7 @@ status.textContent =
 "Please add at least one size for clothing.";
 
 return false;
+
 }
 
 return true;
@@ -861,9 +1177,9 @@ return true;
 }
 
 
-/* =========================
-   ADD OR UPDATE PRODUCT
-========================= */
+/* ==================================================
+   ADD / UPDATE PRODUCT
+================================================== */
 
 async function addProduct(){
 
@@ -877,14 +1193,11 @@ if(!validateProduct(data)){
 return;
 }
 
-
 const selectedFiles =
 imageFiles.filter(Boolean);
 
 
-/* =========================
-   ADD MODE
-========================= */
+/* ADD */
 
 if(!editingProductId){
 
@@ -914,7 +1227,6 @@ status.textContent =
 
 const imageUrls = [];
 
-
 for(
 const file
 of selectedFiles
@@ -927,10 +1239,8 @@ imageUrls.push(url);
 
 }
 
-
 status.textContent =
 "Publishing product...";
-
 
 const {
 error
@@ -967,29 +1277,24 @@ data.sizes.length > 0
 
 });
 
-
 if(error){
 throw error;
 }
 
-
 status.textContent =
 "✅ Product published successfully!";
-
 
 resetForm();
 
 loadProducts();
 
-
-}catch(error){
+}
+catch(error){
 
 console.error(error);
 
 status.textContent =
-"❌ "
-+
-error.message;
+"❌ "+error.message;
 
 }
 
@@ -998,25 +1303,16 @@ return;
 }
 
 
-/* =========================
-   EDIT MODE
-========================= */
+/* UPDATE */
 
 try{
 
 status.textContent =
 "Saving changes...";
 
-
 let imageUrls =
 editingProductImages;
 
-
-/*
-If new images were selected,
-upload them and replace the
-old images.
-*/
 
 if(selectedFiles.length){
 
@@ -1029,12 +1325,10 @@ return;
 
 }
 
-
 status.textContent =
 "Uploading new images...";
 
 imageUrls = [];
-
 
 for(
 const file
@@ -1095,39 +1389,34 @@ if(error){
 throw error;
 }
 
-
 status.textContent =
 "✅ Product updated successfully!";
-
 
 resetForm();
 
 loadProducts();
 
-
-}catch(error){
+}
+catch(error){
 
 console.error(error);
 
 status.textContent =
-"❌ "
-+
-error.message;
+"❌ "+error.message;
 
 }
 
 }
 
 
-/* =========================
+/* ==================================================
    EDIT PRODUCT
-========================= */
+================================================== */
 
 async function editProduct(id){
 
 const status =
 document.getElementById("status");
-
 
 status.textContent =
 "Loading product...";
@@ -1149,8 +1438,7 @@ if(error){
 console.error(error);
 
 status.textContent =
-"❌ Could not load product: "
-+
+"❌ Could not load product: "+
 error.message;
 
 return;
@@ -1161,22 +1449,15 @@ return;
 editingProductId =
 data.id;
 
-
-/* FORM TITLE */
-
 document
 .getElementById("formTitle")
 .textContent =
 "Edit Product";
 
-
-/* BUTTON */
-
 document
 .getElementById("submitButton")
 .textContent =
 "SAVE CHANGES";
-
 
 document
 .getElementById("cancelButton")
@@ -1184,31 +1465,25 @@ document
 "block";
 
 
-/* FORM VALUES */
-
 document
 .getElementById("name")
 .value =
 data.name || "";
-
 
 document
 .getElementById("category")
 .value =
 data.category || "Clothing";
 
-
 document
 .getElementById("price")
 .value =
 data.price ?? "";
 
-
 document
 .getElementById("stock")
 .value =
 data.stock_quantity ?? "";
-
 
 document
 .getElementById("description")
@@ -1219,7 +1494,6 @@ data.description || "";
 /* IMAGES */
 
 let images = [];
-
 
 try{
 
@@ -1241,16 +1515,15 @@ JSON.parse(data.image_urls);
 
 }
 
-}catch(e){
+}
+catch(e){
 
 images = [];
 
 }
 
-
 if(
-!images.length
-&&
+!images.length &&
 data.image_url
 ){
 
@@ -1259,12 +1532,9 @@ images =
 
 }
 
-
 editingProductImages =
 images;
 
-
-/* SHOW CURRENT IMAGES */
 
 const existingBox =
 document.getElementById(
@@ -1282,7 +1552,6 @@ if(images.length){
 existingBox.style.display =
 "block";
 
-
 existingImages.innerHTML =
 images
 .map(img=>`
@@ -1295,7 +1564,8 @@ alt="Product image"
 `)
 .join("");
 
-}else{
+}
+else{
 
 existingBox.style.display =
 "none";
@@ -1325,9 +1595,7 @@ if(colors.length){
 colorsBox.innerHTML =
 "";
 
-
-colors.forEach(
-(color,index)=>{
+colors.forEach(color=>{
 
 const row =
 document.createElement("div");
@@ -1357,7 +1625,8 @@ colorsBox.appendChild(row);
 
 });
 
-}else{
+}
+else{
 
 colorsBox.innerHTML = `
 
@@ -1394,9 +1663,7 @@ if(sizes.length){
 sizesBox.innerHTML =
 "";
 
-
-sizes.forEach(
-(size,index)=>{
+sizes.forEach(size=>{
 
 const row =
 document.createElement("div");
@@ -1426,7 +1693,8 @@ sizesBox.appendChild(row);
 
 });
 
-}else{
+}
+else{
 
 sizesBox.innerHTML = `
 
@@ -1444,12 +1712,7 @@ placeholder="Example: S"
 }
 
 
-/* CLEAR NEW FILE INPUTS */
-
 clearImageInputs();
-
-
-/* SCROLL TO FORM */
 
 document
 .getElementById("productFormCard")
@@ -1458,18 +1721,15 @@ behavior:"smooth",
 block:"start"
 });
 
-
 status.textContent =
-"Editing: "
-+
-(data.name || "product");
+"Editing: "+(data.name||"product");
 
 }
 
 
-/* =========================
+/* ==================================================
    CANCEL EDIT
-========================= */
+================================================== */
 
 function cancelEdit(){
 
@@ -1478,9 +1738,9 @@ resetForm();
 }
 
 
-/* =========================
-   RESET FORM
-========================= */
+/* ==================================================
+   RESET
+================================================== */
 
 function resetForm(){
 
@@ -1490,30 +1750,20 @@ null;
 editingProductImages =
 [];
 
-
-/* TITLE */
-
 document
 .getElementById("formTitle")
 .textContent =
 "Add Product";
-
-
-/* BUTTON */
 
 document
 .getElementById("submitButton")
 .textContent =
 "PUBLISH PRODUCT";
 
-
 document
 .getElementById("cancelButton")
 .style.display =
 "none";
-
-
-/* INPUTS */
 
 document
 .getElementById("name")
@@ -1535,13 +1785,7 @@ document
 .value =
 "";
 
-
-/* IMAGES */
-
 clearImageInputs();
-
-
-/* CURRENT IMAGES */
 
 document
 .getElementById("existingImagesBox")
@@ -1553,8 +1797,6 @@ document
 .innerHTML =
 "";
 
-
-/* COLORS */
 
 document
 .getElementById("colors")
@@ -1571,8 +1813,6 @@ placeholder="Example: Black"
 
 `;
 
-
-/* SIZES */
 
 document
 .getElementById("sizes")
@@ -1598,9 +1838,9 @@ document
 }
 
 
-/* =========================
+/* ==================================================
    CLEAR IMAGE INPUTS
-========================= */
+================================================== */
 
 function clearImageInputs(){
 
@@ -1612,7 +1852,6 @@ i++
 
 imageFiles[i] =
 null;
-
 
 const preview =
 document.getElementById(
@@ -1627,7 +1866,6 @@ preview.style.display =
 
 }
 
-
 document
 .querySelectorAll(
 'input[type="file"]'
@@ -1641,9 +1879,9 @@ input.value="";
 }
 
 
-/* =========================
+/* ==================================================
    LOAD PRODUCTS
-========================= */
+================================================== */
 
 async function loadProducts(){
 
@@ -1671,10 +1909,8 @@ ascending:false
 if(error){
 
 box.innerHTML =
-"<p>Could not load products: "
-+
-escapeHTML(error.message)
-+
+"<p>Could not load products: "+
+escapeHTML(error.message)+
 "</p>";
 
 return;
@@ -1697,7 +1933,6 @@ data.map(p=>{
 
 let images = [];
 
-
 try{
 
 if(
@@ -1708,10 +1943,8 @@ images =
 p.image_urls;
 
 }
-
 else if(
-typeof p.image_urls ===
-"string"
+typeof p.image_urls === "string"
 ){
 
 images =
@@ -1719,7 +1952,8 @@ JSON.parse(p.image_urls);
 
 }
 
-}catch(e){}
+}
+catch(e){}
 
 
 if(
@@ -1779,22 +2013,22 @@ ${escapeHTML(p.name)}
 
 <p>
 Category:
-${escapeHTML(p.category || "")}
+${escapeHTML(p.category||"")}
 </p>
 
 <p>
 Price:
 PKR
-${Number(p.price || 0).toLocaleString()}
+${Number(p.price||0).toLocaleString()}
 </p>
 
 <p>
 Stock:
-${Number(p.stock_quantity || 0)}
+${Number(p.stock_quantity||0)}
 </p>
 
 <p>
-${escapeHTML(p.description || "")}
+${escapeHTML(p.description||"")}
 </p>
 
 <p>
@@ -1821,7 +2055,6 @@ sizes.map(escapeHTML).join(", ")
 
 </div>
 
-
 <div class="product-actions">
 
 <button
@@ -1842,18 +2075,14 @@ Delete
 
 </div>
 
-
 <div class="product-images">
 
 ${
-images.map(
-img=>
-`
+images.map(img=>`
 <img
 src="${escapeHTML(img)}"
 >
-`
-).join("")
+`).join("")
 }
 
 </div>
@@ -1867,9 +2096,9 @@ src="${escapeHTML(img)}"
 }
 
 
-/* =========================
-   DELETE
-========================= */
+/* ==================================================
+   DELETE PRODUCT
+================================================== */
 
 async function deleteProduct(id){
 
@@ -1904,7 +2133,6 @@ return;
 
 }
 
-
 if(
 editingProductId === id
 ){
@@ -1913,15 +2141,570 @@ resetForm();
 
 }
 
-
 loadProducts();
 
 }
 
 
-/* =========================
-   ESCAPE HTML
-========================= */
+/* ==================================================
+   ORDERS
+================================================== */
+
+async function loadOrders(){
+
+const box =
+document.getElementById("orders");
+
+box.innerHTML =
+`<div class="loading-orders">
+Loading orders...
+</div>`;
+
+
+/*
+We only request the columns we already know.
+created_at is handled separately below.
+*/
+
+const {
+data,
+error
+} =
+await db
+.from("orders")
+.select("*")
+.order(
+"created_at",
+{
+ascending:false
+}
+);
+
+
+if(error){
+
+console.error(error);
+
+box.innerHTML = `
+
+<div class="no-orders">
+
+Could not load orders.
+
+<br><br>
+
+${escapeHTML(error.message)}
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+if(!data || !data.length){
+
+box.innerHTML = `
+
+<div class="no-orders">
+
+📦 No orders yet.
+
+<br>
+
+New customer orders will appear here.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/*
+Load order items for all orders.
+*/
+
+const orderIds =
+data.map(order=>order.id);
+
+
+let items = [];
+
+
+if(orderIds.length){
+
+const {
+data:itemData,
+error:itemError
+} =
+await db
+.from("order_items")
+.select("*")
+.in(
+"order_id",
+orderIds
+);
+
+
+if(itemError){
+
+console.error(
+"Order items error:",
+itemError
+);
+
+}
+else{
+
+items =
+itemData || [];
+
+}
+
+}
+
+
+/*
+Render orders.
+*/
+
+box.innerHTML =
+data.map(order=>{
+
+const status =
+String(
+order.statu ||
+"pending"
+).toLowerCase();
+
+
+const orderItems =
+items.filter(
+item =>
+String(item.order_id) ===
+String(order.id)
+);
+
+
+let statusClass =
+"status-pending";
+
+
+if(status==="confirmed")
+statusClass="status-confirmed";
+
+if(status==="shipped")
+statusClass="status-shipped";
+
+if(status==="delivered")
+statusClass="status-delivered";
+
+if(status==="cancelled")
+statusClass="status-cancelled";
+
+
+let dateText =
+"";
+
+
+if(order.created_at){
+
+const date =
+new Date(
+order.created_at
+);
+
+if(!isNaN(date)){
+
+dateText =
+date.toLocaleString();
+
+}
+
+}
+
+
+return `
+
+<div class="order">
+
+<div class="order-top">
+
+<div>
+
+<div class="order-id">
+
+Order #${escapeHTML(
+String(order.id)
+)}
+
+</div>
+
+${
+dateText
+?
+`<div class="order-date">
+${escapeHTML(dateText)}
+</div>`
+:
+""
+}
+
+</div>
+
+
+<div
+class="order-status ${statusClass}"
+>
+
+${escapeHTML(
+capitalize(status)
+)}
+
+</div>
+
+</div>
+
+
+<div class="customer-box">
+
+<div>
+<strong>Name:</strong>
+${escapeHTML(
+order.customer_name || ""
+)}
+</div>
+
+<div>
+<strong>Phone:</strong>
+${escapeHTML(
+order.customer_phone || ""
+)}
+</div>
+
+<div>
+<strong>Address:</strong>
+${escapeHTML(
+order.customer_address || ""
+)}
+</div>
+
+<div>
+<strong>City:</strong>
+${escapeHTML(
+order.customer_city || ""
+)}
+</div>
+
+<div>
+<strong>Notes:</strong>
+${escapeHTML(
+order.delivery_notes || "None"
+)}
+</div>
+
+</div>
+
+
+<div class="order-items">
+
+<strong>
+Products
+</strong>
+
+
+${
+orderItems.length
+
+?
+
+orderItems.map(item=>`
+
+<div class="order-item">
+
+<div class="order-item-name">
+
+${escapeHTML(
+item.product_name ||
+"Product"
+)}
+
+</div>
+
+<div class="order-item-details">
+
+${
+item.color
+?
+"Color: "+
+escapeHTML(item.color)+
+"<br>"
+:
+""
+}
+
+${
+item.size
+?
+"Size: "+
+escapeHTML(item.size)+
+"<br>"
+:
+""
+}
+
+Quantity:
+${Number(
+item.quantity || 0
+)}
+
+<br>
+
+Price:
+PKR
+${Number(
+item.price || 0
+).toLocaleString()}
+
+</div>
+
+</div>
+
+`).join("")
+
+:
+
+`<div class="order-item-details">
+No order items found.
+</div>`
+
+}
+
+</div>
+
+
+<div class="order-total">
+
+Total:
+PKR
+${Number(
+order.total || 0
+).toLocaleString()}
+
+</div>
+
+
+<div class="order-actions">
+
+${
+status==="pending"
+
+?
+
+`
+
+<button
+class="confirm-btn"
+onclick="updateOrderStatus('${escapeJS(order.id)}','confirmed')"
+>
+✅ Confirm Order
+</button>
+
+<button
+class="cancel-btn"
+onclick="updateOrderStatus('${escapeJS(order.id)}','cancelled')"
+>
+❌ Cancel
+</button>
+
+`
+
+:
+
+""
+
+}
+
+
+${
+status==="confirmed"
+
+?
+
+`
+
+<button
+class="ship-btn"
+onclick="updateOrderStatus('${escapeJS(order.id)}','shipped')"
+>
+📦 Mark Shipped
+</button>
+
+<button
+class="cancel-btn"
+onclick="updateOrderStatus('${escapeJS(order.id)}','cancelled')"
+>
+❌ Cancel
+</button>
+
+`
+
+:
+
+""
+
+}
+
+
+${
+status==="shipped"
+
+?
+
+`
+
+<button
+class="deliver-btn"
+onclick="updateOrderStatus('${escapeJS(order.id)}','delivered')"
+>
+🚚 Mark Delivered
+</button>
+
+`
+
+:
+
+""
+
+}
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+
+/* ==================================================
+   UPDATE ORDER STATUS
+================================================== */
+
+async function updateOrderStatus(
+orderId,
+newStatus
+){
+
+let message =
+"";
+
+
+if(newStatus==="confirmed"){
+
+message =
+"Confirm this order?";
+
+}
+
+if(newStatus==="shipped"){
+
+message =
+"Mark this order as shipped?";
+
+}
+
+if(newStatus==="delivered"){
+
+message =
+"Mark this order as delivered?";
+
+}
+
+if(newStatus==="cancelled"){
+
+message =
+"Cancel this order?";
+
+}
+
+
+if(
+!confirm(message)
+){
+
+return;
+
+}
+
+
+const {
+error
+} =
+await db
+.from("orders")
+.update({
+
+statu:newStatus
+
+})
+.eq(
+"id",
+orderId
+);
+
+
+if(error){
+
+console.error(error);
+
+alert(
+"Could not update order:\n\n"+
+error.message
+);
+
+return;
+
+}
+
+
+alert(
+"Order updated to "+
+capitalize(newStatus)+
+"."
+);
+
+
+/*
+Refresh orders immediately.
+*/
+
+loadOrders();
+
+}
+
+
+/* ==================================================
+   HELPERS
+================================================== */
+
+function capitalize(text){
+
+if(!text)
+return "";
+
+return text.charAt(0).toUpperCase()+
+text.slice(1);
+
+}
+
 
 function escapeHTML(text){
 
@@ -1935,11 +2718,28 @@ return String(text)
 }
 
 
-/* =========================
+/*
+Used for IDs inside onclick attributes.
+*/
+
+function escapeJS(text){
+
+return String(text)
+.replaceAll("\\","\\\\")
+.replaceAll("'","\\'")
+.replaceAll("\n","\\n")
+.replaceAll("\r","\\r");
+
+}
+
+
+/* ==================================================
    START
-========================= */
+================================================== */
 
 loadProducts();
+
+loadOrders();
 
 </script>
 
