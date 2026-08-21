@@ -11,7 +11,9 @@
 
 <style>
 
-*{box-sizing:border-box}
+*{
+box-sizing:border-box
+}
 
 body{
 margin:0;
@@ -114,6 +116,21 @@ margin-top:8px;
 display:none
 }
 
+.existing-images{
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:8px;
+margin-top:10px
+}
+
+.existing-images img{
+width:100%;
+height:90px;
+object-fit:cover;
+border-radius:6px;
+border:1px solid #ddd
+}
+
 .option-row{
 display:flex;
 gap:8px;
@@ -153,6 +170,20 @@ padding:15px;
 cursor:pointer;
 font-weight:bold;
 font-size:15px
+}
+
+.cancel-edit{
+background:#eee;
+color:#171717;
+width:100%;
+margin-top:10px;
+border:0;
+border-radius:6px;
+padding:13px;
+cursor:pointer;
+font-weight:bold;
+font-size:15px;
+display:none
 }
 
 .status{
@@ -207,6 +238,22 @@ object-fit:cover;
 border-radius:5px
 }
 
+.product-actions{
+display:flex;
+gap:8px;
+flex-direction:column
+}
+
+.edit{
+background:#171717;
+color:white;
+border:0;
+padding:10px 14px;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold
+}
+
 .delete{
 background:#eee;
 border:0;
@@ -215,14 +262,31 @@ border-radius:6px;
 cursor:pointer
 }
 
+.editing{
+border:2px solid #171717;
+}
+
 @media(max-width:700px){
 
 .image-grid{
 grid-template-columns:1fr
 }
 
+.existing-images{
+grid-template-columns:repeat(2,1fr)
+}
+
 .product-top{
 flex-direction:column
+}
+
+.product-actions{
+width:100%;
+flex-direction:row
+}
+
+.product-actions button{
+flex:1
 }
 
 }
@@ -246,9 +310,13 @@ View Store →
 <div class="container">
 
 
-<div class="card">
+<!-- PRODUCT FORM -->
 
-<h1>Add Product</h1>
+<div class="card" id="productFormCard">
+
+<h1 id="formTitle">
+Add Product
+</h1>
 
 
 <label>
@@ -317,9 +385,34 @@ placeholder="Describe your product..."
 Product Images — up to 6
 </label>
 
-<div class="help">
+<div class="help" id="imageHelp">
 Select up to six images from your computer.
 </div>
+
+
+<!-- EXISTING EDIT IMAGES -->
+
+<div
+id="existingImagesBox"
+style="display:none"
+>
+
+<div class="help">
+Current product images:
+</div>
+
+<div
+class="existing-images"
+id="existingImages"
+></div>
+
+<div class="help">
+If you select new images below, they will replace the current images.
+Otherwise, the current images will remain.
+</div>
+
+</div>
+
 
 <div class="image-grid">
 
@@ -414,9 +507,18 @@ onclick="addSize()"
 
 <button
 class="publish"
+id="submitButton"
 onclick="addProduct()"
 >
 PUBLISH PRODUCT
+</button>
+
+<button
+class="cancel-edit"
+id="cancelButton"
+onclick="cancelEdit()"
+>
+CANCEL EDIT
 </button>
 
 <div
@@ -426,6 +528,8 @@ id="status"
 
 </div>
 
+
+<!-- PRODUCTS -->
 
 <div class="card">
 
@@ -451,7 +555,18 @@ window.SUPABASE_KEY
 );
 
 
-/* IMAGE FILES */
+/* =========================
+   EDIT STATE
+========================= */
+
+let editingProductId = null;
+
+let editingProductImages = [];
+
+
+/* =========================
+   IMAGE FILES
+========================= */
 
 const imageFiles = [
 null,
@@ -469,7 +584,6 @@ const file =
 input.files[0];
 
 if(!file){
-
 return;
 }
 
@@ -490,7 +604,9 @@ preview.style.display =
 }
 
 
-/* COLORS */
+/* =========================
+   COLORS
+========================= */
 
 function addColor(){
 
@@ -524,7 +640,9 @@ document
 }
 
 
-/* SIZES */
+/* =========================
+   SIZES
+========================= */
 
 function addSize(){
 
@@ -558,7 +676,9 @@ document
 }
 
 
-/* UPLOAD IMAGE */
+/* =========================
+   UPLOAD IMAGE
+========================= */
 
 async function uploadImage(file){
 
@@ -580,10 +700,8 @@ Math.random()
 +
 extension;
 
-
 const path =
 filename;
-
 
 const {
 error
@@ -600,13 +718,9 @@ upsert:false
 }
 );
 
-
 if(error){
-
 throw error;
-
 }
-
 
 const {
 data
@@ -616,19 +730,16 @@ db
 .from("product-images")
 .getPublicUrl(path);
 
-
 return data.publicUrl;
 
 }
 
 
-/* ADD PRODUCT */
+/* =========================
+   GET FORM DATA
+========================= */
 
-async function addProduct(){
-
-const status =
-document.getElementById("status");
-
+function getFormData(){
 
 const name =
 document
@@ -636,12 +747,10 @@ document
 .value
 .trim();
 
-
 const category =
 document
 .getElementById("category")
 .value;
-
 
 const price =
 Number(
@@ -650,7 +759,6 @@ document
 .value
 );
 
-
 const stock =
 Number(
 document
@@ -658,13 +766,11 @@ document
 .value
 );
 
-
 const description =
 document
 .getElementById("description")
 .value
 .trim();
-
 
 const colors =
 [
@@ -675,7 +781,6 @@ const colors =
 .map(x=>x.value.trim())
 .filter(Boolean);
 
-
 const sizes =
 [
 ...document.querySelectorAll(
@@ -685,43 +790,90 @@ const sizes =
 .map(x=>x.value.trim())
 .filter(Boolean);
 
+return {
+name,
+category,
+price,
+stock,
+description,
+colors,
+sizes
+};
 
-if(!name){
+}
+
+
+/* =========================
+   VALIDATE FORM
+========================= */
+
+function validateProduct(data){
+
+const status =
+document.getElementById("status");
+
+if(!data.name){
 
 status.textContent =
 "Please enter a product name.";
 
-return;
+return false;
 }
 
-
-if(!price || price < 0){
+if(
+Number.isNaN(data.price)
+||
+data.price < 0
+){
 
 status.textContent =
 "Please enter a valid price.";
 
-return;
+return false;
 }
 
-
-if(stock < 0 || Number.isNaN(stock)){
+if(
+Number.isNaN(data.stock)
+||
+data.stock < 0
+){
 
 status.textContent =
 "Please enter a valid stock quantity.";
 
-return;
+return false;
 }
 
-
 if(
-category === "Clothing"
+data.category === "Clothing"
 &&
-!sizes.length
+!data.sizes.length
 ){
 
 status.textContent =
 "Please add at least one size for clothing.";
 
+return false;
+}
+
+return true;
+
+}
+
+
+/* =========================
+   ADD OR UPDATE PRODUCT
+========================= */
+
+async function addProduct(){
+
+const status =
+document.getElementById("status");
+
+const data =
+getFormData();
+
+if(!validateProduct(data)){
 return;
 }
 
@@ -730,14 +882,20 @@ const selectedFiles =
 imageFiles.filter(Boolean);
 
 
+/* =========================
+   ADD MODE
+========================= */
+
+if(!editingProductId){
+
 if(!selectedFiles.length){
 
 status.textContent =
 "Please select at least one product image.";
 
 return;
-}
 
+}
 
 if(selectedFiles.length > 6){
 
@@ -745,6 +903,7 @@ status.textContent =
 "You can upload a maximum of 6 images.";
 
 return;
+
 }
 
 
@@ -752,7 +911,6 @@ try{
 
 status.textContent =
 "Uploading images...";
-
 
 const imageUrls = [];
 
@@ -781,13 +939,13 @@ await db
 .from("products")
 .insert({
 
-name:name,
+name:data.name,
 
-category:category,
+category:data.category,
 
-price:price,
+price:data.price,
 
-description:description,
+description:data.description,
 
 image_url:
 imageUrls[0],
@@ -796,24 +954,22 @@ image_urls:
 imageUrls,
 
 stock_quantity:
-stock,
+data.stock,
 
 colors:
-colors,
+data.colors,
 
 sizes:
-sizes,
+data.sizes,
 
 has_sizes:
-sizes.length > 0
+data.sizes.length > 0
 
 });
 
 
 if(error){
-
 throw error;
-
 }
 
 
@@ -821,83 +977,130 @@ status.textContent =
 "✅ Product published successfully!";
 
 
-/* RESET */
+resetForm();
 
-document
-.getElementById("name")
-.value = "";
-
-document
-.getElementById("price")
-.value = "";
-
-document
-.getElementById("stock")
-.value = "";
-
-document
-.getElementById("description")
-.value = "";
+loadProducts();
 
 
-for(
-let i=0;
-i<6;
-i++
-){
+}catch(error){
 
-imageFiles[i] =
-null;
+console.error(error);
 
-const preview =
-document.getElementById(
-"preview"+i
-);
+status.textContent =
+"❌ "
++
+error.message;
 
-preview.src = "";
+}
 
-preview.style.display =
-"none";
+return;
 
 }
 
 
-document
-.querySelectorAll(
-'input[type="file"]'
-)
-.forEach(
-input=>input.value=""
+/* =========================
+   EDIT MODE
+========================= */
+
+try{
+
+status.textContent =
+"Saving changes...";
+
+
+let imageUrls =
+editingProductImages;
+
+
+/*
+If new images were selected,
+upload them and replace the
+old images.
+*/
+
+if(selectedFiles.length){
+
+if(selectedFiles.length > 6){
+
+status.textContent =
+"You can upload a maximum of 6 images.";
+
+return;
+
+}
+
+
+status.textContent =
+"Uploading new images...";
+
+imageUrls = [];
+
+
+for(
+const file
+of selectedFiles
+){
+
+const url =
+await uploadImage(file);
+
+imageUrls.push(url);
+
+}
+
+}
+
+
+const {
+error
+} =
+await db
+.from("products")
+.update({
+
+name:data.name,
+
+category:data.category,
+
+price:data.price,
+
+description:data.description,
+
+image_url:
+imageUrls[0] || null,
+
+image_urls:
+imageUrls,
+
+stock_quantity:
+data.stock,
+
+colors:
+data.colors,
+
+sizes:
+data.sizes,
+
+has_sizes:
+data.sizes.length > 0
+
+})
+.eq(
+"id",
+editingProductId
 );
 
 
-document.getElementById("colors").innerHTML = `
-
-<div class="option-row">
-
-<input
-class="color-input"
-placeholder="Example: Black"
->
-
-</div>
-
-`;
+if(error){
+throw error;
+}
 
 
-document.getElementById("sizes").innerHTML = `
+status.textContent =
+"✅ Product updated successfully!";
 
-<div class="option-row">
 
-<input
-class="size-input"
-placeholder="Example: S"
->
-
-</div>
-
-`;
-
+resetForm();
 
 loadProducts();
 
@@ -916,7 +1119,531 @@ error.message;
 }
 
 
-/* LOAD PRODUCTS */
+/* =========================
+   EDIT PRODUCT
+========================= */
+
+async function editProduct(id){
+
+const status =
+document.getElementById("status");
+
+
+status.textContent =
+"Loading product...";
+
+
+const {
+data,
+error
+} =
+await db
+.from("products")
+.select("*")
+.eq("id",id)
+.single();
+
+
+if(error){
+
+console.error(error);
+
+status.textContent =
+"❌ Could not load product: "
++
+error.message;
+
+return;
+
+}
+
+
+editingProductId =
+data.id;
+
+
+/* FORM TITLE */
+
+document
+.getElementById("formTitle")
+.textContent =
+"Edit Product";
+
+
+/* BUTTON */
+
+document
+.getElementById("submitButton")
+.textContent =
+"SAVE CHANGES";
+
+
+document
+.getElementById("cancelButton")
+.style.display =
+"block";
+
+
+/* FORM VALUES */
+
+document
+.getElementById("name")
+.value =
+data.name || "";
+
+
+document
+.getElementById("category")
+.value =
+data.category || "Clothing";
+
+
+document
+.getElementById("price")
+.value =
+data.price ?? "";
+
+
+document
+.getElementById("stock")
+.value =
+data.stock_quantity ?? "";
+
+
+document
+.getElementById("description")
+.value =
+data.description || "";
+
+
+/* IMAGES */
+
+let images = [];
+
+
+try{
+
+if(
+Array.isArray(data.image_urls)
+){
+
+images =
+data.image_urls;
+
+}
+
+else if(
+typeof data.image_urls === "string"
+){
+
+images =
+JSON.parse(data.image_urls);
+
+}
+
+}catch(e){
+
+images = [];
+
+}
+
+
+if(
+!images.length
+&&
+data.image_url
+){
+
+images =
+[data.image_url];
+
+}
+
+
+editingProductImages =
+images;
+
+
+/* SHOW CURRENT IMAGES */
+
+const existingBox =
+document.getElementById(
+"existingImagesBox"
+);
+
+const existingImages =
+document.getElementById(
+"existingImages"
+);
+
+
+if(images.length){
+
+existingBox.style.display =
+"block";
+
+
+existingImages.innerHTML =
+images
+.map(img=>`
+
+<img
+src="${escapeHTML(img)}"
+alt="Product image"
+>
+
+`)
+.join("");
+
+}else{
+
+existingBox.style.display =
+"none";
+
+existingImages.innerHTML =
+"";
+
+}
+
+
+/* COLORS */
+
+const colors =
+Array.isArray(data.colors)
+?
+data.colors
+:
+[];
+
+
+const colorsBox =
+document.getElementById("colors");
+
+
+if(colors.length){
+
+colorsBox.innerHTML =
+"";
+
+
+colors.forEach(
+(color,index)=>{
+
+const row =
+document.createElement("div");
+
+row.className =
+"option-row";
+
+row.innerHTML = `
+
+<input
+class="color-input"
+value="${escapeHTML(color)}"
+placeholder="Example: Black"
+>
+
+<button
+class="remove-option"
+type="button"
+onclick="this.parentElement.remove()"
+>
+×
+</button>
+
+`;
+
+colorsBox.appendChild(row);
+
+});
+
+}else{
+
+colorsBox.innerHTML = `
+
+<div class="option-row">
+
+<input
+class="color-input"
+placeholder="Example: Black"
+>
+
+</div>
+
+`;
+
+}
+
+
+/* SIZES */
+
+const sizes =
+Array.isArray(data.sizes)
+?
+data.sizes
+:
+[];
+
+
+const sizesBox =
+document.getElementById("sizes");
+
+
+if(sizes.length){
+
+sizesBox.innerHTML =
+"";
+
+
+sizes.forEach(
+(size,index)=>{
+
+const row =
+document.createElement("div");
+
+row.className =
+"option-row";
+
+row.innerHTML = `
+
+<input
+class="size-input"
+value="${escapeHTML(size)}"
+placeholder="Example: M"
+>
+
+<button
+class="remove-option"
+type="button"
+onclick="this.parentElement.remove()"
+>
+×
+</button>
+
+`;
+
+sizesBox.appendChild(row);
+
+});
+
+}else{
+
+sizesBox.innerHTML = `
+
+<div class="option-row">
+
+<input
+class="size-input"
+placeholder="Example: S"
+>
+
+</div>
+
+`;
+
+}
+
+
+/* CLEAR NEW FILE INPUTS */
+
+clearImageInputs();
+
+
+/* SCROLL TO FORM */
+
+document
+.getElementById("productFormCard")
+.scrollIntoView({
+behavior:"smooth",
+block:"start"
+});
+
+
+status.textContent =
+"Editing: "
++
+(data.name || "product");
+
+}
+
+
+/* =========================
+   CANCEL EDIT
+========================= */
+
+function cancelEdit(){
+
+resetForm();
+
+}
+
+
+/* =========================
+   RESET FORM
+========================= */
+
+function resetForm(){
+
+editingProductId =
+null;
+
+editingProductImages =
+[];
+
+
+/* TITLE */
+
+document
+.getElementById("formTitle")
+.textContent =
+"Add Product";
+
+
+/* BUTTON */
+
+document
+.getElementById("submitButton")
+.textContent =
+"PUBLISH PRODUCT";
+
+
+document
+.getElementById("cancelButton")
+.style.display =
+"none";
+
+
+/* INPUTS */
+
+document
+.getElementById("name")
+.value =
+"";
+
+document
+.getElementById("price")
+.value =
+"";
+
+document
+.getElementById("stock")
+.value =
+"";
+
+document
+.getElementById("description")
+.value =
+"";
+
+
+/* IMAGES */
+
+clearImageInputs();
+
+
+/* CURRENT IMAGES */
+
+document
+.getElementById("existingImagesBox")
+.style.display =
+"none";
+
+document
+.getElementById("existingImages")
+.innerHTML =
+"";
+
+
+/* COLORS */
+
+document
+.getElementById("colors")
+.innerHTML = `
+
+<div class="option-row">
+
+<input
+class="color-input"
+placeholder="Example: Black"
+>
+
+</div>
+
+`;
+
+
+/* SIZES */
+
+document
+.getElementById("sizes")
+.innerHTML = `
+
+<div class="option-row">
+
+<input
+class="size-input"
+placeholder="Example: S"
+>
+
+</div>
+
+`;
+
+
+document
+.getElementById("status")
+.textContent =
+"";
+
+}
+
+
+/* =========================
+   CLEAR IMAGE INPUTS
+========================= */
+
+function clearImageInputs(){
+
+for(
+let i=0;
+i<6;
+i++
+){
+
+imageFiles[i] =
+null;
+
+
+const preview =
+document.getElementById(
+"preview"+i
+);
+
+preview.src =
+"";
+
+preview.style.display =
+"none";
+
+}
+
+
+document
+.querySelectorAll(
+'input[type="file"]'
+)
+.forEach(
+input=>{
+input.value="";
+}
+);
+
+}
+
+
+/* =========================
+   LOAD PRODUCTS
+========================= */
 
 async function loadProducts(){
 
@@ -946,11 +1673,12 @@ if(error){
 box.innerHTML =
 "<p>Could not load products: "
 +
-error.message
+escapeHTML(error.message)
 +
 "</p>";
 
 return;
+
 }
 
 
@@ -960,6 +1688,7 @@ box.innerHTML =
 "<p>No products yet.</p>";
 
 return;
+
 }
 
 
@@ -986,9 +1715,7 @@ typeof p.image_urls ===
 ){
 
 images =
-JSON.parse(
-p.image_urls
-);
+JSON.parse(p.image_urls);
 
 }
 
@@ -1095,12 +1822,23 @@ sizes.map(escapeHTML).join(", ")
 </div>
 
 
+<div class="product-actions">
+
+<button
+class="edit"
+onclick="editProduct(${p.id})"
+>
+✏️ Edit
+</button>
+
 <button
 class="delete"
 onclick="deleteProduct(${p.id})"
 >
 Delete
 </button>
+
+</div>
 
 </div>
 
@@ -1129,7 +1867,9 @@ src="${escapeHTML(img)}"
 }
 
 
-/* DELETE */
+/* =========================
+   DELETE
+========================= */
 
 async function deleteProduct(id){
 
@@ -1140,6 +1880,7 @@ if(
 ){
 
 return;
+
 }
 
 
@@ -1149,7 +1890,10 @@ error
 await db
 .from("products")
 .delete()
-.eq("id",id);
+.eq(
+"id",
+id
+);
 
 
 if(error){
@@ -1157,6 +1901,16 @@ if(error){
 alert(error.message);
 
 return;
+
+}
+
+
+if(
+editingProductId === id
+){
+
+resetForm();
+
 }
 
 
@@ -1165,7 +1919,9 @@ loadProducts();
 }
 
 
-/* ESCAPE */
+/* =========================
+   ESCAPE HTML
+========================= */
 
 function escapeHTML(text){
 
@@ -1178,6 +1934,10 @@ return String(text)
 
 }
 
+
+/* =========================
+   START
+========================= */
 
 loadProducts();
 
