@@ -512,7 +512,6 @@ grid-template-columns:1fr 1fr
 
 <body>
 
-
 <header>
 
 <div class="logo">
@@ -550,9 +549,7 @@ onclick="loadOrders()"
 
 </div>
 
-<div
-class="help"
->
+<div class="help">
 New orders will appear here after customers complete checkout.
 </div>
 
@@ -854,7 +851,6 @@ Loading...
 
 
 <script>
-
 
 /* ==================================================
    SUPABASE
@@ -2161,24 +2157,13 @@ Loading orders...
 </div>`;
 
 
-/*
-We only request the columns we already know.
-created_at is handled separately below.
-*/
-
 const {
 data,
 error
 } =
 await db
 .from("orders")
-.select("*")
-.order(
-"created_at",
-{
-ascending:false
-}
-);
+.select("*");
 
 
 if(error){
@@ -2278,7 +2263,7 @@ data.map(order=>{
 
 const status =
 String(
-order.statu ||
+order.status ||
 "pending"
 ).toLowerCase();
 
@@ -2308,27 +2293,6 @@ if(status==="cancelled")
 statusClass="status-cancelled";
 
 
-let dateText =
-"";
-
-
-if(order.created_at){
-
-const date =
-new Date(
-order.created_at
-);
-
-if(!isNaN(date)){
-
-dateText =
-date.toLocaleString();
-
-}
-
-}
-
-
 return `
 
 <div class="order">
@@ -2344,16 +2308,6 @@ String(order.id)
 )}
 
 </div>
-
-${
-dateText
-?
-`<div class="order-date">
-${escapeHTML(dateText)}
-</div>`
-:
-""
-}
 
 </div>
 
@@ -2652,7 +2606,7 @@ await db
 .from("orders")
 .update({
 
-statu:newStatus
+status:newStatus
 
 })
 .eq(
@@ -2717,10 +2671,6 @@ return String(text)
 
 }
 
-
-/*
-Used for IDs inside onclick attributes.
-*/
 
 function escapeJS(text){
 
