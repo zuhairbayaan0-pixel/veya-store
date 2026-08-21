@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,9 +12,7 @@
 
 <style>
 
-*{
-box-sizing:border-box
-}
+*{box-sizing:border-box}
 
 body{
 margin:0;
@@ -91,10 +90,7 @@ color:#777;
 margin-top:6px
 }
 
-
-/* =========================
-   PRODUCT IMAGES
-========================= */
+/* IMAGES */
 
 .image-grid{
 display:grid;
@@ -139,10 +135,7 @@ border-radius:6px;
 border:1px solid #ddd
 }
 
-
-/* =========================
-   OPTIONS
-========================= */
+/* OPTIONS */
 
 .option-row{
 display:flex;
@@ -172,10 +165,7 @@ cursor:pointer;
 font-weight:bold
 }
 
-
-/* =========================
-   BUTTONS
-========================= */
+/* BUTTONS */
 
 .publish{
 background:#171717;
@@ -209,10 +199,7 @@ margin-top:15px;
 color:#666
 }
 
-
-/* =========================
-   PRODUCTS
-========================= */
+/* PRODUCTS */
 
 .product{
 border:1px solid #ddd;
@@ -285,10 +272,7 @@ border-radius:6px;
 cursor:pointer
 }
 
-
-/* =========================
-   ORDERS
-========================= */
+/* ORDERS */
 
 .orders-header{
 display:flex;
@@ -497,10 +481,7 @@ text-align:center;
 color:#777
 }
 
-
-/* =========================
-   RESPONSIVE
-========================= */
+/* RESPONSIVE */
 
 @media(max-width:700px){
 
@@ -538,10 +519,6 @@ display:grid;
 grid-template-columns:1fr 1fr
 }
 
-.order-item{
-align-items:flex-start
-}
-
 .order-item-image,
 .order-item-no-image{
 width:80px;
@@ -567,13 +544,9 @@ View Store →
 
 </header>
 
-
 <div class="container">
 
-
-<!-- ==================================================
-     ORDERS
-================================================== -->
+<!-- ORDERS -->
 
 <div class="card">
 
@@ -605,10 +578,7 @@ Loading orders...
 
 </div>
 
-
-<!-- ==================================================
-     PRODUCT FORM
-================================================== -->
+<!-- PRODUCT FORM -->
 
 <div
 class="card"
@@ -619,7 +589,6 @@ id="productFormCard"
 Add Product
 </h1>
 
-
 <label>
 Product Name
 </label>
@@ -628,7 +597,6 @@ Product Name
 id="name"
 placeholder="Example: Classic Hoodie"
 >
-
 
 <label>
 Category
@@ -644,7 +612,6 @@ Category
 
 </select>
 
-
 <label>
 Price (PKR)
 </label>
@@ -654,7 +621,6 @@ id="price"
 type="number"
 placeholder="1499"
 >
-
 
 <label>
 Stock Quantity
@@ -671,7 +637,6 @@ placeholder="20"
 How many units are available to sell.
 </div>
 
-
 <label>
 Description
 </label>
@@ -680,7 +645,6 @@ Description
 id="description"
 placeholder="Describe your product..."
 ></textarea>
-
 
 <label>
 Product Images — up to 6
@@ -692,7 +656,6 @@ id="imageHelp"
 >
 Select up to six images from your computer.
 </div>
-
 
 <div
 id="existingImagesBox"
@@ -715,7 +678,6 @@ Otherwise, the current images will remain.
 
 </div>
 
-
 <div class="image-grid">
 
 <div class="image-box">
@@ -724,10 +686,7 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,0)"
 >
-<img
-class="preview"
-id="preview0"
->
+<img class="preview" id="preview0">
 </div>
 
 <div class="image-box">
@@ -736,10 +695,7 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,1)"
 >
-<img
-class="preview"
-id="preview1"
->
+<img class="preview" id="preview1">
 </div>
 
 <div class="image-box">
@@ -748,10 +704,7 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,2)"
 >
-<img
-class="preview"
-id="preview2"
->
+<img class="preview" id="preview2">
 </div>
 
 <div class="image-box">
@@ -760,10 +713,7 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,3)"
 >
-<img
-class="preview"
-id="preview3"
->
+<img class="preview" id="preview3">
 </div>
 
 <div class="image-box">
@@ -772,10 +722,7 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,4)"
 >
-<img
-class="preview"
-id="preview4"
->
+<img class="preview" id="preview4">
 </div>
 
 <div class="image-box">
@@ -784,14 +731,10 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,5)"
 >
-<img
-class="preview"
-id="preview5"
->
+<img class="preview" id="preview5">
 </div>
 
 </div>
-
 
 <label>
 Colors
@@ -817,7 +760,6 @@ onclick="addColor()"
 >
 + Add another color
 </button>
-
 
 <label>
 Sizes
@@ -848,7 +790,6 @@ onclick="addSize()"
 + Add another size
 </button>
 
-
 <button
 class="publish"
 id="submitButton"
@@ -872,10 +813,7 @@ id="status"
 
 </div>
 
-
-<!-- ==================================================
-     PRODUCTS
-================================================== -->
+<!-- PRODUCTS -->
 
 <div class="card">
 
@@ -889,9 +827,7 @@ Loading...
 
 </div>
 
-
 </div>
-
 
 <script>
 
@@ -1051,9 +987,6 @@ Math.random()
 +
 extension;
 
-const path =
-filename;
-
 const {
 error
 } =
@@ -1061,7 +994,7 @@ await db
 .storage
 .from("product-images")
 .upload(
-path,
+filename,
 file,
 {
 cacheControl:"3600",
@@ -1079,7 +1012,7 @@ data
 db
 .storage
 .from("product-images")
-.getPublicUrl(path);
+.getPublicUrl(filename);
 
 return data.publicUrl;
 
@@ -1125,18 +1058,14 @@ document
 
 const colors =
 [
-...document.querySelectorAll(
-".color-input"
-)
+...document.querySelectorAll(".color-input")
 ]
 .map(x=>x.value.trim())
 .filter(Boolean);
 
 const sizes =
 [
-...document.querySelectorAll(
-".size-input"
-)
+...document.querySelectorAll(".size-input")
 ]
 .map(x=>x.value.trim())
 .filter(Boolean);
@@ -1173,8 +1102,7 @@ return false;
 }
 
 if(
-Number.isNaN(data.price)
-||
+Number.isNaN(data.price) ||
 data.price < 0
 ){
 
@@ -1186,8 +1114,7 @@ return false;
 }
 
 if(
-Number.isNaN(data.stock)
-||
+Number.isNaN(data.stock) ||
 data.stock < 0
 ){
 
@@ -1199,8 +1126,7 @@ return false;
 }
 
 if(
-data.category === "Clothing"
-&&
+data.category === "Clothing" &&
 !data.sizes.length
 ){
 
@@ -1258,7 +1184,6 @@ return;
 
 }
 
-
 try{
 
 status.textContent =
@@ -1267,8 +1192,7 @@ status.textContent =
 const imageUrls = [];
 
 for(
-const file
-of selectedFiles
+const file of selectedFiles
 ){
 
 const url =
@@ -1289,11 +1213,8 @@ await db
 .insert({
 
 name:data.name,
-
 category:data.category,
-
 price:data.price,
-
 description:data.description,
 
 image_url:
@@ -1352,7 +1273,6 @@ status.textContent =
 let imageUrls =
 editingProductImages;
 
-
 if(selectedFiles.length){
 
 if(selectedFiles.length > 6){
@@ -1370,8 +1290,7 @@ status.textContent =
 imageUrls = [];
 
 for(
-const file
-of selectedFiles
+const file of selectedFiles
 ){
 
 const url =
@@ -1383,7 +1302,6 @@ imageUrls.push(url);
 
 }
 
-
 const {
 error
 } =
@@ -1392,11 +1310,8 @@ await db
 .update({
 
 name:data.name,
-
 category:data.category,
-
 price:data.price,
-
 description:data.description,
 
 image_url:
@@ -1422,7 +1337,6 @@ data.sizes.length > 0
 "id",
 editingProductId
 );
-
 
 if(error){
 throw error;
@@ -1460,7 +1374,6 @@ document.getElementById("status");
 status.textContent =
 "Loading product...";
 
-
 const {
 data,
 error
@@ -1470,7 +1383,6 @@ await db
 .select("*")
 .eq("id",id)
 .single();
-
 
 if(error){
 
@@ -1483,7 +1395,6 @@ error.message;
 return;
 
 }
-
 
 editingProductId =
 data.id;
@@ -1502,7 +1413,6 @@ document
 .getElementById("cancelButton")
 .style.display =
 "block";
-
 
 document
 .getElementById("name")
@@ -1536,15 +1446,12 @@ let images = [];
 
 try{
 
-if(
-Array.isArray(data.image_urls)
-){
+if(Array.isArray(data.image_urls)){
 
 images =
 data.image_urls;
 
 }
-
 else if(
 typeof data.image_urls === "string"
 ){
@@ -1574,7 +1481,6 @@ images =
 editingProductImages =
 images;
 
-
 const existingBox =
 document.getElementById(
 "existingImagesBox"
@@ -1585,23 +1491,20 @@ document.getElementById(
 "existingImages"
 );
 
-
 if(images.length){
 
 existingBox.style.display =
 "block";
 
 existingImages.innerHTML =
-images
-.map(img=>`
+images.map(img=>`
 
 <img
 src="${escapeHTML(img)}"
 alt="Product image"
 >
 
-`)
-.join("");
+`).join("");
 
 }
 else{
@@ -1624,10 +1527,8 @@ data.colors
 :
 [];
 
-
 const colorsBox =
 document.getElementById("colors");
-
 
 if(colors.length){
 
@@ -1692,10 +1593,8 @@ data.sizes
 :
 [];
 
-
 const sizesBox =
 document.getElementById("sizes");
-
 
 if(sizes.length){
 
@@ -1749,7 +1648,6 @@ placeholder="Example: S"
 `;
 
 }
-
 
 clearImageInputs();
 
@@ -1836,7 +1734,6 @@ document
 .innerHTML =
 "";
 
-
 document
 .getElementById("colors")
 .innerHTML = `
@@ -1852,7 +1749,6 @@ placeholder="Example: Black"
 
 `;
 
-
 document
 .getElementById("sizes")
 .innerHTML = `
@@ -1867,7 +1763,6 @@ placeholder="Example: S"
 </div>
 
 `;
-
 
 document
 .getElementById("status")
@@ -1929,7 +1824,6 @@ document.getElementById(
 "products"
 );
 
-
 const {
 data,
 error
@@ -1944,7 +1838,6 @@ ascending:false
 }
 );
 
-
 if(error){
 
 box.innerHTML =
@@ -1956,7 +1849,6 @@ return;
 
 }
 
-
 if(!data.length){
 
 box.innerHTML =
@@ -1966,7 +1858,6 @@ return;
 
 }
 
-
 box.innerHTML =
 data.map(p=>{
 
@@ -1974,9 +1865,7 @@ let images = [];
 
 try{
 
-if(
-Array.isArray(p.image_urls)
-){
+if(Array.isArray(p.image_urls)){
 
 images =
 p.image_urls;
@@ -1994,7 +1883,6 @@ JSON.parse(p.image_urls);
 }
 catch(e){}
 
-
 if(
 !images.length &&
 p.image_url
@@ -2005,7 +1893,6 @@ images =
 
 }
 
-
 const colors =
 Array.isArray(p.colors)
 ?
@@ -2013,14 +1900,12 @@ p.colors
 :
 [];
 
-
 const sizes =
 Array.isArray(p.sizes)
 ?
 p.sizes
 :
 [];
-
 
 return `
 
@@ -2030,19 +1915,15 @@ return `
 
 ${
 images.length
-
 ?
-
-`<img
+`
+<img
 src="${escapeHTML(images[0])}"
->`
-
+>
+`
 :
-
 ""
-
 }
-
 
 <div class="product-info">
 
@@ -2118,9 +1999,11 @@ Delete
 
 ${
 images.map(img=>`
+
 <img
 src="${escapeHTML(img)}"
 >
+
 `).join("")
 }
 
@@ -2141,16 +2024,11 @@ src="${escapeHTML(img)}"
 
 async function deleteProduct(id){
 
-if(
-!confirm(
-"Delete this product?"
-)
-){
+if(!confirm("Delete this product?")){
 
 return;
 
 }
-
 
 const {
 error
@@ -2162,7 +2040,6 @@ await db
 "id",
 id
 );
-
 
 if(error){
 
@@ -2214,13 +2091,6 @@ if(!uniqueIds.length){
 return {};
 }
 
-
-/*
-Load the actual products.
-The order_items table gives us product_id.
-The products table contains image_url/image_urls.
-*/
-
 const {
 data,
 error
@@ -2235,7 +2105,6 @@ await db
 uniqueIds
 );
 
-
 if(error){
 
 console.error(
@@ -2247,20 +2116,11 @@ return {};
 
 }
 
-
 const productMap = {};
-
 
 (data || []).forEach(product=>{
 
 let images = [];
-
-
-/*
-image_urls can be:
-- a JavaScript array
-- a JSON string
-*/
 
 try{
 
@@ -2288,23 +2148,15 @@ images = [];
 
 }
 
-
-/*
-Fallback to image_url.
-*/
-
 if(
 !images.length &&
 product.image_url
 ){
 
 images =
-[
-product.image_url
-];
+[product.image_url];
 
 }
-
 
 productMap[
 String(product.id)
@@ -2320,7 +2172,6 @@ images[0] || ""
 
 });
 
-
 return productMap;
 
 }
@@ -2335,20 +2186,11 @@ async function loadOrders(){
 const box =
 document.getElementById("orders");
 
-box.innerHTML =
-`
+box.innerHTML = `
 <div class="loading-orders">
 Loading orders...
 </div>
 `;
-
-
-/*
-Load orders.
-IMPORTANT:
-Your actual database column is "status",
-not "statu".
-*/
 
 const {
 data,
@@ -2363,7 +2205,6 @@ await db
 ascending:false
 }
 );
-
 
 if(error){
 
@@ -2386,7 +2227,6 @@ ${escapeHTML(error.message)}
 return;
 
 }
-
 
 if(
 !data ||
@@ -2412,9 +2252,7 @@ return;
 }
 
 
-/* ==================================================
-   LOAD ORDER ITEMS
-================================================== */
+/* ORDER ITEMS */
 
 const orderIds =
 data.map(
@@ -2423,7 +2261,6 @@ order.id
 );
 
 let items = [];
-
 
 if(orderIds.length){
 
@@ -2438,7 +2275,6 @@ await db
 "order_id",
 orderIds
 );
-
 
 if(itemError){
 
@@ -2458,9 +2294,7 @@ itemData || [];
 }
 
 
-/* ==================================================
-   LOAD PRODUCT IMAGES
-================================================== */
+/* PRODUCT IMAGES */
 
 const productIds =
 items.map(
@@ -2468,24 +2302,13 @@ item =>
 item.product_id
 );
 
-
-/*
-This is the important part.
-
-The order_items table has product_id.
-We use that product_id to find the image
-inside the products table.
-*/
-
 const productMap =
 await getProductImages(
 productIds
 );
 
 
-/* ==================================================
-   RENDER ORDERS
-================================================== */
+/* RENDER */
 
 box.innerHTML =
 data.map(order=>{
@@ -2496,7 +2319,6 @@ order.status ||
 "pending"
 ).toLowerCase();
 
-
 const orderItems =
 items.filter(
 item =>
@@ -2504,10 +2326,8 @@ String(item.order_id) ===
 String(order.id)
 );
 
-
 let statusClass =
 "status-pending";
-
 
 if(status==="confirmed")
 statusClass =
@@ -2525,10 +2345,7 @@ if(status==="cancelled")
 statusClass =
 "status-cancelled";
 
-
-let dateText =
-"";
-
+let dateText = "";
 
 if(order.created_at){
 
@@ -2547,13 +2364,9 @@ date.toLocaleString();
 }
 
 
-/* ==================================================
-   ORDER ITEMS HTML
-================================================== */
+/* ORDER ITEMS */
 
-let itemsHTML =
-"";
-
+let itemsHTML = "";
 
 if(orderItems.length){
 
@@ -2566,14 +2379,12 @@ productMap[
 String(item.product_id)
 ];
 
-
 const productImage =
 product
 ?
 product.image
 :
 "";
-
 
 return `
 
@@ -2603,7 +2414,6 @@ No image
 
 }
 
-
 <div class="order-item-content">
 
 <div class="order-item-name">
@@ -2615,7 +2425,6 @@ product?.name ||
 )}
 
 </div>
-
 
 <div class="order-item-details">
 
@@ -2629,7 +2438,6 @@ escapeHTML(item.color)+
 ""
 }
 
-
 ${
 item.size
 ?
@@ -2640,22 +2448,18 @@ escapeHTML(item.size)+
 ""
 }
 
-
 Quantity:
 ${Number(
 item.quantity || 0
 )}
 
-
 <br>
-
 
 Price:
 PKR
 ${Number(
 item.price || 0
 ).toLocaleString()}
-
 
 </div>
 
@@ -2684,9 +2488,7 @@ No order items found.
 }
 
 
-/* ==================================================
-   ORDER HTML
-================================================== */
+/* ORDER */
 
 return `
 
@@ -2717,7 +2519,6 @@ ${escapeHTML(dateText)}
 }
 
 </div>
-
 
 <div
 class="order-status ${statusClass}"
@@ -2777,7 +2578,6 @@ order.delivery_notes || "None"
 <strong>
 Products
 </strong>
-
 
 ${itemsHTML}
 
@@ -2889,7 +2689,7 @@ onclick="updateOrderStatus('${escapeJS(String(order.id))}','delivered')"
 
 
 /* ==================================================
-   UPDATE ORDER STATUS
+   UPDATE ORDER STATUS + WHATSAPP
 ================================================== */
 
 async function updateOrderStatus(
@@ -2897,52 +2697,64 @@ orderId,
 newStatus
 ){
 
-let message =
-"";
-
+let confirmMessage = "";
 
 if(newStatus==="confirmed"){
-
-message =
+confirmMessage =
 "Confirm this order?";
-
 }
 
 if(newStatus==="shipped"){
-
-message =
+confirmMessage =
 "Mark this order as shipped?";
-
 }
 
 if(newStatus==="delivered"){
-
-message =
+confirmMessage =
 "Mark this order as delivered?";
-
 }
 
 if(newStatus==="cancelled"){
-
-message =
+confirmMessage =
 "Cancel this order?";
+}
 
+if(!confirm(confirmMessage)){
+return;
 }
 
 
-if(
-!confirm(message)
-){
+/* ==================================================
+   GET ORDER
+================================================== */
+
+const {
+data:order,
+error:orderError
+} =
+await db
+.from("orders")
+.select("*")
+.eq("id",orderId)
+.single();
+
+if(orderError){
+
+console.error(orderError);
+
+alert(
+"Could not load order:\n\n"+
+orderError.message
+);
 
 return;
 
 }
 
 
-/*
-IMPORTANT:
-Your Supabase table uses "status".
-*/
+/* ==================================================
+   UPDATE DATABASE FIRST
+================================================== */
 
 const {
 error
@@ -2950,16 +2762,12 @@ error
 await db
 .from("orders")
 .update({
-
-status:
-newStatus
-
+status:newStatus
 })
 .eq(
 "id",
 orderId
 );
-
 
 if(error){
 
@@ -2975,16 +2783,181 @@ return;
 }
 
 
-alert(
-"Order updated to "+
-capitalize(newStatus)+
-"."
-);
+/*
+IMPORTANT:
+
+The database has now successfully changed.
+
+Only after that do we open WhatsApp.
+*/
+
+
+/* ==================================================
+   CUSTOMER PHONE
+================================================== */
+
+let customerPhone =
+String(
+order.customer_phone || ""
+)
+.replace(/\D/g,"");
 
 
 /*
-Refresh immediately.
+Pakistan:
+
+03331234567
+
+becomes:
+
+923331234567
 */
+
+if(
+customerPhone.startsWith("0")
+){
+
+customerPhone =
+"92"+
+customerPhone.substring(1);
+
+}
+
+
+/* ==================================================
+   CUSTOMER NAME / TOTAL
+================================================== */
+
+const customerName =
+order.customer_name ||
+"Customer";
+
+const total =
+Number(
+order.total || 0
+).toLocaleString();
+
+
+/* ==================================================
+   WHATSAPP MESSAGE
+================================================== */
+
+let whatsappMessage = "";
+
+
+if(newStatus==="confirmed"){
+
+whatsappMessage =
+`Hello ${customerName}! 👋
+
+Your VEYA order #${orderId} has been CONFIRMED ✅
+
+Your order total is PKR ${total}.
+
+We will now prepare your order for delivery.
+
+Thank you for shopping with VEYA! 🛍️`;
+
+}
+
+
+if(newStatus==="shipped"){
+
+whatsappMessage =
+`Hello ${customerName}! 👋
+
+Your VEYA order #${orderId} has been SHIPPED 📦🚚
+
+Your order is now on its way to you.
+
+Order total: PKR ${total}
+
+Thank you for shopping with VEYA! 🛍️`;
+
+}
+
+
+if(newStatus==="delivered"){
+
+whatsappMessage =
+`Hello ${customerName}! 👋
+
+Your VEYA order #${orderId} has been DELIVERED successfully! 🎉📦
+
+Order total: PKR ${total}
+
+Thank you for shopping with VEYA! ❤️
+
+We hope you enjoy your purchase!`;
+
+}
+
+
+if(newStatus==="cancelled"){
+
+whatsappMessage =
+`Hello ${customerName},
+
+Your VEYA order #${orderId} has been CANCELLED.
+
+If you have any questions, please contact VEYA support.
+
+Thank you for choosing VEYA.`;
+
+}
+
+
+/* ==================================================
+   OPEN WHATSAPP
+================================================== */
+
+if(customerPhone){
+
+const whatsappURL =
+"https://wa.me/"+
+customerPhone+
+"?text="+
+encodeURIComponent(
+whatsappMessage
+);
+
+window.open(
+whatsappURL,
+"_blank"
+);
+
+}
+
+
+/* ==================================================
+   SUCCESS
+================================================== */
+
+if(customerPhone){
+
+alert(
+"Order updated to "+
+capitalize(newStatus)+
+".\n\n"+
+"WhatsApp message is ready to send."
+);
+
+}
+else{
+
+alert(
+"Order updated to "+
+capitalize(newStatus)+
+".\n\n"+
+"No customer phone number was found."
+);
+
+}
+
+
+/* ==================================================
+   REFRESH
+================================================== */
 
 loadOrders();
 
@@ -3041,3 +3014,4 @@ loadOrders();
 
 </body>
 </html>
+```
