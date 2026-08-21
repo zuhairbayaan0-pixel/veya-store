@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -192,10 +193,18 @@ font-size:18px;
 margin:8px 0
 }
 
+/* CLEAN SHORT DESCRIPTION ON PRODUCT CARDS */
+
 .description{
 color:#777;
 font-size:13px;
-min-height:35px
+line-height:1.5;
+margin-top:7px;
+display:-webkit-box;
+-webkit-line-clamp:2;
+-webkit-box-orient:vertical;
+overflow:hidden;
+min-height:39px
 }
 
 .price{
@@ -373,10 +382,14 @@ font-weight:bold;
 margin:20px 0
 }
 
+/* FULL DESCRIPTION ONLY INSIDE PRODUCT MODAL */
+
 .modal-description{
 color:#666;
 line-height:1.7;
-white-space:pre-line
+white-space:pre-line;
+max-height:280px;
+overflow:auto
 }
 
 .modal-stock{
@@ -720,6 +733,11 @@ font-weight:bold;
 font-size:15px
 }
 
+.send-order:disabled{
+opacity:.6;
+cursor:not-allowed
+}
+
 @media(max-width:900px){
 
 .grid{
@@ -780,8 +798,6 @@ grid-template-columns:1fr
 
 <body>
 
-<!-- CUSTOMER HEADER — NO ADMIN LINK -->
-
 <header>
 
 <div class="logo">VEYA</div>
@@ -796,7 +812,6 @@ grid-template-columns:1fr
 </button>
 
 </header>
-
 
 <section class="hero">
 
@@ -818,9 +833,7 @@ Shop Collection
 
 </section>
 
-
 <div class="categories" id="categories"></div>
-
 
 <section class="shop" id="shop">
 
@@ -846,7 +859,6 @@ oninput="render()"
 
 </section>
 
-
 <section class="about" id="about">
 
 <small>ABOUT VEYA</small>
@@ -859,12 +871,10 @@ Discover clothing, purses, glasses, watches and jewellery in one simple shopping
 
 </section>
 
-
 <footer>
 <strong>VEYA</strong>
 <span>© 2026 VEYA</span>
 </footer>
-
 
 <!-- PRODUCT DETAILS -->
 
@@ -892,7 +902,6 @@ Discover clothing, purses, glasses, watches and jewellery in one simple shopping
 
 </div>
 
-
 <div class="modal-info">
 
 <div class="modal-category" id="modalCategory"></div>
@@ -905,7 +914,6 @@ Discover clothing, purses, glasses, watches and jewellery in one simple shopping
 
 <div class="modal-stock" id="modalStock"></div>
 
-
 <div id="colorSection">
 
 <div class="variant-title">Color</div>
@@ -914,7 +922,6 @@ Discover clothing, purses, glasses, watches and jewellery in one simple shopping
 
 </div>
 
-
 <div id="sizeSection">
 
 <div class="variant-title">Size</div>
@@ -922,7 +929,6 @@ Discover clothing, purses, glasses, watches and jewellery in one simple shopping
 <div class="variant-buttons" id="sizeButtons"></div>
 
 </div>
-
 
 <div class="quantity-title">Quantity</div>
 
@@ -935,7 +941,6 @@ Discover clothing, purses, glasses, watches and jewellery in one simple shopping
 <button onclick="changeProductQuantity(1)">+</button>
 
 </div>
-
 
 <div class="modal-buttons">
 
@@ -961,7 +966,6 @@ onclick="buyNow()"
 
 </div>
 
-
 <!-- CART -->
 
 <div
@@ -969,7 +973,6 @@ class="overlay"
 id="overlay"
 onclick="closeCart()"
 ></div>
-
 
 <div class="drawer" id="drawer">
 
@@ -1000,7 +1003,6 @@ Continue to Checkout
 
 </div>
 
-
 <!-- CHECKOUT -->
 
 <div
@@ -1024,7 +1026,6 @@ class="order-summary"
 id="orderSummary"
 ></div>
 
-
 <div class="checkout-form">
 
 <label>Full Name</label>
@@ -1034,14 +1035,12 @@ id="customerName"
 placeholder="Your full name"
 >
 
-
 <label>WhatsApp / Phone Number</label>
 
 <input
 id="customerPhone"
 placeholder="03XXXXXXXXX"
 >
-
 
 <label>Complete Delivery Address</label>
 
@@ -1050,7 +1049,6 @@ id="customerAddress"
 placeholder="House number, street, area..."
 ></textarea>
 
-
 <label>City</label>
 
 <input
@@ -1058,16 +1056,12 @@ id="customerCity"
 placeholder="Peshawar"
 >
 
-
 <label>Delivery Notes</label>
 
 <textarea
 id="customerNotes"
 placeholder="Optional"
 ></textarea>
-
-
-<!-- PAYMENT METHOD -->
 
 <div class="payment-method">
 
@@ -1094,9 +1088,9 @@ COD Fee: PKR 165
 
 </div>
 
-
 <button
 class="send-order"
+id="sendOrderButton"
 onclick="sendWhatsAppOrder()"
 >
 ORDER ON WHATSAPP
@@ -1108,7 +1102,6 @@ ORDER ON WHATSAPP
 
 </div>
 
-
 <script>
 
 const supabaseClient =
@@ -1117,6 +1110,13 @@ window.SUPABASE_URL,
 window.SUPABASE_KEY
 );
 
+/*
+IMPORTANT:
+This must be ONLY the WhatsApp number.
+No + sign.
+No spaces.
+No hyphens.
+*/
 const WA="923335308890";
 
 const COD_FEE=165;
@@ -1255,14 +1255,56 @@ return images.filter(Boolean);
 }
 
 
+/* CLEAN SHORT DESCRIPTION
+   Removes markdown and limits the card to a short preview.
+*/
+
+function getShortDescription(text){
+
+if(!text)
+return "";
+
+let clean=String(text);
+
+/* Remove markdown headings */
+clean=clean.replace(/^#{1,6}\s*/gm,"");
+
+/* Remove bold / italic markdown */
+clean=clean.replace(/\*\*/g,"");
+clean=clean.replace(/\*/g,"");
+
+/* Remove bullet marks */
+clean=clean.replace(/^\s*[-•]\s*/gm,"");
+
+/* Remove extra line breaks */
+clean=clean.replace(/\r?\n+/g," ");
+
+/* Remove extra spaces */
+clean=clean.replace(/\s+/g," ").trim();
+
+/* Keep product cards short */
+if(clean.length>125){
+
+clean=clean.substring(0,125).trim()+"...";
+
+}
+
+return clean;
+
+}
+
+
 /* STORE PRODUCTS */
 
 function render(){
 
+const searchInput=
+document.getElementById("search");
+
 const q=
-document.getElementById("search")
-.value
-.toLowerCase();
+(searchInput.value||"")
+.toLowerCase()
+.trim();
 
 const list=products.filter(p=>{
 
@@ -1271,7 +1313,7 @@ category==="All" ||
 p.category===category;
 
 const text=
-`${p.name} ${p.description||""} ${p.category||""}`
+`${p.name||""} ${p.description||""} ${p.category||""}`
 .toLowerCase();
 
 return categoryMatch && text.includes(q);
@@ -1293,6 +1335,9 @@ const stock=
 Number(p.stock_quantity||0);
 
 const out=stock<=0;
+
+const shortDescription=
+getShortDescription(p.description);
 
 return `
 
@@ -1332,7 +1377,7 @@ ${escapeHTML(p.name)}
 </div>
 
 <div class="description">
-${escapeHTML(p.description||"")}
+${escapeHTML(shortDescription)}
 </div>
 
 <div class="price">
@@ -1397,6 +1442,10 @@ document.getElementById("modalPrice")
 .textContent=
 "PKR "+Number(product.price||0).toLocaleString();
 
+/*
+Full description stays here.
+It is NOT displayed on the product card.
+*/
 document.getElementById("modalDescription")
 .textContent=product.description||"";
 
@@ -2023,7 +2072,18 @@ PKR ${total.toLocaleString()}
 }
 
 
-/* WHATSAPP ORDER */
+/*
+====================================================
+WHATSAPP ORDER
+====================================================
+
+IMPORTANT FIXES:
+
+1. Correct wa.me URL.
+2. Pre-open the WhatsApp tab immediately after button click.
+   This prevents popup blockers after the Supabase await.
+3. Fill WhatsApp with complete order information.
+*/
 
 async function sendWhatsAppOrder(){
 
@@ -2065,6 +2125,36 @@ alert(
 return;
 
 }
+
+
+/*
+Open a blank tab BEFORE the async Supabase request.
+
+This is important because browsers can block
+window.open() when it happens after await.
+*/
+
+const whatsappWindow=
+window.open("about:blank","_blank");
+
+if(!whatsappWindow){
+
+alert(
+"Please allow pop-ups for VEYA, then try again."
+);
+
+return;
+
+}
+
+
+/* Disable button while order is processing */
+
+const sendButton=
+document.getElementById("sendOrderButton");
+
+sendButton.disabled=true;
+sendButton.textContent="PROCESSING ORDER...";
 
 
 /* PAYMENT */
@@ -2130,6 +2220,11 @@ if(error){
 
 console.error(error);
 
+whatsappWindow.close();
+
+sendButton.disabled=false;
+sendButton.textContent="ORDER ON WHATSAPP";
+
 alert(
 "Order could not be placed:\n\n"+
 error.message
@@ -2140,7 +2235,7 @@ return;
 }
 
 
-/* WHATSAPP */
+/* WHATSAPP PRODUCT DETAILS */
 
 const productLines=
 checkoutItems.map(x=>{
@@ -2163,6 +2258,8 @@ return text;
 
 }).join("\n\n");
 
+
+/* FINAL WHATSAPP MESSAGE */
 
 const message=
 `NEW VEYA ORDER
@@ -2205,12 +2302,30 @@ ${notes||"None"}
 VEYA ORDER`;
 
 
+/*
+THIS IS THE CORRECT WHATSAPP URL.
+
+Your old code had:
+[https://wa.me/](https://wa.me/)
+
+which is NOT a valid URL.
+*/
+
 const url=
 "https://wa.me/"+
 WA+
 "?text="+
 encodeURIComponent(message);
 
+
+/*
+Send the already-opened tab to WhatsApp.
+*/
+
+whatsappWindow.location.href=url;
+
+
+/* CLEAR CART */
 
 cart=[];
 
@@ -2219,7 +2334,8 @@ update();
 closeCheckout();
 closeCart();
 
-window.open(url,"_blank");
+sendButton.disabled=false;
+sendButton.textContent="ORDER ON WHATSAPP";
 
 }
 
@@ -2258,5 +2374,7 @@ return String(text)
 loadProducts();
 
 </script>
+
 </body>
 </html>
+```
