@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,8 +92,6 @@ color:#777;
 margin-top:6px
 }
 
-/* IMAGES */
-
 .image-grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
@@ -136,8 +135,6 @@ border-radius:6px;
 border:1px solid #ddd
 }
 
-/* OPTIONS */
-
 .option-row{
 display:flex;
 gap:8px;
@@ -165,8 +162,6 @@ border-radius:6px;
 cursor:pointer;
 font-weight:bold
 }
-
-/* BUTTONS */
 
 .publish{
 background:#171717;
@@ -199,8 +194,6 @@ display:none
 margin-top:15px;
 color:#666
 }
-
-/* PRODUCTS */
 
 .product{
 border:1px solid #ddd;
@@ -272,8 +265,6 @@ padding:10px 14px;
 border-radius:6px;
 cursor:pointer
 }
-
-/* ORDERS */
 
 .orders-header{
 display:flex;
@@ -449,8 +440,6 @@ text-align:center;
 color:#777
 }
 
-/* RESPONSIVE */
-
 @media(max-width:700px){
 
 .image-grid{
@@ -508,7 +497,9 @@ View Store →
 
 <div class="container">
 
-<!-- ORDERS -->
+<!-- ==================================================
+     ORDERS
+================================================== -->
 
 <div class="card">
 
@@ -540,7 +531,10 @@ Loading orders...
 
 </div>
 
-<!-- PRODUCT FORM -->
+
+<!-- ==================================================
+     PRODUCT FORM
+================================================== -->
 
 <div
 class="card"
@@ -648,7 +642,10 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,0)"
 >
-<img class="preview" id="preview0">
+<img
+class="preview"
+id="preview0"
+>
 </div>
 
 <div class="image-box">
@@ -657,7 +654,10 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,1)"
 >
-<img class="preview" id="preview1">
+<img
+class="preview"
+id="preview1"
+>
 </div>
 
 <div class="image-box">
@@ -666,7 +666,10 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,2)"
 >
-<img class="preview" id="preview2">
+<img
+class="preview"
+id="preview2"
+>
 </div>
 
 <div class="image-box">
@@ -675,7 +678,10 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,3)"
 >
-<img class="preview" id="preview3">
+<img
+class="preview"
+id="preview3"
+>
 </div>
 
 <div class="image-box">
@@ -684,7 +690,10 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,4)"
 >
-<img class="preview" id="preview4">
+<img
+class="preview"
+id="preview4"
+>
 </div>
 
 <div class="image-box">
@@ -693,7 +702,10 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,5)"
 >
-<img class="preview" id="preview5">
+<img
+class="preview"
+id="preview5"
+>
 </div>
 
 </div>
@@ -775,7 +787,10 @@ id="status"
 
 </div>
 
-<!-- PRODUCTS -->
+
+<!-- ==================================================
+     PRODUCTS
+================================================== -->
 
 <div class="card">
 
@@ -1434,6 +1449,7 @@ images =
 data.image_urls;
 
 }
+
 else if(
 typeof data.image_urls === "string"
 ){
@@ -1901,17 +1917,12 @@ return `
 
 ${
 images.length
-
 ?
-
 `<img
 src="${escapeHTML(images[0])}"
 >`
-
 :
-
 ""
-
 }
 
 <div class="product-info">
@@ -1988,11 +1999,9 @@ Delete
 
 ${
 images.map(img=>`
-
 <img
 src="${escapeHTML(img)}"
 >
-
 `).join("")
 }
 
@@ -2057,6 +2066,7 @@ loadProducts();
 
 /* ==================================================
    ORDERS
+   FIXED VERSION
 ================================================== */
 
 async function loadOrders(){
@@ -2064,16 +2074,19 @@ async function loadOrders(){
 const box =
 document.getElementById("orders");
 
-box.innerHTML =
-`
+box.innerHTML = `
 <div class="loading-orders">
 Loading orders...
 </div>
 `;
 
+try{
+
+/* LOAD ORDERS */
+
 const {
-data,
-error
+data: orders,
+error: ordersError
 } =
 await db
 .from("orders")
@@ -2085,29 +2098,16 @@ ascending:false
 }
 );
 
-if(error){
+if(ordersError){
 
-console.error(error);
-
-box.innerHTML = `
-
-<div class="no-orders">
-
-Could not load orders.
-
-<br><br>
-
-${escapeHTML(error.message)}
-
-</div>
-
-`;
-
-return;
+throw ordersError;
 
 }
 
-if(!data || !data.length){
+if(
+!orders ||
+!orders.length
+){
 
 box.innerHTML = `
 
@@ -2128,83 +2128,105 @@ return;
 }
 
 
-/* LOAD ORDER ITEMS */
+/* LOAD ITEMS DIRECTLY FOR EACH ORDER */
 
-const orderIds =
-data.map(order=>order.id);
+const ordersWithItems = [];
 
-let items = [];
-
-if(orderIds.length){
+for(
+const order
+of orders
+){
 
 const {
-data:itemData,
-error:itemError
+data: orderItems,
+error: itemsError
 } =
 await db
 .from("order_items")
 .select("*")
-.in(
+.eq(
 "order_id",
-orderIds
+order.id
 );
 
-if(itemError){
+if(itemsError){
 
 console.error(
-"Order items error:",
-itemError
+"Could not load items for order",
+order.id,
+itemsError
 );
 
 }
-else{
 
-items =
-itemData || [];
+ordersWithItems.push({
+
+order,
+
+items:
+orderItems || []
+
+});
 
 }
 
-}
 
-
-/* RENDER ORDERS */
+/* RENDER */
 
 box.innerHTML =
-data.map(order=>{
-
-/*
-IMPORTANT:
-Your Supabase column is "status",
-NOT "statu".
-*/
+ordersWithItems
+.map(
+({
+order,
+items
+})=>{
 
 const status =
 String(
 order.status ||
 "pending"
-).toLowerCase();
-
-const orderItems =
-items.filter(
-item =>
-String(item.order_id) ===
-String(order.id)
-);
+)
+.toLowerCase();
 
 let statusClass =
 "status-pending";
 
-if(status==="confirmed")
-statusClass="status-confirmed";
+if(
+status === "confirmed"
+){
 
-if(status==="shipped")
-statusClass="status-shipped";
+statusClass =
+"status-confirmed";
 
-if(status==="delivered")
-statusClass="status-delivered";
+}
 
-if(status==="cancelled")
-statusClass="status-cancelled";
+if(
+status === "shipped"
+){
+
+statusClass =
+"status-shipped";
+
+}
+
+if(
+status === "delivered"
+){
+
+statusClass =
+"status-delivered";
+
+}
+
+if(
+status === "cancelled"
+){
+
+statusClass =
+"status-cancelled";
+
+}
+
 
 let dateText =
 "";
@@ -2225,6 +2247,7 @@ date.toLocaleString();
 
 }
 
+
 return `
 
 <div class="order">
@@ -2235,7 +2258,8 @@ return `
 
 <div class="order-id">
 
-Order #${escapeHTML(
+Order #
+${escapeHTML(
 String(order.id)
 )}
 
@@ -2252,6 +2276,7 @@ ${escapeHTML(dateText)}
 }
 
 </div>
+
 
 <div
 class="order-status ${statusClass}"
@@ -2312,12 +2337,14 @@ order.delivery_notes || "None"
 Products
 </strong>
 
+
 ${
-orderItems.length
+items.length
 
 ?
 
-orderItems.map(item=>`
+items.map(
+item=>`
 
 <div class="order-item">
 
@@ -2336,7 +2363,9 @@ ${
 item.color
 ?
 "Color: "+
-escapeHTML(item.color)+
+escapeHTML(
+item.color
+)+
 "<br>"
 :
 ""
@@ -2346,7 +2375,9 @@ ${
 item.size
 ?
 "Size: "+
-escapeHTML(item.size)+
+escapeHTML(
+item.size
+)+
 "<br>"
 :
 ""
@@ -2369,14 +2400,19 @@ item.price || 0
 
 </div>
 
-`).join("")
+`
+).join("")
 
 :
 
 `
+
 <div class="order-item-details">
+
 No order items found.
+
 </div>
+
 `
 
 }
@@ -2397,8 +2433,9 @@ order.total || 0
 
 <div class="order-actions">
 
+
 ${
-status==="pending"
+status === "pending"
 
 ?
 
@@ -2406,14 +2443,20 @@ status==="pending"
 
 <button
 class="confirm-btn"
-onclick="updateOrderStatus('${escapeJS(order.id)}','confirmed')"
+onclick="updateOrderStatus(
+'${escapeJS(order.id)}',
+'confirmed'
+)"
 >
 ✅ Confirm Order
 </button>
 
 <button
 class="cancel-btn"
-onclick="updateOrderStatus('${escapeJS(order.id)}','cancelled')"
+onclick="updateOrderStatus(
+'${escapeJS(order.id)}',
+'cancelled'
+)"
 >
 ❌ Cancel
 </button>
@@ -2428,7 +2471,7 @@ onclick="updateOrderStatus('${escapeJS(order.id)}','cancelled')"
 
 
 ${
-status==="confirmed"
+status === "confirmed"
 
 ?
 
@@ -2436,14 +2479,20 @@ status==="confirmed"
 
 <button
 class="ship-btn"
-onclick="updateOrderStatus('${escapeJS(order.id)}','shipped')"
+onclick="updateOrderStatus(
+'${escapeJS(order.id)}',
+'shipped'
+)"
 >
 📦 Mark Shipped
 </button>
 
 <button
 class="cancel-btn"
-onclick="updateOrderStatus('${escapeJS(order.id)}','cancelled')"
+onclick="updateOrderStatus(
+'${escapeJS(order.id)}',
+'cancelled'
+)"
 >
 ❌ Cancel
 </button>
@@ -2458,7 +2507,7 @@ onclick="updateOrderStatus('${escapeJS(order.id)}','cancelled')"
 
 
 ${
-status==="shipped"
+status === "shipped"
 
 ?
 
@@ -2466,7 +2515,10 @@ status==="shipped"
 
 <button
 class="deliver-btn"
-onclick="updateOrderStatus('${escapeJS(order.id)}','delivered')"
+onclick="updateOrderStatus(
+'${escapeJS(order.id)}',
+'delivered'
+)"
 >
 🚚 Mark Delivered
 </button>
@@ -2485,7 +2537,37 @@ onclick="updateOrderStatus('${escapeJS(order.id)}','delivered')"
 
 `;
 
-}).join("");
+}
+)
+.join("");
+
+}
+
+catch(error){
+
+console.error(
+"Orders loading error:",
+error
+);
+
+box.innerHTML = `
+
+<div class="no-orders">
+
+❌ Could not load orders.
+
+<br><br>
+
+${escapeHTML(
+error.message ||
+String(error)
+)}
+
+</div>
+
+`;
+
+}
 
 }
 
@@ -2502,28 +2584,36 @@ newStatus
 let message =
 "";
 
-if(newStatus==="confirmed"){
+if(
+newStatus === "confirmed"
+){
 
 message =
 "Confirm this order?";
 
 }
 
-if(newStatus==="shipped"){
+if(
+newStatus === "shipped"
+){
 
 message =
 "Mark this order as shipped?";
 
 }
 
-if(newStatus==="delivered"){
+if(
+newStatus === "delivered"
+){
 
 message =
 "Mark this order as delivered?";
 
 }
 
-if(newStatus==="cancelled"){
+if(
+newStatus === "cancelled"
+){
 
 message =
 "Cancel this order?";
@@ -2538,13 +2628,6 @@ return;
 
 }
 
-
-/*
-IMPORTANT:
-Your Supabase column is "status",
-NOT "statu".
-*/
-
 const {
 error
 } =
@@ -2552,7 +2635,8 @@ await db
 .from("orders")
 .update({
 
-status:newStatus
+status:
+newStatus
 
 })
 .eq(
@@ -2602,11 +2686,26 @@ text.slice(1);
 function escapeHTML(text){
 
 return String(text)
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
+.replaceAll(
+"&",
+"&amp;"
+)
+.replaceAll(
+"<",
+"&lt;"
+)
+.replaceAll(
+">",
+"&gt;"
+)
+.replaceAll(
+'"',
+"&quot;"
+)
+.replaceAll(
+"'",
+"&#039;"
+);
 
 }
 
@@ -2614,10 +2713,22 @@ return String(text)
 function escapeJS(text){
 
 return String(text)
-.replaceAll("\\","\\\\")
-.replaceAll("'","\\'")
-.replaceAll("\n","\\n")
-.replaceAll("\r","\\r");
+.replaceAll(
+"\\",
+"\\\\"
+)
+.replaceAll(
+"'",
+"\\'"
+)
+.replaceAll(
+"\n",
+"\\n"
+)
+.replaceAll(
+"\r",
+"\\r"
+);
 
 }
 
@@ -2634,3 +2745,4 @@ loadOrders();
 
 </body>
 </html>
+```
