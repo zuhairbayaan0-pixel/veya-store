@@ -11,10 +11,7 @@
 <script src="supabase-config.js"></script>
 
 <style>
-
-*{
-box-sizing:border-box
-}
+*{box-sizing:border-box}
 
 body{
 margin:0;
@@ -92,6 +89,11 @@ color:#777;
 margin-top:6px
 }
 
+
+/* =========================
+   PRODUCT IMAGES
+========================= */
+
 .image-grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
@@ -135,6 +137,11 @@ border-radius:6px;
 border:1px solid #ddd
 }
 
+
+/* =========================
+   OPTIONS
+========================= */
+
 .option-row{
 display:flex;
 gap:8px;
@@ -162,6 +169,11 @@ border-radius:6px;
 cursor:pointer;
 font-weight:bold
 }
+
+
+/* =========================
+   BUTTONS
+========================= */
 
 .publish{
 background:#171717;
@@ -194,6 +206,11 @@ display:none
 margin-top:15px;
 color:#666
 }
+
+
+/* =========================
+   PRODUCTS
+========================= */
 
 .product{
 border:1px solid #ddd;
@@ -265,6 +282,11 @@ padding:10px 14px;
 border-radius:6px;
 cursor:pointer
 }
+
+
+/* =========================
+   ORDERS
+========================= */
 
 .orders-header{
 display:flex;
@@ -371,6 +393,43 @@ border-bottom:1px solid #eee
 border-bottom:0
 }
 
+/* NEW: ORDER PRODUCT IMAGE */
+
+.order-item-content{
+display:flex;
+gap:14px;
+align-items:flex-start
+}
+
+.order-item-image{
+width:85px;
+height:85px;
+object-fit:cover;
+border-radius:8px;
+border:1px solid #ddd;
+background:#f5f5f5;
+flex-shrink:0
+}
+
+.order-item-image-placeholder{
+width:85px;
+height:85px;
+border-radius:8px;
+border:1px solid #ddd;
+background:#f5f5f5;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:11px;
+color:#888;
+text-align:center;
+flex-shrink:0
+}
+
+.order-item-info{
+flex:1
+}
+
 .order-item-name{
 font-weight:bold
 }
@@ -440,6 +499,11 @@ text-align:center;
 color:#777
 }
 
+
+/* =========================
+   RESPONSIVE
+========================= */
+
 @media(max-width:700px){
 
 .image-grid{
@@ -476,8 +540,13 @@ display:grid;
 grid-template-columns:1fr 1fr
 }
 
+.order-item-image,
+.order-item-image-placeholder{
+width:70px;
+height:70px
 }
 
+}
 </style>
 </head>
 
@@ -496,6 +565,7 @@ View Store →
 </header>
 
 <div class="container">
+
 
 <!-- ==================================================
      ORDERS
@@ -642,10 +712,7 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,0)"
 >
-<img
-class="preview"
-id="preview0"
->
+<img class="preview" id="preview0">
 </div>
 
 <div class="image-box">
@@ -654,10 +721,7 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,1)"
 >
-<img
-class="preview"
-id="preview1"
->
+<img class="preview" id="preview1">
 </div>
 
 <div class="image-box">
@@ -666,10 +730,7 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,2)"
 >
-<img
-class="preview"
-id="preview2"
->
+<img class="preview" id="preview2">
 </div>
 
 <div class="image-box">
@@ -678,10 +739,7 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,3)"
 >
-<img
-class="preview"
-id="preview3"
->
+<img class="preview" id="preview3">
 </div>
 
 <div class="image-box">
@@ -690,10 +748,7 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,4)"
 >
-<img
-class="preview"
-id="preview4"
->
+<img class="preview" id="preview4">
 </div>
 
 <div class="image-box">
@@ -702,10 +757,7 @@ type="file"
 accept="image/*"
 onchange="previewImage(this,5)"
 >
-<img
-class="preview"
-id="preview5"
->
+<img class="preview" id="preview5">
 </div>
 
 </div>
@@ -806,6 +858,7 @@ Loading...
 
 </div>
 
+
 <script>
 
 /* ==================================================
@@ -824,7 +877,6 @@ window.SUPABASE_KEY
 ================================================== */
 
 let editingProductId = null;
-
 let editingProductImages = [];
 
 
@@ -833,37 +885,27 @@ let editingProductImages = [];
 ================================================== */
 
 const imageFiles = [
-null,
-null,
-null,
-null,
-null,
-null
+null,null,null,null,null,null
 ];
 
 
 function previewImage(input,index){
 
-const file =
-input.files[0];
+const file = input.files[0];
 
 if(!file){
 return;
 }
 
-imageFiles[index] =
-file;
+imageFiles[index] = file;
 
 const preview =
-document.getElementById(
-"preview"+index
-);
+document.getElementById("preview"+index);
 
 preview.src =
 URL.createObjectURL(file);
 
-preview.style.display =
-"block";
+preview.style.display = "block";
 
 }
 
@@ -877,8 +919,7 @@ function addColor(){
 const row =
 document.createElement("div");
 
-row.className =
-"option-row";
+row.className = "option-row";
 
 row.innerHTML = `
 
@@ -913,8 +954,7 @@ function addSize(){
 const row =
 document.createElement("div");
 
-row.className =
-"option-row";
+row.className = "option-row";
 
 row.innerHTML = `
 
@@ -947,9 +987,7 @@ document
 async function uploadImage(file){
 
 const extension =
-file.name
-.split(".")
-.pop();
+file.name.split(".").pop();
 
 const filename =
 Date.now()
@@ -964,9 +1002,6 @@ Math.random()
 +
 extension;
 
-const path =
-filename;
-
 const {
 error
 } =
@@ -974,7 +1009,7 @@ await db
 .storage
 .from("product-images")
 .upload(
-path,
+filename,
 file,
 {
 cacheControl:"3600",
@@ -992,7 +1027,7 @@ data
 db
 .storage
 .from("product-images")
-.getPublicUrl(path);
+.getPublicUrl(filename);
 
 return data.publicUrl;
 
@@ -1006,50 +1041,39 @@ return data.publicUrl;
 function getFormData(){
 
 const name =
-document
-.getElementById("name")
-.value
-.trim();
+document.getElementById("name")
+.value.trim();
 
 const category =
-document
-.getElementById("category")
+document.getElementById("category")
 .value;
 
 const price =
 Number(
-document
-.getElementById("price")
+document.getElementById("price")
 .value
 );
 
 const stock =
 Number(
-document
-.getElementById("stock")
+document.getElementById("stock")
 .value
 );
 
 const description =
-document
-.getElementById("description")
-.value
-.trim();
+document.getElementById("description")
+.value.trim();
 
 const colors =
 [
-...document.querySelectorAll(
-".color-input"
-)
+...document.querySelectorAll(".color-input")
 ]
 .map(x=>x.value.trim())
 .filter(Boolean);
 
 const sizes =
 [
-...document.querySelectorAll(
-".size-input"
-)
+...document.querySelectorAll(".size-input")
 ]
 .map(x=>x.value.trim())
 .filter(Boolean);
@@ -1162,15 +1186,6 @@ return;
 
 }
 
-if(selectedFiles.length > 6){
-
-status.textContent =
-"You can upload a maximum of 6 images.";
-
-return;
-
-}
-
 try{
 
 status.textContent =
@@ -1178,10 +1193,7 @@ status.textContent =
 
 const imageUrls = [];
 
-for(
-const file
-of selectedFiles
-){
+for(const file of selectedFiles){
 
 const url =
 await uploadImage(file);
@@ -1201,30 +1213,19 @@ await db
 .insert({
 
 name:data.name,
-
 category:data.category,
-
 price:data.price,
-
 description:data.description,
 
-image_url:
-imageUrls[0],
+image_url:imageUrls[0],
+image_urls:imageUrls,
 
-image_urls:
-imageUrls,
+stock_quantity:data.stock,
 
-stock_quantity:
-data.stock,
+colors:data.colors,
+sizes:data.sizes,
 
-colors:
-data.colors,
-
-sizes:
-data.sizes,
-
-has_sizes:
-data.sizes.length > 0
+has_sizes:data.sizes.length > 0
 
 });
 
@@ -1266,24 +1267,12 @@ editingProductImages;
 
 if(selectedFiles.length){
 
-if(selectedFiles.length > 6){
-
-status.textContent =
-"You can upload a maximum of 6 images.";
-
-return;
-
-}
-
 status.textContent =
 "Uploading new images...";
 
 imageUrls = [];
 
-for(
-const file
-of selectedFiles
-){
+for(const file of selectedFiles){
 
 const url =
 await uploadImage(file);
@@ -1302,30 +1291,19 @@ await db
 .update({
 
 name:data.name,
-
 category:data.category,
-
 price:data.price,
-
 description:data.description,
 
-image_url:
-imageUrls[0] || null,
+image_url:imageUrls[0] || null,
+image_urls:imageUrls,
 
-image_urls:
-imageUrls,
+stock_quantity:data.stock,
 
-stock_quantity:
-data.stock,
+colors:data.colors,
+sizes:data.sizes,
 
-colors:
-data.colors,
-
-sizes:
-data.sizes,
-
-has_sizes:
-data.sizes.length > 0
+has_sizes:data.sizes.length > 0
 
 })
 .eq(
@@ -1391,47 +1369,33 @@ return;
 
 }
 
-editingProductId =
-data.id;
+editingProductId = data.id;
 
 document
 .getElementById("formTitle")
-.textContent =
-"Edit Product";
+.textContent = "Edit Product";
 
 document
 .getElementById("submitButton")
-.textContent =
-"SAVE CHANGES";
+.textContent = "SAVE CHANGES";
 
 document
 .getElementById("cancelButton")
-.style.display =
-"block";
+.style.display = "block";
 
-document
-.getElementById("name")
-.value =
+document.getElementById("name").value =
 data.name || "";
 
-document
-.getElementById("category")
-.value =
+document.getElementById("category").value =
 data.category || "Clothing";
 
-document
-.getElementById("price")
-.value =
+document.getElementById("price").value =
 data.price ?? "";
 
-document
-.getElementById("stock")
-.value =
+document.getElementById("stock").value =
 data.stock_quantity ?? "";
 
-document
-.getElementById("description")
-.value =
+document.getElementById("description").value =
 data.description || "";
 
 
@@ -1441,79 +1405,49 @@ let images = [];
 
 try{
 
-if(
-Array.isArray(data.image_urls)
-){
-
-images =
-data.image_urls;
-
+if(Array.isArray(data.image_urls)){
+images = data.image_urls;
 }
-
-else if(
-typeof data.image_urls === "string"
-){
-
-images =
-JSON.parse(data.image_urls);
-
+else if(typeof data.image_urls === "string"){
+images = JSON.parse(data.image_urls);
 }
 
 }
 catch(e){
-
 images = [];
-
 }
 
-if(
-!images.length &&
-data.image_url
-){
-
-images =
-[data.image_url];
-
+if(!images.length && data.image_url){
+images = [data.image_url];
 }
 
-editingProductImages =
-images;
+editingProductImages = images;
 
 const existingBox =
-document.getElementById(
-"existingImagesBox"
-);
+document.getElementById("existingImagesBox");
 
 const existingImages =
-document.getElementById(
-"existingImages"
-);
+document.getElementById("existingImages");
 
 if(images.length){
 
-existingBox.style.display =
-"block";
+existingBox.style.display = "block";
 
 existingImages.innerHTML =
-images
-.map(img=>`
+images.map(img=>`
 
 <img
 src="${escapeHTML(img)}"
 alt="Product image"
 >
 
-`)
-.join("");
+`).join("");
 
 }
 else{
 
-existingBox.style.display =
-"none";
-
-existingImages.innerHTML =
-"";
+existingBox.style.display = "none";
+existingImages.innerHTML = "";
 
 }
 
@@ -1532,16 +1466,14 @@ document.getElementById("colors");
 
 if(colors.length){
 
-colorsBox.innerHTML =
-"";
+colorsBox.innerHTML = "";
 
 colors.forEach(color=>{
 
 const row =
 document.createElement("div");
 
-row.className =
-"option-row";
+row.className = "option-row";
 
 row.innerHTML = `
 
@@ -1598,16 +1530,14 @@ document.getElementById("sizes");
 
 if(sizes.length){
 
-sizesBox.innerHTML =
-"";
+sizesBox.innerHTML = "";
 
 sizes.forEach(size=>{
 
 const row =
 document.createElement("div");
 
-row.className =
-"option-row";
+row.className = "option-row";
 
 row.innerHTML = `
 
@@ -1659,7 +1589,7 @@ block:"start"
 });
 
 status.textContent =
-"Editing: "+(data.name||"product");
+"Editing: "+(data.name || "product");
 
 }
 
@@ -1681,58 +1611,35 @@ resetForm();
 
 function resetForm(){
 
-editingProductId =
-null;
-
-editingProductImages =
-[];
+editingProductId = null;
+editingProductImages = [];
 
 document
 .getElementById("formTitle")
-.textContent =
-"Add Product";
+.textContent = "Add Product";
 
 document
 .getElementById("submitButton")
-.textContent =
-"PUBLISH PRODUCT";
+.textContent = "PUBLISH PRODUCT";
 
 document
 .getElementById("cancelButton")
-.style.display =
-"none";
+.style.display = "none";
 
-document
-.getElementById("name")
-.value =
-"";
-
-document
-.getElementById("price")
-.value =
-"";
-
-document
-.getElementById("stock")
-.value =
-"";
-
-document
-.getElementById("description")
-.value =
-"";
+document.getElementById("name").value = "";
+document.getElementById("price").value = "";
+document.getElementById("stock").value = "";
+document.getElementById("description").value = "";
 
 clearImageInputs();
 
 document
 .getElementById("existingImagesBox")
-.style.display =
-"none";
+.style.display = "none";
 
 document
 .getElementById("existingImages")
-.innerHTML =
-"";
+.innerHTML = "";
 
 document
 .getElementById("colors")
@@ -1766,8 +1673,7 @@ placeholder="Example: S"
 
 document
 .getElementById("status")
-.textContent =
-"";
+.textContent = "";
 
 }
 
@@ -1778,37 +1684,23 @@ document
 
 function clearImageInputs(){
 
-for(
-let i=0;
-i<6;
-i++
-){
+for(let i=0;i<6;i++){
 
-imageFiles[i] =
-null;
+imageFiles[i] = null;
 
 const preview =
-document.getElementById(
-"preview"+i
-);
+document.getElementById("preview"+i);
 
-preview.src =
-"";
-
-preview.style.display =
-"none";
+preview.src = "";
+preview.style.display = "none";
 
 }
 
 document
-.querySelectorAll(
-'input[type="file"]'
-)
-.forEach(
-input=>{
+.querySelectorAll('input[type="file"]')
+.forEach(input=>{
 input.value="";
-}
-);
+});
 
 }
 
@@ -1820,9 +1712,7 @@ input.value="";
 async function loadProducts(){
 
 const box =
-document.getElementById(
-"products"
-);
+document.getElementById("products");
 
 const {
 data,
@@ -1865,34 +1755,18 @@ let images = [];
 
 try{
 
-if(
-Array.isArray(p.image_urls)
-){
-
-images =
-p.image_urls;
-
+if(Array.isArray(p.image_urls)){
+images = p.image_urls;
 }
-else if(
-typeof p.image_urls === "string"
-){
-
-images =
-JSON.parse(p.image_urls);
-
+else if(typeof p.image_urls === "string"){
+images = JSON.parse(p.image_urls);
 }
 
 }
 catch(e){}
 
-if(
-!images.length &&
-p.image_url
-){
-
-images =
-[p.image_url];
-
+if(!images.length && p.image_url){
+images = [p.image_url];
 }
 
 const colors =
@@ -1933,22 +1807,22 @@ ${escapeHTML(p.name)}
 
 <p>
 Category:
-${escapeHTML(p.category||"")}
+${escapeHTML(p.category || "")}
 </p>
 
 <p>
 Price:
 PKR
-${Number(p.price||0).toLocaleString()}
+${Number(p.price || 0).toLocaleString()}
 </p>
 
 <p>
 Stock:
-${Number(p.stock_quantity||0)}
+${Number(p.stock_quantity || 0)}
 </p>
 
 <p>
-${escapeHTML(p.description||"")}
+${escapeHTML(p.description || "")}
 </p>
 
 <p>
@@ -2022,14 +1896,8 @@ src="${escapeHTML(img)}"
 
 async function deleteProduct(id){
 
-if(
-!confirm(
-"Delete this product?"
-)
-){
-
+if(!confirm("Delete this product?")){
 return;
-
 }
 
 const {
@@ -2038,10 +1906,7 @@ error
 await db
 .from("products")
 .delete()
-.eq(
-"id",
-id
-);
+.eq("id",id);
 
 if(error){
 
@@ -2051,12 +1916,8 @@ return;
 
 }
 
-if(
-editingProductId === id
-){
-
+if(editingProductId === id){
 resetForm();
-
 }
 
 loadProducts();
@@ -2066,7 +1927,6 @@ loadProducts();
 
 /* ==================================================
    ORDERS
-   FIXED VERSION
 ================================================== */
 
 async function loadOrders(){
@@ -2080,13 +1940,12 @@ Loading orders...
 </div>
 `;
 
-try{
 
 /* LOAD ORDERS */
 
 const {
-data: orders,
-error: ordersError
+data,
+error
 } =
 await db
 .from("orders")
@@ -2098,16 +1957,29 @@ ascending:false
 }
 );
 
-if(ordersError){
+if(error){
 
-throw ordersError;
+console.error(error);
+
+box.innerHTML = `
+
+<div class="no-orders">
+
+Could not load orders.
+
+<br><br>
+
+${escapeHTML(error.message)}
+
+</div>
+
+`;
+
+return;
 
 }
 
-if(
-!orders ||
-!orders.length
-){
+if(!data || !data.length){
 
 box.innerHTML = `
 
@@ -2128,122 +2000,328 @@ return;
 }
 
 
-/* LOAD ITEMS DIRECTLY FOR EACH ORDER */
+/* LOAD ORDER ITEMS */
 
-const ordersWithItems = [];
+const orderIds =
+data.map(order=>order.id);
 
-for(
-const order
-of orders
-){
+let items = [];
+
+if(orderIds.length){
 
 const {
-data: orderItems,
-error: itemsError
+data:itemData,
+error:itemError
 } =
 await db
 .from("order_items")
 .select("*")
-.eq(
+.in(
 "order_id",
-order.id
+orderIds
 );
 
-if(itemsError){
+if(itemError){
 
 console.error(
-"Could not load items for order",
-order.id,
-itemsError
+"Order items error:",
+itemError
 );
 
 }
+else{
 
-ordersWithItems.push({
+items = itemData || [];
 
-order,
+}
 
-items:
-orderItems || []
+}
+
+
+/* ==================================================
+   NEW:
+   LOAD PRODUCTS FOR IMAGES
+================================================== */
+
+const productIds =
+[
+...new Set(
+items
+.map(item=>item.product_id)
+.filter(id=>id !== null && id !== undefined)
+)
+];
+
+let productsMap = {};
+
+
+if(productIds.length){
+
+const {
+data:productData,
+error:productError
+} =
+await db
+.from("products")
+.select(
+"id,image_url,image_urls,name"
+)
+.in(
+"id",
+productIds
+);
+
+
+if(productError){
+
+console.error(
+"Product image error:",
+productError
+);
+
+}
+else{
+
+(productData || []).forEach(product=>{
+
+productsMap[
+String(product.id)
+] = product;
 
 });
 
 }
 
+}
 
-/* RENDER */
+
+/* ==================================================
+   RENDER ORDERS
+================================================== */
 
 box.innerHTML =
-ordersWithItems
-.map(
-({
-order,
-items
-})=>{
+data.map(order=>{
 
 const status =
 String(
 order.status ||
+order.statu ||
 "pending"
-)
-.toLowerCase();
+).toLowerCase();
+
+
+const orderItems =
+items.filter(
+item =>
+String(item.order_id) ===
+String(order.id)
+);
+
 
 let statusClass =
 "status-pending";
 
-if(
-status === "confirmed"
-){
+if(status==="confirmed")
+statusClass="status-confirmed";
 
-statusClass =
-"status-confirmed";
+if(status==="shipped")
+statusClass="status-shipped";
 
-}
+if(status==="delivered")
+statusClass="status-delivered";
 
-if(
-status === "shipped"
-){
-
-statusClass =
-"status-shipped";
-
-}
-
-if(
-status === "delivered"
-){
-
-statusClass =
-"status-delivered";
-
-}
-
-if(
-status === "cancelled"
-){
-
-statusClass =
-"status-cancelled";
-
-}
+if(status==="cancelled")
+statusClass="status-cancelled";
 
 
-let dateText =
-"";
+let dateText = "";
 
 if(order.created_at){
 
 const date =
-new Date(
-order.created_at
-);
+new Date(order.created_at);
 
 if(!isNaN(date)){
-
 dateText =
 date.toLocaleString();
+}
 
 }
+
+
+/* ==================================================
+   ORDER ITEMS HTML
+================================================== */
+
+let orderItemsHTML = "";
+
+if(orderItems.length){
+
+orderItemsHTML =
+orderItems.map(item=>{
+
+const product =
+productsMap[
+String(item.product_id)
+];
+
+
+let imageUrl = "";
+
+
+/* First try image_urls */
+
+if(product){
+
+if(
+Array.isArray(product.image_urls)
+&&
+product.image_urls.length
+){
+
+imageUrl =
+product.image_urls[0];
+
+}
+
+
+/* If image_urls is stored as JSON text */
+
+else if(
+typeof product.image_urls === "string"
+){
+
+try{
+
+const parsed =
+JSON.parse(
+product.image_urls
+);
+
+if(
+Array.isArray(parsed)
+&&
+parsed.length
+){
+
+imageUrl =
+parsed[0];
+
+}
+
+}
+catch(e){}
+
+}
+
+
+/* Fallback to image_url */
+
+if(
+!imageUrl &&
+product.image_url
+){
+
+imageUrl =
+product.image_url;
+
+}
+
+}
+
+
+return `
+
+<div class="order-item">
+
+<div class="order-item-content">
+
+${
+imageUrl
+
+?
+
+`<img
+class="order-item-image"
+src="${escapeHTML(imageUrl)}"
+alt="${escapeHTML(item.product_name || "Product")}"
+loading="lazy"
+>`
+
+:
+
+`<div class="order-item-image-placeholder">
+No image
+</div>`
+
+}
+
+<div class="order-item-info">
+
+<div class="order-item-name">
+
+${escapeHTML(
+item.product_name ||
+"Product"
+)}
+
+</div>
+
+<div class="order-item-details">
+
+${
+item.color
+?
+"Color: "+
+escapeHTML(item.color)+
+"<br>"
+:
+""
+}
+
+${
+item.size
+?
+"Size: "+
+escapeHTML(item.size)+
+"<br>"
+:
+""
+}
+
+Quantity:
+${Number(item.quantity || 0)}
+
+<br>
+
+Price:
+PKR
+${Number(item.price || 0).toLocaleString()}
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+}
+else{
+
+orderItemsHTML = `
+
+<div class="order-item-details">
+
+No order items found.
+
+</div>
+
+`;
 
 }
 
@@ -2258,8 +2336,7 @@ return `
 
 <div class="order-id">
 
-Order #
-${escapeHTML(
+Order #${escapeHTML(
 String(order.id)
 )}
 
@@ -2276,7 +2353,6 @@ ${escapeHTML(dateText)}
 }
 
 </div>
-
 
 <div
 class="order-status ${statusClass}"
@@ -2337,85 +2413,7 @@ order.delivery_notes || "None"
 Products
 </strong>
 
-
-${
-items.length
-
-?
-
-items.map(
-item=>`
-
-<div class="order-item">
-
-<div class="order-item-name">
-
-${escapeHTML(
-item.product_name ||
-"Product"
-)}
-
-</div>
-
-<div class="order-item-details">
-
-${
-item.color
-?
-"Color: "+
-escapeHTML(
-item.color
-)+
-"<br>"
-:
-""
-}
-
-${
-item.size
-?
-"Size: "+
-escapeHTML(
-item.size
-)+
-"<br>"
-:
-""
-}
-
-Quantity:
-${Number(
-item.quantity || 0
-)}
-
-<br>
-
-Price:
-PKR
-${Number(
-item.price || 0
-).toLocaleString()}
-
-</div>
-
-</div>
-
-`
-).join("")
-
-:
-
-`
-
-<div class="order-item-details">
-
-No order items found.
-
-</div>
-
-`
-
-}
+${orderItemsHTML}
 
 </div>
 
@@ -2433,9 +2431,8 @@ order.total || 0
 
 <div class="order-actions">
 
-
 ${
-status === "pending"
+status==="pending"
 
 ?
 
@@ -2443,20 +2440,14 @@ status === "pending"
 
 <button
 class="confirm-btn"
-onclick="updateOrderStatus(
-'${escapeJS(order.id)}',
-'confirmed'
-)"
+onclick="updateOrderStatus('${escapeJS(order.id)}','confirmed')"
 >
 ✅ Confirm Order
 </button>
 
 <button
 class="cancel-btn"
-onclick="updateOrderStatus(
-'${escapeJS(order.id)}',
-'cancelled'
-)"
+onclick="updateOrderStatus('${escapeJS(order.id)}','cancelled')"
 >
 ❌ Cancel
 </button>
@@ -2471,7 +2462,7 @@ onclick="updateOrderStatus(
 
 
 ${
-status === "confirmed"
+status==="confirmed"
 
 ?
 
@@ -2479,20 +2470,14 @@ status === "confirmed"
 
 <button
 class="ship-btn"
-onclick="updateOrderStatus(
-'${escapeJS(order.id)}',
-'shipped'
-)"
+onclick="updateOrderStatus('${escapeJS(order.id)}','shipped')"
 >
 📦 Mark Shipped
 </button>
 
 <button
 class="cancel-btn"
-onclick="updateOrderStatus(
-'${escapeJS(order.id)}',
-'cancelled'
-)"
+onclick="updateOrderStatus('${escapeJS(order.id)}','cancelled')"
 >
 ❌ Cancel
 </button>
@@ -2507,7 +2492,7 @@ onclick="updateOrderStatus(
 
 
 ${
-status === "shipped"
+status==="shipped"
 
 ?
 
@@ -2515,10 +2500,7 @@ status === "shipped"
 
 <button
 class="deliver-btn"
-onclick="updateOrderStatus(
-'${escapeJS(order.id)}',
-'delivered'
-)"
+onclick="updateOrderStatus('${escapeJS(order.id)}','delivered')"
 >
 🚚 Mark Delivered
 </button>
@@ -2537,37 +2519,7 @@ onclick="updateOrderStatus(
 
 `;
 
-}
-)
-.join("");
-
-}
-
-catch(error){
-
-console.error(
-"Orders loading error:",
-error
-);
-
-box.innerHTML = `
-
-<div class="no-orders">
-
-❌ Could not load orders.
-
-<br><br>
-
-${escapeHTML(
-error.message ||
-String(error)
-)}
-
-</div>
-
-`;
-
-}
+}).join("");
 
 }
 
@@ -2581,52 +2533,32 @@ orderId,
 newStatus
 ){
 
-let message =
-"";
+let message = "";
 
-if(
-newStatus === "confirmed"
-){
-
-message =
-"Confirm this order?";
-
+if(newStatus==="confirmed"){
+message = "Confirm this order?";
 }
 
-if(
-newStatus === "shipped"
-){
-
-message =
-"Mark this order as shipped?";
-
+if(newStatus==="shipped"){
+message = "Mark this order as shipped?";
 }
 
-if(
-newStatus === "delivered"
-){
-
-message =
-"Mark this order as delivered?";
-
+if(newStatus==="delivered"){
+message = "Mark this order as delivered?";
 }
 
-if(
-newStatus === "cancelled"
-){
-
-message =
-"Cancel this order?";
-
+if(newStatus==="cancelled"){
+message = "Cancel this order?";
 }
 
-if(
-!confirm(message)
-){
-
+if(!confirm(message)){
 return;
-
 }
+
+
+/*
+Your database uses "status".
+*/
 
 const {
 error
@@ -2634,10 +2566,7 @@ error
 await db
 .from("orders")
 .update({
-
-status:
-newStatus
-
+status:newStatus
 })
 .eq(
 "id",
@@ -2686,26 +2615,11 @@ text.slice(1);
 function escapeHTML(text){
 
 return String(text)
-.replaceAll(
-"&",
-"&amp;"
-)
-.replaceAll(
-"<",
-"&lt;"
-)
-.replaceAll(
-">",
-"&gt;"
-)
-.replaceAll(
-'"',
-"&quot;"
-)
-.replaceAll(
-"'",
-"&#039;"
-);
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 
 }
 
@@ -2713,22 +2627,10 @@ return String(text)
 function escapeJS(text){
 
 return String(text)
-.replaceAll(
-"\\",
-"\\\\"
-)
-.replaceAll(
-"'",
-"\\'"
-)
-.replaceAll(
-"\n",
-"\\n"
-)
-.replaceAll(
-"\r",
-"\\r"
-);
+.replaceAll("\\","\\\\")
+.replaceAll("'","\\'")
+.replaceAll("\n","\\n")
+.replaceAll("\r","\\r");
 
 }
 
